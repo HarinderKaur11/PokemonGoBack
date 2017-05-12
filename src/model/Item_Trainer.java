@@ -6,11 +6,14 @@ import java.util.ArrayList;
 public class Item_Trainer extends Trainer {
 	String item;
 	
-public Item_Trainer(String item){}
+public Item_Trainer(String trainer){
+	this.item=trainer;
+	
+}
 
 
 	public  void ItemCards(){
-	List<Object> items=new ArrayList<Object>();
+	List<Trainer> items=new ArrayList<Trainer>();
 	
 	items.add(new Item_Trainer("Potion BKP 106"));
 	items.add(new Item_Trainer(" Red Card GEN 71"));

@@ -6,11 +6,14 @@ import java.util.List;
 public class supporter_Trainer extends Trainer {
 	String Support;
 	
-	public supporter_Trainer(String item){}
+	public supporter_Trainer(String trainer){
+		this.Support=trainer;
+		
+	}
 
 
 		public  void SupporterCards(){
-		List<Object>scards=new ArrayList<Object>();
+		List<Trainer>scards=new ArrayList<Trainer>();
 		
 		scards.add(new Item_Trainer("Wally GEN 127"));
 		scards.add(new Item_Trainer("Pokémon Fan Club GEN 69"));
