@@ -1,7 +1,7 @@
 package model;
 
 public class lightingEnergy extends Energy{
-	 String energy="Lighting Energy";
+	 String energy="Lighting";
 		
 		public lightingEnergy(String newenergy) {
 			super(newenergy);
