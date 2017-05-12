@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.web.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <FlowPane prefHeight="920.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <HBox prefHeight="145.0" prefWidth="800.0">
+               <children>
+                  <ScrollPane prefHeight="145.0" prefWidth="800.0" />
+               </children>
+            </HBox>
+            <HBox prefHeight="150.0" prefWidth="800.0">
+               <padding>
+                  <Insets right="120.0" />
+               </padding>
+               <children>
+                  <Pane prefHeight="150.0" prefWidth="120.0" />
+                  <Pane prefHeight="150.0" prefWidth="560.0" />
+               </children>
+            </HBox>
+            <HBox prefHeight="165.0" prefWidth="800.0">
+               <children>
+                  <Pane prefHeight="150.0" prefWidth="120.0">
+                     <children>
+                        <Button layoutX="19.0" layoutY="27.0" mnemonicParsing="false" prefHeight="111.0" prefWidth="82.0" text="Deck" />
+                     </children>
+                  </Pane>
+                  <Pane prefHeight="150.0" prefWidth="560.0" />
+                  <Pane layoutX="10.0" layoutY="10.0" prefHeight="150.0" prefWidth="120.0">
+                     <children>
+                        <Button layoutX="19.0" layoutY="27.0" mnemonicParsing="false" prefHeight="111.0" prefWidth="82.0" text="Reward" />
+                     </children>
+                  </Pane>
+               </children>
+            </HBox>
+            <HBox prefHeight="165.0" prefWidth="800.0">
+               <children>
+                  <Pane prefHeight="150.0" prefWidth="120.0">
+                     <children>
+                        <Button layoutX="24.0" layoutY="27.0" mnemonicParsing="false" prefHeight="111.0" prefWidth="82.0" text="Reward" />
+                     </children>
+                  </Pane>
+                  <Pane prefHeight="150.0" prefWidth="560.0" />
+                  <Pane prefHeight="150.0" prefWidth="120.0">
+                     <children>
+                        <Button layoutX="19.0" layoutY="27.0" mnemonicParsing="false" prefHeight="111.0" prefWidth="82.0" text="Deck" />
+                     </children>
+                  </Pane>
+               </children>
+            </HBox>
+            <HBox prefHeight="150.0" prefWidth="800.0">
+               <padding>
+                  <Insets left="120.0" />
+               </padding>
+               <FlowPane.margin>
+                  <Insets />
+               </FlowPane.margin>
+               <children>
+                  <Pane prefHeight="150.0" prefWidth="560.0">
+                     <children>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="150.0" stroke="BLACK" width="120.0" />
+                     </children></Pane>
+                  <Pane prefHeight="150.0" prefWidth="120.0" />
+               </children>
+            </HBox>
+            <HBox prefHeight="145.0" prefWidth="800.0">
+               <children>
+                  <ScrollPane prefHeight="145.0" prefWidth="800.0" />
+               </children>
+            </HBox>
+         </children>
+      </FlowPane>
+   </children>
+</AnchorPane>
