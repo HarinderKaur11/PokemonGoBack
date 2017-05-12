@@ -3,14 +3,17 @@ package model;
 import java.util.ArrayList;
 
 public class Pokemon implements cardItem{
-	public String cardName = new String();
+	private int id;
+	private String cardName = new String();
 	private int hitpoints;
 	private pokemonStage pStage;
 	private int damage = 0;
 	private String state = "deck";
 	private ArrayList<ability> abilities = new ArrayList<ability>();
+	private String status;
 	
-	public Pokemon(String name, pokemonStage newPokemonStage, int newHp, ArrayList<ability> newAbilities){
+	public Pokemon(int newId, String name, pokemonStage newPokemonStage, int newHp, ArrayList<ability> newAbilities){
+		this.id = newId;
 		this.cardName = name;
 		this.pStage = newPokemonStage;
 		this.hitpoints = newHp;
@@ -55,5 +58,15 @@ public class Pokemon implements cardItem{
 	
 	public ability[] getAbilities(){
 		return this.abilities.toArray(new ability[this.abilities.size()]);
+	}
+	
+	public boolean equals(Object o){
+		Pokemon tempP = (Pokemon) o;
+		if(this.cardName == tempP.cardName){
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 }

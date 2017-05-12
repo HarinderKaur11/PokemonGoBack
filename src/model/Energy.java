@@ -14,7 +14,6 @@ public class Energy implements cardItem {
 
 	@Override
 	public String getName() {
-		
 		return energy;
 	}
 
