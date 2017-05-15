@@ -8,18 +8,21 @@ import java.util.ArrayList;
 public class DeckFileReader {
 	private String deck1file = "resources/deck1.ptcgo.txt";
 	private String deck2file = "resources/deck2.ptcgo.txt";
+	ArrayList<String[]> deck = new ArrayList<String[]>();
 	
-	public ArrayList<String[]> getDeck1Cards(){
-		return getDeck(deck1file);
+	public DeckFileReader (int i){
+		switch(i){
+			case 1:	
+				readDeck(deck1file);
+				break;
+			case 2:
+				readDeck(deck2file);
+				break;
+		}
 	}
 	
-	public ArrayList<String[]> getDeck2Cards(){
-		return getDeck(deck2file);
-	}
-	
-	public ArrayList<String[]> getDeck(String filename){
+	public void readDeck(String filename){
 		
-		ArrayList<String[]> deck1 = new ArrayList<String[]>();
 		BufferedReader br = null;
 		FileReader fr = null;
 
@@ -46,7 +49,7 @@ public class DeckFileReader {
 					card[x] = cline[x];
 				}
 				card[card.length-1] = type;
-				deck1.add(cline);
+				deck.add(cline);
 			}
 
 		} catch (IOException e) {
@@ -70,11 +73,14 @@ public class DeckFileReader {
 			}
 
 		}
-		return deck1;
-
 	}
+	
+	public ArrayList<String[]> getDeck(){
+		return this.deck;
+	}
+	
 	public static void main(String[] arg){
-		DeckFileReader deck = new DeckFileReader();
-		deck.getDeck2Cards();
+		DeckFileReader deck = new DeckFileReader(1);
+		deck.getDeck();
 	}
 }
