@@ -7,7 +7,8 @@ public class GameController {
 	private GameModel gameModel;
 	
 	public GameController(){
-		gameModel = new GameModel();
+		gameModel = new GameModel();	
 	}
+	
 	
 }
