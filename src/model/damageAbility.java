@@ -32,4 +32,13 @@ public class damageAbility implements ability {
 	public String getTarget(){
 		return target;
 	}
+	
+	public boolean equals(Object o){
+		damageAbility tempAbility = (damageAbility) o;
+		if(this.name == tempAbility.name){
+			return true;
+		}		
+		return false;
+	}
+	
 }
