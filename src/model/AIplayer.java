@@ -1,6 +1,6 @@
 package model;
 
-public class AIplayer implements Player {
+public class AIplayer extends Player {
 	
 	private String name;
 	private int score;
