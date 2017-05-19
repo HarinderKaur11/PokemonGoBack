@@ -7,4 +7,14 @@ public class Debug {
 	public static void message(int message){
 		System.out.println(Integer.toString(message));
 	}
+	
+	public static void showCard(cardItem card){
+		Debug.message(card.getName());
+	}
+	
+	public static void showCard(cardItem[] cards){
+		for(cardItem mycard : cards){
+			showCard(mycard);
+		}
+	}
 }
