@@ -1,25 +1,24 @@
 package test.pokemongoback;
 
 import static org.junit.Assert.*;
-
-import java.util.ArrayList;
-
 import org.junit.Test;
-
 import model.Deck;
-import model.cardItem;
+
+// checks whether both decks have equal values
 
 public class DeckTest {
 
 	@Test
-	public void test() {
+	public void testnoOfCards() {
 		
 		Deck deck= new Deck();
-		deck.buildDeck(1);
-		ArrayList<cardItem> actual=deck.getGroupCards();
-		int expected=60;
+		Deck deck2= new Deck();
+		deck.buildDeck(2);
+		deck2.buildDeck(1);
+		int noOfCards=deck.getGroupCards().size();
+		int noOfCards2=deck2.getGroupCards().size();
 		
-		assertEquals(expected,actual.size());
+		assertEquals(noOfCards,noOfCards2);
 		
 	}
 

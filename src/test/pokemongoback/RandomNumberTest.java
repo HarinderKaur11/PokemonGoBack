@@ -6,7 +6,7 @@ import java.util.Random;
 
 import org.junit.Test;
 
-public class MainTest {
+public class RandomNumberTest {
 		 
 			
 			Random random = new Random();
