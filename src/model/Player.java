@@ -48,6 +48,10 @@ public class Player {
 		return dealt;
 	}
 	
+	public cardItem[] getInhandCards(){
+		return ((CardsGroup)this.inhand).getCard();
+	}
+	
 	public void setActivePokemon(Pokemon newPokemon){
 		this.activePokemon = newPokemon;
 	}

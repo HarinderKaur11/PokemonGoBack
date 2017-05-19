@@ -9,7 +9,7 @@ public class Debug {
 	}
 	
 	public static void showCard(cardItem card){
-		Debug.message(card.getName());
+		Debug.message(card.getID() + card.getName());
 	}
 	
 	public static void showCard(cardItem[] cards){

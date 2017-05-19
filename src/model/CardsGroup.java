@@ -26,6 +26,10 @@ public class CardsGroup implements cardItem {
 	public String getName() {
 		return null;
 	}
+	
+	public int getID(){
+		return 99;
+	}
 
 	public ArrayList<cardItem> getGroupCards() {
 		return this.groupCards;
