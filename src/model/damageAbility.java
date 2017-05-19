@@ -16,6 +16,10 @@ public class damageAbility implements ability {
 	public void setDamage(int newDamage){
 		this.damageValue = newDamage;
 	}
+	
+	public void useAbility(){
+		
+	}
 
 	@Override
 	public String getName() {
