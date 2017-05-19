@@ -37,7 +37,8 @@ public class DeckFileReader {
 			while ((sCurrentLine = br.readLine()) != null) {
 				
 				if(sCurrentLine.startsWith("##")){
-					type = sCurrentLine.substring(2, 2);
+					type = sCurrentLine.substring(2, 3);
+					//Debug.message(type);
 				}
 				if(!sCurrentLine.startsWith("* ")){
 					continue;
@@ -49,7 +50,8 @@ public class DeckFileReader {
 					card[x] = cline[x];
 				}
 				card[card.length-1] = type;
-				deck.add(cline);
+				deck.add(card);
+				//Debug.message(card[0]+" "+card[1]+" "+card[2]);
 			}
 
 		} catch (IOException e) {

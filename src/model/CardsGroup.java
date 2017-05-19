@@ -28,7 +28,7 @@ public class CardsGroup implements cardItem {
 	}
 
 	public ArrayList<cardItem> getGroupCards() {
-		return groupCards;
+		return this.groupCards;
 	}
 
 	public void setGroupCards(ArrayList<cardItem> groupCards) {
