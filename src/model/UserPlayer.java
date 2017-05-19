@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class UserPlayer extends Player {
 		
 	public UserPlayer(String newName){
+		super(newName);
 		this.name = newName;
 		deck = new Deck();
 		((Deck) deck).buildDeck(2);

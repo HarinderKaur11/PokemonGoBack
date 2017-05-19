@@ -11,7 +11,7 @@ public class CardsGroup implements cardItem {
 	}
 	
 	public cardItem removeFirstCard(){
-		return this.getGroupCards().get(0);
+		return this.getGroupCards().remove(0);
 	}
 	
 	public cardItem[] getCard(){

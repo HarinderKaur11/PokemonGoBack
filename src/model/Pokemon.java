@@ -4,13 +4,14 @@ import java.util.ArrayList;
 
 public class Pokemon implements cardItem{
 	private int id;
-	private String cardName = new String();
+	private String cardName;
 	private int hitpoints;
 	private pokemonStage pStage;
 	private int damage = 0;
 	private String state = "deck";
-	private ArrayList<ability> abilities = new ArrayList<ability>();
+	private ArrayList<ability> abilities;
 	private String status;
+	private ArrayList<cardItem> attachedCards;
 	
 	public Pokemon(int newId, String name, pokemonStage newPokemonStage, int newHp, ArrayList<ability> newAbilities){
 		this.id = newId;
@@ -18,6 +19,8 @@ public class Pokemon implements cardItem{
 		this.pStage = newPokemonStage;
 		this.hitpoints = newHp;
 		this.abilities = newAbilities;
+		this.attachedCards = new ArrayList<cardItem>();
+		this.abilities = new ArrayList<ability>();
 	}
 	
 	public void addDamage(int newDamage){
@@ -62,6 +65,34 @@ public class Pokemon implements cardItem{
 	
 	public String getStatus(){
 		return this.status;
+	}
+	
+	public void attachCard(cardItem newCard){
+		this.attachedCards.add(newCard);
+	}
+	
+	public void dettachCard(cardItem newCard){
+		this.attachedCards.remove(newCard);
+	}
+	
+	public void dettachCardType(Class<? extends cardItem> newtype, int i){
+		while(i>0){
+			for(cardItem tempcard : this.attachedCards){
+				if(tempcard.getClass()==newtype){
+					this.attachedCards.remove(tempcard);
+					break;
+				}
+			}
+			i--;
+		}
+	}
+	
+	public int getAttachedCardsCount(){
+		return this.attachedCards.size();
+	}
+	
+	public cardItem[] getAttachedCards(){
+		return this.attachedCards.toArray(new cardItem[this.attachedCards.size()]);
 	}
 	
 	public boolean equals(Object o){

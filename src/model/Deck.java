@@ -16,7 +16,7 @@ public class Deck extends CardsGroup{
 		int x = 1;
 		for(String[] cards : cardsList){
 			int n = Integer.parseInt(cards[0]);
-			Debug.message(n+" "+cards[1]);
+			//Debug.message(n+" "+cards[1]);
 			for(int i=1;i<=n;i++){
 				switch(cards[2]){
 					case "P":
@@ -44,9 +44,7 @@ public class Deck extends CardsGroup{
 		Deck deck= new Deck();
 		deck.buildDeck(1);
 		ArrayList<cardItem> actual=deck.getGroupCards();
-		
-		System.out.println(actual.size());
-		
+		Debug.showCard(actual.toArray(new cardItem[actual.size()]));		
 	}
 	
 }

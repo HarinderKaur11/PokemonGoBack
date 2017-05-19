@@ -2,7 +2,7 @@ package model;
 
 import java.util.ArrayList;
 
-public abstract class Player {
+public class Player {
 	
 	protected String name;
 	protected int score;
@@ -11,8 +11,16 @@ public abstract class Player {
 	protected Pokemon activePokemon;
 	protected ArrayList<ability> activeAbilities;
 	
-	public abstract String getName();
-	public abstract int getScore();
+//	public abstract String getName();
+//	public abstract int getScore();
+	
+	public Player(String name){
+		this.name = name;
+		this.deck = new Deck();
+		((Deck) this.deck).buildDeck(1);
+		this.activeAbilities = new ArrayList<ability>();
+		this.inhand = new CardsGroup();
+	}
 	
 	public cardItem getDeckCard(){
 		return ((Deck) this.deck).removeFirstCard();
@@ -61,12 +69,21 @@ public abstract class Player {
 		return null;
 	}
 	
+	public Deck getDeck(){
+		return (Deck) this.deck;
+	}
+	
 	public void removeAbility(ability newAbility){
 		this.activeAbilities.remove(newAbility);
 	}
 	
 	public void addActiveAbility(ability newAbility){
 		this.activeAbilities.add(newAbility);
+	}
+	
+	public static void main(String arg[]){
+		Player newPlayer = new Player("Flash");
+		Debug.showCard(newPlayer.dealCard());
 	}
 
 }
