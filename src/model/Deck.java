@@ -47,7 +47,7 @@ public class Deck extends CardsGroup{
 	public static void main(String[] arg){
 		Deck deck= new Deck();
 		deck.buildDeck(1);
-		ArrayList<cardItem> actual=deck.getGroupCards();
+		ArrayList<cardItem> actual = deck.getGroupCards();
 		deck.display();		
 	}
 	
