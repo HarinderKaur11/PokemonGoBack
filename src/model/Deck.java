@@ -34,6 +34,7 @@ public class Deck extends CardsGroup{
 			}
 			//Debug.message(this.getGroupCards().size());
 		}
+		this.shufflecards();
 	}
 	
 	public void display(){
@@ -54,16 +55,9 @@ public class Deck extends CardsGroup{
 	public static void main(String[] arg){
 		Deck deck= new Deck();
 		deck.buildDeck(1);
-<<<<<<< HEAD
-		ArrayList<cardItem> actual = deck.getGroupCards();
-		deck.display();		
-=======
 		ArrayList<cardItem> actual=deck.getGroupCards();
-		
 		deck.display();
 		deck.shufflecards();
-		
->>>>>>> refs/remotes/origin/master
 	}
 	
 }

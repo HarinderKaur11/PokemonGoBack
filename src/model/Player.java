@@ -94,6 +94,15 @@ public class Player {
 		return this.turn;
 	}
 	
+	public cardItem getPokemonFromHand(){
+		for(cardItem card: ((CardsGroup) this.inhand).getCard()){
+			if(card instanceof Pokemon){
+				return card;
+			}
+		}
+		return null;
+	}
+	
 	public static void main(String arg[]){
 		Player newPlayer = new Player("Flash");
 		

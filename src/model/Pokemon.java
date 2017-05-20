@@ -90,6 +90,11 @@ public class Pokemon implements cardItem{
 		}
 	}
 	
+	public void useAbility(ability uAbility){
+		uAbility.useAbility();
+		Turn.changeTurn();
+	}
+	
 	public int getAttachedCardsCount(){
 		return this.attachedCards.size();
 	}
