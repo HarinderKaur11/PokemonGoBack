@@ -17,7 +17,7 @@ public class Deck extends CardsGroup{
 		int x = 1;
 		for(String[] cards : cardsList){
 			int n = Integer.parseInt(cards[0]);
-			Debug.message(n+" "+cards[1]);
+			//Debug.message(n+" "+cards[1]);
 			for(int i=1;i<=n;i++){
 				switch(cards[2]){
 					case "P":
