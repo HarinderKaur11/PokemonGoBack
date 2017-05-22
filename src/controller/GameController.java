@@ -119,7 +119,7 @@ public class GameController {
             if ((result1.get().getText().toString() == "Head") && number==1)
             {
                 //num2=1;
-                dec="Congratz you won the toss";
+                dec="Congratulations you won the toss";
                 userTurn = true;
                 aiTurn = false;
                 System.out.print(dec);
@@ -127,7 +127,7 @@ public class GameController {
             else if ((result1.get().getText().toString()== "Tail") && number==2)
             {
                 // num2=2;
-                dec="Congratz you won the toss";
+                dec="Congratulations you won the toss";
                 userTurn = true;
                 aiTurn = false;
                 System.out.print(dec);
@@ -177,7 +177,8 @@ public class GameController {
 	public void init(boolean userTurn,boolean aiTurn){
 		user = new UserPlayer("Flash");
 		ai = new AIplayer("Future Flash");
-		init();
+    	addCardsToPanel(user.dealMultipleCards(7),userHand);
+    	addCardsToPanel(ai.dealMultipleCards(7), AIHand);
 		Turn turn = new Turn(ai,user);
 		ai.setTurn(userTurn);
 		user.setTurn(aiTurn);
@@ -199,16 +200,6 @@ public class GameController {
 	private Pane aiActivePokemon;
 	@FXML
 	private Pane userActivePokemon;
-    
-	@FXML
-    public void init(){
-    	addCardsToPanel(user.dealMultipleCards(7),userHand);
-    	addCardsToPanel(ai.dealMultipleCards(7), AIHand);
-//    	userHandScroll = new ScrollPane();
-//		AIHandScroll = new ScrollPane();
-//    	userHandScroll.setContent(userHand);
-//    	AIHandScroll.setContent(AIHand);
-    }
     
     public void addCardsToPanel(cardItem[] cards, HBox panel){
     	FlowPane newCard = null;
@@ -285,7 +276,12 @@ public class GameController {
 				if (result.isPresent()) {
 				    selected = result.get();
 				    if(selected=="Make active"){
-				    	String id = ((Label) cb.getParent().lookup(".cardID")).getText();
+				    	//FlowPane card = ((FlowPane) cb.getParent());
+				    	if(Turn.getCurrentPlayer().getClass().getSimpleName()=="UserPlayer"){
+				    		userActivePokemon.getChildren().add(cb.getParent());
+				    	} else{
+				    		aiActivePokemon.getChildren().add(cb.getParent());
+				    	}
 				    	//(CardsGroup (Turn.getCurrentPlayer().getInhand()));
 				    }
 				    else if(selected=="Put on bench"){
@@ -332,16 +328,6 @@ public class GameController {
     		}
     	}
     	return labels;
-    }
-    @FXML
-    public void addActivePokemonUser(Pokemon pokemon){
-    	this.userActivePokemon.getChildren().clear();
-    	this.userActivePokemon.getChildren().add(createCard(pokemon));
-    }
-    @FXML
-    public void addActivePokemonAI(Pokemon pokemon){
-    	this.aiActivePokemon.getChildren().clear();
-    	this.aiActivePokemon.getChildren().add(createCard(pokemon));
     }
     
     public HBox getUserBench(){
