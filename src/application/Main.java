@@ -44,8 +44,6 @@ public class Main extends Application {
         Alert alert = new Alert(Alert.AlertType.INFORMATION,"It's Time for Toss ",toss);
         alert.initStyle(StageStyle.UNDECORATED);
         alert.setHeaderText(null);
-        alert.setX(475);
-        alert.setY(270);
         alert.setHeight(50);
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == toss)
