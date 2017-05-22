@@ -64,7 +64,7 @@ public class GameController {
             circle.setCenterX(200.0f);
             circle.setCenterY(135.0f);
             //Setting the radius of the circle
-            circle.setRadius(15.0f);
+            circle.setRadius(25.0f);
             //Setting the color of the circle
             circle.setFill(javafx.scene.paint.Color.BROWN);
             //Setting the stroke width of the circle
