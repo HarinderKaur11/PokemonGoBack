@@ -11,7 +11,7 @@ public class CardsGroup implements cardItem {
 	}
 	
 	public cardItem removeFirstCard(){
-		return this.getGroupCards().get(0);
+		return this.getGroupCards().remove(0);
 	}
 	
 	public cardItem[] getCard(){
@@ -26,9 +26,13 @@ public class CardsGroup implements cardItem {
 	public String getName() {
 		return null;
 	}
+	
+	public int getID(){
+		return 99;
+	}
 
 	public ArrayList<cardItem> getGroupCards() {
-		return groupCards;
+		return this.groupCards;
 	}
 
 	public void setGroupCards(ArrayList<cardItem> groupCards) {
