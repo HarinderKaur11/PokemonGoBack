@@ -53,6 +53,10 @@ public class Player {
 		return ((CardsGroup) this.inhand).getCard();
 	}
 	
+	public cardItem getInhand(){
+		return this.inhand;
+	}
+	
 	public void setActivePokemon(Pokemon newPokemon){
 		this.activePokemon = newPokemon;
 	}

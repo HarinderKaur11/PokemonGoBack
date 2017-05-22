@@ -1,11 +1,15 @@
 package controller;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.PathTransition;
 import javafx.animation.Timeline;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -15,6 +19,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ChoiceDialog;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.FlowPane;
@@ -27,6 +34,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import model.AIplayer;
+import model.Debug;
 import model.Player;
 import model.Pokemon;
 import model.Turn;
@@ -176,13 +184,13 @@ public class GameController {
 	}
 	
 	@FXML
-	private ScrollPane userBenchScroll;
+	private ScrollPane userHandScroll;
 	@FXML
 	private HBox userBench;
 	@FXML
 	private HBox userHand;
 	@FXML
-	private ScrollPane AIBenchScroll;
+	private ScrollPane AIHandScroll;
 	@FXML
 	private HBox AIBench;
 	@FXML
@@ -192,11 +200,14 @@ public class GameController {
 	@FXML
 	private Pane userActivePokemon;
     
+	@FXML
     public void init(){
-//    	userBenchScroll.setContent(userHand);
-//    	AIBenchScroll.setContent(AIHand);
     	addCardsToPanel(user.dealMultipleCards(7),userHand);
     	addCardsToPanel(ai.dealMultipleCards(7), AIHand);
+//    	userHandScroll = new ScrollPane();
+//		AIHandScroll = new ScrollPane();
+//    	userHandScroll.setContent(userHand);
+//    	AIHandScroll.setContent(AIHand);
     }
     
     public void addCardsToPanel(cardItem[] cards, HBox panel){
@@ -246,12 +257,48 @@ public class GameController {
     @FXML
     private FlowPane createPokemonCard(Pokemon pokemon){
     	FlowPane pokemonCard = new FlowPane();
-    	
+    	//pokemonCard.setStyle("-fx-background-color: #fff;"+"-fx-border-color: #000;"+"-fx-border-width: 1px;"+
+    	//		"-fx-pref-width: 52px;"+ "-fx-pref-height: 70px");
+    	pokemonCard.getStyleClass().add("pokemonCard");
     	Label cardID = new Label(Integer.toString(pokemon.getID()));
+    	cardID.getStyleClass().add("cardID");
     	Label PokemonStage = new Label(pokemon.getStage());
     	Label PokemonHp = new Label(Integer.toString(pokemon.getHP()));
     	Label PokemonName = new Label(pokemon.getName());
     	
+    	CheckBox cb = new CheckBox();
+    	
+    	cb.selectedProperty().addListener(new ChangeListener<Boolean>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+				String [] arrayData = {"Make active", "Put on bench", "View card abilities"};
+				List<String> dialogData = Arrays.asList(arrayData);
+
+				Dialog dialog = new ChoiceDialog(dialogData.get(0), dialogData);
+				dialog.setTitle("Available options");
+				dialog.setHeaderText("Select your choice");
+
+				Optional<String> result = dialog.showAndWait();
+				String selected = "cancelled.";
+						
+				if (result.isPresent()) {
+				    selected = result.get();
+				    if(selected=="Make active"){
+				    	String id = ((Label) cb.getParent().lookup(".cardID")).getText();
+				    	//(CardsGroup (Turn.getCurrentPlayer().getInhand()));
+				    }
+				    else if(selected=="Put on bench"){
+				    	
+				    }
+				    else if(selected=="View card abilities"){
+				    	
+				    }
+				}
+			}
+    		
+		});
+    	pokemonCard.getChildren().add(cb);
     	pokemonCard.getChildren().add(cardID);
     	pokemonCard.getChildren().add(PokemonStage);
     	pokemonCard.getChildren().add(PokemonHp);
@@ -259,10 +306,13 @@ public class GameController {
     	
     	return pokemonCard;
     }
+    
+    
     @FXML
     private FlowPane createCard(cardItem card){
     	FlowPane newCard = new FlowPane();
     	
+    	newCard.getStyleClass().add("card");
     	Label cardID = new Label(Integer.toString(card.getID()));
     	Label cardName = new Label(card.getName());
     	
