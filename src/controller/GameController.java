@@ -17,6 +17,7 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
@@ -257,13 +258,12 @@ public class GameController {
     	Label PokemonHp = new Label(Integer.toString(pokemon.getHP()));
     	Label PokemonName = new Label(pokemon.getName());
     	
-    	CheckBox cb = new CheckBox();
+    	Button button = new Button();
     	
-    	cb.selectedProperty().addListener(new ChangeListener<Boolean>() {
-
-			@Override
-			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-				String [] arrayData = {"Make active", "Put on bench", "View card abilities"};
+    	button.setOnAction(new EventHandler<ActionEvent>() {
+		
+    		@Override public void handle(ActionEvent e) {
+    			String [] arrayData = {"Make active", "Put on bench", "View card abilities"};
 				List<String> dialogData = Arrays.asList(arrayData);
 
 				Dialog dialog = new ChoiceDialog(dialogData.get(0), dialogData);
@@ -276,13 +276,14 @@ public class GameController {
 				if (result.isPresent()) {
 				    selected = result.get();
 				    if(selected=="Make active"){
-				    	//FlowPane card = ((FlowPane) cb.getParent());
-				    	if(Turn.getCurrentPlayer().getClass().getSimpleName()=="UserPlayer"){
-				    		userActivePokemon.getChildren().add(cb.getParent());
-				    	} else{
-				    		aiActivePokemon.getChildren().add(cb.getParent());
+				    	if(button.getParent().getParent()==userHand){
+				    		button.getParent().setLayoutX(userActivePokemon.getLayoutX());
+				    		userActivePokemon.getChildren().add(button.getParent());
 				    	}
-				    	//(CardsGroup (Turn.getCurrentPlayer().getInhand()));
+				    	else{
+				    		button.getParent().setLayoutX(userActivePokemon.getLayoutX());
+				    		aiActivePokemon.getChildren().add(button.getParent());
+				    	}
 				    }
 				    else if(selected=="Put on bench"){
 				    	
@@ -291,10 +292,11 @@ public class GameController {
 				    	
 				    }
 				}
-			}
-    		
-		});
-    	pokemonCard.getChildren().add(cb);
+    		}
+    	
+    	});
+
+    	pokemonCard.getChildren().add(button);
     	pokemonCard.getChildren().add(cardID);
     	pokemonCard.getChildren().add(PokemonStage);
     	pokemonCard.getChildren().add(PokemonHp);
