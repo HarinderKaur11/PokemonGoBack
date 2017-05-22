@@ -238,6 +238,8 @@ public class GameController {
     	Label PokemonStage = new Label(pokemon.getStage());
     	Label PokemonHp = new Label(Integer.toString(pokemon.getHP()));
     	Label PokemonName = new Label(pokemon.getName());
+    	PokemonName.setPrefWidth(20);
+    	PokemonName.setWrapText(true);
     	Label[] DamageAbility = createMultipleLabels(pokemon.getAbilities(),true);
     	Label[] attackDamage = createMultipleLabels(pokemon.getAbilities(),false);
     	Pane attackName = new Pane();
@@ -260,11 +262,13 @@ public class GameController {
     	//pokemonCard.setStyle("-fx-background-color: #fff;"+"-fx-border-color: #000;"+"-fx-border-width: 1px;"+
     	//		"-fx-pref-width: 52px;"+ "-fx-pref-height: 70px");
     	pokemonCard.getStyleClass().add("pokemonCard");
-    	Label cardID = new Label(Integer.toString(pokemon.getID()));
+    	Label cardID = new Label(Integer.toString(pokemon.getID())+"\n");
     	cardID.getStyleClass().add("cardID");
     	Label PokemonStage = new Label(pokemon.getStage());
     	Label PokemonHp = new Label(Integer.toString(pokemon.getHP()));
     	Label PokemonName = new Label(pokemon.getName());
+    	PokemonName.setPrefWidth(60);
+    	PokemonName.setWrapText(true);
     	
     	CheckBox cb = new CheckBox();
     	
@@ -313,8 +317,10 @@ public class GameController {
     	FlowPane newCard = new FlowPane();
     	
     	newCard.getStyleClass().add("card");
-    	Label cardID = new Label(Integer.toString(card.getID()));
+    	Label cardID = new Label(Integer.toString(card.getID())+"\t");
     	Label cardName = new Label(card.getName());
+    	cardName.setPrefWidth(55);
+    	cardName.setWrapText(true);
     	
     	newCard.getChildren().add(cardID);
     	newCard.getChildren().add(cardName);
