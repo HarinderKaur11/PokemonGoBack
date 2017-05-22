@@ -262,7 +262,7 @@ public class GameController {
     	//pokemonCard.setStyle("-fx-background-color: #fff;"+"-fx-border-color: #000;"+"-fx-border-width: 1px;"+
     	//		"-fx-pref-width: 52px;"+ "-fx-pref-height: 70px");
     	pokemonCard.getStyleClass().add("pokemonCard");
-    	Label cardID = new Label(Integer.toString(pokemon.getID())+"\n");
+    	Label cardID = new Label(Integer.toString(pokemon.getID())+"\t");
     	cardID.getStyleClass().add("cardID");
     	Label PokemonStage = new Label(pokemon.getStage());
     	Label PokemonHp = new Label(Integer.toString(pokemon.getHP()));
