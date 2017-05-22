@@ -47,6 +47,10 @@ public class Pokemon implements cardItem{
 		return this.cardName;
 	}
 	
+	public int getID(){
+		return this.id;
+	}
+	
 	public String getStage(){
 		return this.pStage.getStage();
 	}
@@ -109,7 +113,7 @@ public class Pokemon implements cardItem{
 		pokemonStage newPokemonStage = new stageOnePokemon("Pikachu");
 		pokemonStage newPokemon2Stage = new basicPokemon();
 		ArrayList<ability> newAbilities = new ArrayList<ability>();
-		Energy[] energyRequired = {new Energy("Lighting")};
+		Energy[] energyRequired = {new Energy("Lighting",6)};
 		newAbilities.add(new damageAbility("Thunder Bolt", 20, energyRequired, "Pokemon"));
 		Pokemon pikachu = new Pokemon(2, "Raichu", newPokemonStage, 80, newAbilities);
 		

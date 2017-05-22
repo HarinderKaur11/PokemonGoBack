@@ -23,16 +23,20 @@ public class Deck extends CardsGroup{
 						this.getGroupCards().add(new Pokemon(x, cards[1], stage, 80, newAbility));
 						break;
 					case "T":
-						this.getGroupCards().add(new Item_Trainer(cards[1]));
+						this.getGroupCards().add(new Item_Trainer(cards[1],x));
 						break;
 					case "E":
-						this.getGroupCards().add(new Energy(cards[1]));
+						this.getGroupCards().add(new Energy(cards[1],x));
 						break;
 				}
 				x++;
 			}
 			//Debug.message(this.getGroupCards().size());
 		}
+	}
+	
+	public void display(){
+		Debug.showCard(this.getGroupCards().toArray(new cardItem[this.getGroupCards().size()]));
 	}
 	
 	@Override
@@ -44,7 +48,7 @@ public class Deck extends CardsGroup{
 		Deck deck= new Deck();
 		deck.buildDeck(1);
 		ArrayList<cardItem> actual=deck.getGroupCards();
-		Debug.showCard(actual.toArray(new cardItem[actual.size()]));		
+		deck.display();		
 	}
 	
 }
