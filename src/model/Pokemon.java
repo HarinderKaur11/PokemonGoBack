@@ -127,4 +127,9 @@ public class Pokemon implements cardItem{
 		Pokemon meow = new Pokemon(1, "Meow", newPokemon2Stage, 80, newAbilities); 
 		System.out.print(meow.getStage());
 	}
+
+	public int getHP() {
+		// TODO Auto-generated method stub
+		return this.hitpoints;
+	}
 }

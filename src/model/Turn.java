@@ -21,7 +21,9 @@ public class Turn {
 	
 	public static void changeTurn(){
 		user.setTurn(!user.getTurn());
+		Debug.message("User turn" + user.getTurn());
 		ai.setTurn(!ai.getTurn());
+		Debug.message("AI turn" + ai.getTurn());
 	}
 	
 	public static Player getOpponent(){

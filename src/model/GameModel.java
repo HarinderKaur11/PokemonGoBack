@@ -8,13 +8,17 @@ public class GameModel {
 	public GameModel(){
 		user = new UserPlayer("Flash");
 		ai = new AIplayer("Future Flash");
-		Turn turn = new Turn(ai,user);
-		gameInitialize();
 	}
 	
+	public void setTurn(boolean userTurn,boolean aiTurn){
+		Turn turn = new Turn(ai,user);
+		ai.setTurn(userTurn);
+		user.setTurn(aiTurn);
+	}
+	
+	
+	
 	private void gameInitialize(){
-		ai.setTurn(true);
-		user.setTurn(false);
 		//Testing
 		Debug.message("AI cards inhand");
 		Debug.showCard(ai.dealMultipleCards(7));
@@ -30,13 +34,10 @@ public class GameModel {
 		Turn.changeTurn();
 		Debug.showCard(ai.getActivePokemon());
 		Debug.message("Lets attack opponents pokemon");
-		ability[] userPokemonAbilities = user.getActivePokemon().getAbilities();
+		ability[] userPokemonAbilities = Turn.getCurrentPlayer().getActivePokemon().getAbilities();
+		Debug.message("Ability " + userPokemonAbilities[0].getName() + " Current Player "+ Turn.getCurrentPlayer().getClass().getName());
 		Turn.getCurrentPlayer().getActivePokemon().useAbility(userPokemonAbilities[0]);
-		Debug.message("Damage status for "+Turn.getOpponent().getClass().getSimpleName()+" active pokemon "+Turn.getOpponent().getActivePokemon().getDamage());
+		Debug.message("Damage status for "+Turn.getCurrentPlayer().getClass().getSimpleName()+" active pokemon "+Turn.getCurrentPlayer().getActivePokemon().getDamage());
 		
-	}
-	
-	public static void main(String arg[]){
-		GameModel startGame = new GameModel();
 	}
 }
