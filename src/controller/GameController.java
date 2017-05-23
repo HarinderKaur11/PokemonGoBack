@@ -230,8 +230,6 @@ public class GameController {
     	Label PokemonStage = new Label(pokemon.getStage());
     	Label PokemonHp = new Label(Integer.toString(pokemon.getHP()));
     	Label PokemonName = new Label(pokemon.getName());
-    	PokemonName.setPrefWidth(20);
-    	PokemonName.setWrapText(true);
     	Label[] DamageAbility = createMultipleLabels(pokemon.getAbilities(),true);
     	Label[] attackDamage = createMultipleLabels(pokemon.getAbilities(),false);
     	Pane attackName = new Pane();
@@ -256,10 +254,11 @@ public class GameController {
     	pokemonCard.getStyleClass().add("pokemonCard");
     	Label cardID = new Label(Integer.toString(pokemon.getID())+"\t");
     	cardID.getStyleClass().add("cardID");
-    	Label PokemonStage = new Label(pokemon.getStage());
+    	Label PokemonStage = new Label(pokemon.getStage()+"\t");
     	Label PokemonHp = new Label(Integer.toString(pokemon.getHP()));
     	Label PokemonName = new Label(pokemon.getName());
-    	PokemonName.setPrefWidth(60);
+    	PokemonName.setPrefWidth(70);
+    	pokemonCard.setMaxWidth(88);
     	PokemonName.setWrapText(true);
     	
     	Button button = new Button();
@@ -317,7 +316,8 @@ public class GameController {
     	newCard.getStyleClass().add("card");
     	Label cardID = new Label(Integer.toString(card.getID())+"\t");
     	Label cardName = new Label(card.getName());
-    	cardName.setPrefWidth(55);
+    	cardName.setPrefWidth(70);
+    	newCard.setMaxWidth(88);
     	cardName.setWrapText(true);
     	
     	newCard.getChildren().add(cardID);

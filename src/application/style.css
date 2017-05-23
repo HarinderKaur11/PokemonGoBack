@@ -25,9 +25,13 @@
 	-fx-hpos:left;
 }
 .pokemonCard, .card{
-	-fx-pref-width:2cm;
+	-fx-pref-width: 3cm;
 	-fx-background-color: #fff;
 	-fx-border-color: #000;
 	-fx-border-width: 1px;
+}
+.scroll-bar:horizontal {
+	-fx-opacity:0;
+	-fx-padding:-7;
 }
 
