@@ -26,6 +26,8 @@ import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Tooltip;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -263,6 +265,25 @@ public class GameController {
     	PokemonName.setWrapText(true);
     	
     	Button button = new Button();
+    	
+    	pokemonCard.setOnMouseEntered(new EventHandler<MouseEvent>(){
+
+			@Override
+			public void handle(MouseEvent event) {
+				// TODO Auto-generated method stub
+				String text = new String();
+				Tooltip tttext = new Tooltip();
+				//text.setText(IntoString());
+				ability[] abilities = pokemon.getAbilities();
+				for(int i=0; i<abilities.length;i++){
+					text = text + abilities[i].getName() + "\n" ;
+				}
+				System.out.println(text);
+				tttext.setText(text);
+				button.setTooltip(tttext);
+			}
+    		
+    	});
     	
     	button.setOnAction(new EventHandler<ActionEvent>() {
 		
