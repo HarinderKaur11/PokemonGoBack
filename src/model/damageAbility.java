@@ -2,22 +2,47 @@ package model;
 
 public class damageAbility implements ability {
 	private int damageValue;
-	public String name;
+	private String name;
+	private Energy[] energyRequired;
+	private String target;
 	
-	public damageAbility(String newName, int newDamage){
+	public damageAbility(String newName, int newDamage, Energy[] newEnergyInfo,String newTarget){
 		this.name = newName;
 		this.damageValue = newDamage;
+		this.energyRequired = newEnergyInfo;
+		this.target = newTarget;
 	}
 	
-	public int getDamage(){
-		return this.damageValue;
-	}
 	public void setDamage(int newDamage){
 		this.damageValue = newDamage;
+	}
+	
+	public void useAbility(){
+		Turn.getOpponent().getActivePokemon().addDamage(this.damageValue);
 	}
 
 	@Override
 	public String getName() {
 		return this.name;
 	}
+	
+	public int getDamage(){
+		return this.damageValue;
+	}
+	
+	public Energy[] getEnergyInfo(){
+		return this.energyRequired;
+	}
+	public String getTarget(){
+		return target;
+	}
+	
+	public boolean equals(Object o){
+		damageAbility tempAbility = (damageAbility) o;
+		if(this.name == tempAbility.name){
+			return true;
+		}		
+		return false;
+	}
+	
 }
