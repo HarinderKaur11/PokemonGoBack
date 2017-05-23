@@ -17,6 +17,7 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
@@ -119,7 +120,7 @@ public class GameController {
             if ((result1.get().getText().toString() == "Head") && number==1)
             {
                 //num2=1;
-                dec="Congratz you won the toss";
+                dec="Congratulations you won the toss";
                 userTurn = true;
                 aiTurn = false;
                 System.out.print(dec);
@@ -127,7 +128,7 @@ public class GameController {
             else if ((result1.get().getText().toString()== "Tail") && number==2)
             {
                 // num2=2;
-                dec="Congratz you won the toss";
+                dec="Congratulations you won the toss";
                 userTurn = true;
                 aiTurn = false;
                 System.out.print(dec);
@@ -177,7 +178,8 @@ public class GameController {
 	public void init(boolean userTurn,boolean aiTurn){
 		user = new UserPlayer("Flash");
 		ai = new AIplayer("Future Flash");
-		init();
+    	addCardsToPanel(user.dealMultipleCards(7),userHand);
+    	addCardsToPanel(ai.dealMultipleCards(7), AIHand);
 		Turn turn = new Turn(ai,user);
 		ai.setTurn(userTurn);
 		user.setTurn(aiTurn);
@@ -199,16 +201,6 @@ public class GameController {
 	private Pane aiActivePokemon;
 	@FXML
 	private Pane userActivePokemon;
-    
-	@FXML
-    public void init(){
-    	addCardsToPanel(user.dealMultipleCards(7),userHand);
-    	addCardsToPanel(ai.dealMultipleCards(7), AIHand);
-//    	userHandScroll = new ScrollPane();
-//		AIHandScroll = new ScrollPane();
-//    	userHandScroll.setContent(userHand);
-//    	AIHandScroll.setContent(AIHand);
-    }
     
     public void addCardsToPanel(cardItem[] cards, HBox panel){
     	FlowPane newCard = null;
@@ -270,13 +262,12 @@ public class GameController {
     	PokemonName.setPrefWidth(60);
     	PokemonName.setWrapText(true);
     	
-    	CheckBox cb = new CheckBox();
+    	Button button = new Button();
     	
-    	cb.selectedProperty().addListener(new ChangeListener<Boolean>() {
-
-			@Override
-			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-				String [] arrayData = {"Make active", "Put on bench", "View card abilities"};
+    	button.setOnAction(new EventHandler<ActionEvent>() {
+		
+    		@Override public void handle(ActionEvent e) {
+    			String [] arrayData = {"Make active", "Put on bench", "View card abilities"};
 				List<String> dialogData = Arrays.asList(arrayData);
 
 				Dialog dialog = new ChoiceDialog(dialogData.get(0), dialogData);
@@ -289,8 +280,14 @@ public class GameController {
 				if (result.isPresent()) {
 				    selected = result.get();
 				    if(selected=="Make active"){
-				    	String id = ((Label) cb.getParent().lookup(".cardID")).getText();
-				    	//(CardsGroup (Turn.getCurrentPlayer().getInhand()));
+				    	if(button.getParent().getParent()==userHand){
+				    		button.getParent().setLayoutX(userActivePokemon.getLayoutX());
+				    		userActivePokemon.getChildren().add(button.getParent());
+				    	}
+				    	else{
+				    		button.getParent().setLayoutX(userActivePokemon.getLayoutX());
+				    		aiActivePokemon.getChildren().add(button.getParent());
+				    	}
 				    }
 				    else if(selected=="Put on bench"){
 				    	
@@ -299,10 +296,11 @@ public class GameController {
 				    	
 				    }
 				}
-			}
-    		
-		});
-    	pokemonCard.getChildren().add(cb);
+    		}
+    	
+    	});
+
+    	pokemonCard.getChildren().add(button);
     	pokemonCard.getChildren().add(cardID);
     	pokemonCard.getChildren().add(PokemonStage);
     	pokemonCard.getChildren().add(PokemonHp);
@@ -338,16 +336,6 @@ public class GameController {
     		}
     	}
     	return labels;
-    }
-    @FXML
-    public void addActivePokemonUser(Pokemon pokemon){
-    	this.userActivePokemon.getChildren().clear();
-    	this.userActivePokemon.getChildren().add(createCard(pokemon));
-    }
-    @FXML
-    public void addActivePokemonAI(Pokemon pokemon){
-    	this.aiActivePokemon.getChildren().clear();
-    	this.aiActivePokemon.getChildren().add(createCard(pokemon));
     }
     
     public HBox getUserBench(){
