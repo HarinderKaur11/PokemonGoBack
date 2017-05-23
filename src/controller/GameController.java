@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -266,8 +267,20 @@ public class GameController {
     	button.setOnAction(new EventHandler<ActionEvent>() {
 		
     		@Override public void handle(ActionEvent e) {
-    			String [] arrayData = {"Make active", "Put on bench", "View card abilities"};
-				List<String> dialogData = Arrays.asList(arrayData);
+    			ArrayList<String> optionsList = new ArrayList<String>();
+    			if(button.getParent().getParent()==userHand){
+    				optionsList.add("Make active");
+    				optionsList.add("Put on bench");
+    				optionsList.add("View card abilities");
+    			}
+    			else if(button.getParent().getParent()==userBench){
+    				optionsList.add("View card abilities");
+    			}
+    			else {
+    				optionsList.add("Retreat");
+    				optionsList.add("View card abilities");
+    			}
+    			List<String> dialogData = Arrays.asList(optionsList.toArray(new String[optionsList.size()]));
 
 				Dialog dialog = new ChoiceDialog(dialogData.get(0), dialogData);
 				dialog.setTitle("Available options");
@@ -280,16 +293,27 @@ public class GameController {
 				    selected = result.get();
 				    if(selected=="Make active"){
 				    	if(button.getParent().getParent()==userHand){
-				    		button.getParent().setLayoutX(userActivePokemon.getLayoutX());
+				    		button.getParent().setLayoutX(0);
+				    		button.getParent().setLayoutY(0);
 				    		userActivePokemon.getChildren().add(button.getParent());
 				    	}
 				    	else{
-				    		button.getParent().setLayoutX(userActivePokemon.getLayoutX());
+				    		button.getParent().setLayoutX(0);
+				    		button.getParent().setLayoutY(0);
 				    		aiActivePokemon.getChildren().add(button.getParent());
 				    	}
 				    }
 				    else if(selected=="Put on bench"){
-				    	
+				    	if(button.getParent().getParent()==userHand || button.getParent().getParent()==userBench){
+				    		button.getParent().setLayoutX(0);
+				    		button.getParent().setLayoutY(0);
+				    		userBench.getChildren().add(button.getParent());
+				    	}
+				    	else{
+				    		button.getParent().setLayoutX(0);
+				    		button.getParent().setLayoutY(0);
+				    		AIBench.getChildren().add(button.getParent());
+				    	}
 				    }
 				    else if(selected=="View card abilities"){
 				    	
