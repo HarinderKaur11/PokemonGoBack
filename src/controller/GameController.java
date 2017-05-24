@@ -291,12 +291,8 @@ public class GameController {
 				//text.setText(IntoString());
 				ability[] abilities = pokemon.getAbilities();
 				for(int i=0; i<abilities.length;i++){
-				text = text + abilities[i].getName() + "\n" ;
+					text = text + abilities[i].getName() + "\n" ;
 				}
-<<<<<<< HEAD
-				//System.out.println(text);
-=======
->>>>>>> refs/remotes/origin/master
 				tttext.setText(text);
 				button.setTooltip(tttext);
 			}
