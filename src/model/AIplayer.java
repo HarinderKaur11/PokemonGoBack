@@ -97,7 +97,10 @@ public class AIplayer extends Player {
 				i--;
 			}
 		}
-		Turn.getInstance().changeTurn();
+		if(Turn.getInstance().getCurrentPlayer()==this)
+		{
+			Turn.getInstance().changeTurn();
+		}
 	}
 	
 	private boolean checkAndPlayEnergy(ArrayList<Energy> energyCards){
