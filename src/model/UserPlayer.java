@@ -20,4 +20,7 @@ public class UserPlayer extends Player {
 		return this.score;
 	}
 	
+	public void setTurn(boolean newTurn){
+		this.turn = newTurn;
+	}
 }

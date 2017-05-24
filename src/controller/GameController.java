@@ -49,8 +49,8 @@ import model.damageAbility;
 
 public class GameController {
 	
-	private Player user;
-	private Player ai;
+	private UserPlayer user;
+	private AIplayer ai;
 	
 	public GameController(){
 
@@ -183,9 +183,11 @@ public class GameController {
 		ai = new AIplayer("Future Flash");
     	addCardsToPanel(user.dealMultipleCards(7),userHand);
     	addCardsToPanel(ai.dealMultipleCards(7), AIHand);
-		Turn turn = new Turn(ai,user);
-		ai.setTurn(userTurn);
-		user.setTurn(aiTurn);
+		Turn.getInstance().setPlayer(ai,user);
+		Debug.message("User turn : "+userTurn);
+		Debug.message("AI Turn: "+aiTurn);
+		((UserPlayer) user).setTurn(userTurn);
+		((AIplayer) ai).setTurn(aiTurn);
 	}
 	
 	@FXML
@@ -278,7 +280,7 @@ public class GameController {
 				for(int i=0; i<abilities.length;i++){
 					text = text + abilities[i].getName() + "\n" ;
 				}
-				System.out.println(text);
+				//System.out.println(text);
 				tttext.setText(text);
 				button.setTooltip(tttext);
 			}

@@ -92,7 +92,7 @@ public class Pokemon implements cardItem{
 	
 	public void useAbility(ability uAbility){
 		uAbility.useAbility();
-		Turn.changeTurn();
+		Turn.getInstance().changeTurn();
 	}
 	
 	public int getAttachedCardsCount(){
@@ -102,15 +102,25 @@ public class Pokemon implements cardItem{
 	public cardItem[] getAttachedCards(){
 		return this.attachedCards.toArray(new cardItem[this.attachedCards.size()]);
 	}
+	public int totalEnergyRequired(){
+		int totalEnergy = 0;
+		for(ability ablt : this.getAbilities()){
+			int temp = ((damageAbility) ablt).getEnergyInfo().length;
+			if(temp>totalEnergy){
+				totalEnergy = temp;
+			}
+		}
+		return totalEnergy;
+	}
 	
 	public boolean equals(Object o){
-		Pokemon tempP = (Pokemon) o;
-		if(this.id == tempP.id){
-			return true;
+		if(o instanceof Pokemon){
+			Pokemon tempP = (Pokemon) o;
+			if(this.id == tempP.id){
+				return true;
+			}
 		}
-		else{
-			return false;
-		}
+		return false;
 	}
 	
 	public static void main(String[] arg){

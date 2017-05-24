@@ -11,9 +11,9 @@ public class GameModel {
 	}
 	
 	public void setTurn(boolean userTurn,boolean aiTurn){
-		Turn turn = new Turn(ai,user);
-		ai.setTurn(userTurn);
-		user.setTurn(aiTurn);
+		Turn.getInstance().setPlayer(ai,user);
+//		ai.setTurn(userTurn);
+//		user.setTurn(aiTurn);
 	}
 	
 	
@@ -31,13 +31,13 @@ public class GameModel {
 		Debug.message("Opponent Choose Active Pokemon");
 		inhand = ai.getPokemonFromHand();
 		ai.setActivePokemon(((Pokemon) inhand));
-		Turn.changeTurn();
+		Turn.getInstance().changeTurn();
 		Debug.showCard(ai.getActivePokemon());
 		Debug.message("Lets attack opponents pokemon");
-		ability[] userPokemonAbilities = Turn.getCurrentPlayer().getActivePokemon().getAbilities();
-		Debug.message("Ability " + userPokemonAbilities[0].getName() + " Current Player "+ Turn.getCurrentPlayer().getClass().getName());
-		Turn.getCurrentPlayer().getActivePokemon().useAbility(userPokemonAbilities[0]);
-		Debug.message("Damage status for "+Turn.getCurrentPlayer().getClass().getSimpleName()+" active pokemon "+Turn.getCurrentPlayer().getActivePokemon().getDamage());
+		ability[] userPokemonAbilities = Turn.getInstance().getCurrentPlayer().getActivePokemon().getAbilities();
+		Debug.message("Ability " + userPokemonAbilities[0].getName() + " Current Player "+ Turn.getInstance().getCurrentPlayer().getClass().getName());
+		Turn.getInstance().getCurrentPlayer().getActivePokemon().useAbility(userPokemonAbilities[0]);
+		Debug.message("Damage status for "+Turn.getInstance().getCurrentPlayer().getClass().getSimpleName()+" active pokemon "+Turn.getInstance().getCurrentPlayer().getActivePokemon().getDamage());
 		
 	}
 }
