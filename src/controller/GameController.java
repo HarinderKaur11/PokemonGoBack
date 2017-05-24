@@ -298,6 +298,7 @@ public class GameController {
 				for(int i=0; i<abilities.length;i++){
 					text = text + abilities[i].getName() + "\n" ;
 				}
+				System.out.println("User bench" + userBench.getChildren().size());
 				tttext.setText(text);
 				button.setTooltip(tttext);
 			}
