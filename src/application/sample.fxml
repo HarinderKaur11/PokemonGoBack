@@ -37,7 +37,7 @@
             <HBox fx:id="userBench" layoutX="132.0" layoutY="337.0" prefHeight="80.0" prefWidth="385.0" stylesheets="@style.css" />
          </children>
       </Pane>
-      <ScrollPane layoutX="21.0" layoutY="516.0" prefHeight="98.0" prefWidth="626.0" vbarPolicy="NEVER">
+      <ScrollPane fx:id="scrollPane" layoutX="21.0" layoutY="516.0" prefHeight="98.0" prefWidth="626.0" vbarPolicy="NEVER">
          <content>
             <HBox fx:id="userHand" minWidth="628.0" prefHeight="89.0"/>
          </content>

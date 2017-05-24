@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +26,8 @@ import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Tooltip;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -230,8 +233,6 @@ public class GameController {
     	Label PokemonStage = new Label(pokemon.getStage());
     	Label PokemonHp = new Label(Integer.toString(pokemon.getHP()));
     	Label PokemonName = new Label(pokemon.getName());
-    	PokemonName.setPrefWidth(20);
-    	PokemonName.setWrapText(true);
     	Label[] DamageAbility = createMultipleLabels(pokemon.getAbilities(),true);
     	Label[] attackDamage = createMultipleLabels(pokemon.getAbilities(),false);
     	Pane attackName = new Pane();
@@ -256,46 +257,46 @@ public class GameController {
     	pokemonCard.getStyleClass().add("pokemonCard");
     	Label cardID = new Label(Integer.toString(pokemon.getID())+"\t");
     	cardID.getStyleClass().add("cardID");
-    	Label PokemonStage = new Label(pokemon.getStage());
+    	Label PokemonStage = new Label(pokemon.getStage()+"\t");
     	Label PokemonHp = new Label(Integer.toString(pokemon.getHP()));
     	Label PokemonName = new Label(pokemon.getName());
-    	PokemonName.setPrefWidth(60);
+    	PokemonName.setPrefWidth(70);
+    	pokemonCard.setMaxWidth(88);
     	PokemonName.setWrapText(true);
     	
     	Button button = new Button();
     	
+    	pokemonCard.setOnMouseEntered(new EventHandler<MouseEvent>(){
+
+			@Override
+			public void handle(MouseEvent event) {
+				// TODO Auto-generated method stub
+				String text = new String();
+				Tooltip tttext = new Tooltip();
+				//text.setText(IntoString());
+				ability[] abilities = pokemon.getAbilities();
+				for(int i=0; i<abilities.length;i++){
+					text = text + abilities[i].getName() + "\n" ;
+				}
+				System.out.println(text);
+				tttext.setText(text);
+				button.setTooltip(tttext);
+			}
+    		
+    	});
+    	
     	button.setOnAction(new EventHandler<ActionEvent>() {
 		
     		@Override public void handle(ActionEvent e) {
-    			String [] arrayData = {"Make active", "Put on bench", "View card abilities"};
-				List<String> dialogData = Arrays.asList(arrayData);
-
-				Dialog dialog = new ChoiceDialog(dialogData.get(0), dialogData);
-				dialog.setTitle("Available options");
-				dialog.setHeaderText("Select your choice");
-
-				Optional<String> result = dialog.showAndWait();
-				String selected = "cancelled.";
-						
-				if (result.isPresent()) {
-				    selected = result.get();
-				    if(selected=="Make active"){
-				    	if(button.getParent().getParent()==userHand){
-				    		button.getParent().setLayoutX(userActivePokemon.getLayoutX());
-				    		userActivePokemon.getChildren().add(button.getParent());
-				    	}
-				    	else{
-				    		button.getParent().setLayoutX(userActivePokemon.getLayoutX());
-				    		aiActivePokemon.getChildren().add(button.getParent());
-				    	}
-				    }
-				    else if(selected=="Put on bench"){
-				    	
-				    }
-				    else if(selected=="View card abilities"){
-				    	
-				    }
-				}
+    			ArrayList<String> optionsList = new ArrayList<String>();
+    			if(userActivePokemon.getChildren().isEmpty())
+    			{
+    				dialogOptions(button, optionsList);
+    			}
+    			else
+    			{
+    				dialogOptionsActive(button, optionsList);
+    			}
     		}
     	
     	});
@@ -309,6 +310,104 @@ public class GameController {
     	return pokemonCard;
     }
     
+    private void dialogOptions(Button button, ArrayList<String> optionsList)
+    {
+    	if(button.getParent().getParent()==userHand){
+			optionsList.add("Make active");
+			optionsList.add("Put on bench");
+			optionsList.add("View card abilities");
+		}
+		else if(button.getParent().getParent()==userBench){
+			optionsList.add("View card abilities");
+		}
+		else {
+			optionsList.add("Retreat");
+			optionsList.add("View card abilities");
+		}
+		List<String> dialogData = Arrays.asList(optionsList.toArray(new String[optionsList.size()]));
+
+		Dialog dialog = new ChoiceDialog(dialogData.get(0), dialogData);
+		dialog.setTitle("Available options");
+		dialog.setHeaderText("Select your choice");
+
+		Optional<String> result = dialog.showAndWait();
+		String selected = "cancelled.";
+				
+		if (result.isPresent()) {
+		    selected = result.get();
+		    if(selected=="Make active"){
+		    	if(button.getParent().getParent()==userHand){
+		    		button.getParent().setLayoutX(0);
+		    		button.getParent().setLayoutY(0);
+		    		userActivePokemon.getChildren().add(button.getParent());
+		    	}
+		    	else{
+		    		button.getParent().setLayoutX(0);
+		    		button.getParent().setLayoutY(0);
+		    		aiActivePokemon.getChildren().add(button.getParent());
+		    	}
+		    	
+		    }
+		    else if(selected=="Put on bench"){
+		    	if(button.getParent().getParent()==userHand || button.getParent().getParent()==userBench){
+		    		button.getParent().setLayoutX(0);
+		    		button.getParent().setLayoutY(0);
+		    		userBench.getChildren().add(button.getParent());
+		    	}
+		    	else{
+		    		button.getParent().setLayoutX(0);
+		    		button.getParent().setLayoutY(0);
+		    		AIBench.getChildren().add(button.getParent());
+		    	}
+		    }
+		    else if(selected=="View card abilities"){
+		    	
+		    }
+		}
+	}
+    
+    private void dialogOptionsActive(Button button, ArrayList<String> optionsList)
+    {
+    	if(button.getParent().getParent()==userHand){
+			optionsList.add("Put on bench");
+			optionsList.add("View card abilities");
+		}
+		else if(button.getParent().getParent()==userBench){
+			optionsList.add("View card abilities");
+		}
+		else {
+			optionsList.add("Retreat");
+			optionsList.add("View card abilities");
+		}
+		List<String> dialogData = Arrays.asList(optionsList.toArray(new String[optionsList.size()]));
+
+		Dialog dialog = new ChoiceDialog(dialogData.get(0), dialogData);
+		dialog.setTitle("Available options");
+		dialog.setHeaderText("Select your choice");
+
+		Optional<String> result = dialog.showAndWait();
+		String selected = "cancelled.";
+				
+		if (result.isPresent()) {
+		    selected = result.get();
+		    if(selected=="Put on bench"){
+		    	if(button.getParent().getParent()==userHand || button.getParent().getParent()==userBench){
+		    		button.getParent().setLayoutX(0);
+		    		button.getParent().setLayoutY(0);
+		    		userBench.getChildren().add(button.getParent());
+		    	}
+		    	else{
+		    		button.getParent().setLayoutX(0);
+		    		button.getParent().setLayoutY(0);
+		    		AIBench.getChildren().add(button.getParent());
+		    	}
+		    }
+		    else if(selected=="View card abilities"){
+		    	
+		    }
+		}
+	}
+
     
     @FXML
     private FlowPane createCard(cardItem card){
@@ -317,7 +416,8 @@ public class GameController {
     	newCard.getStyleClass().add("card");
     	Label cardID = new Label(Integer.toString(card.getID())+"\t");
     	Label cardName = new Label(card.getName());
-    	cardName.setPrefWidth(55);
+    	cardName.setPrefWidth(70);
+    	newCard.setMaxWidth(88);
     	cardName.setWrapText(true);
     	
     	newCard.getChildren().add(cardID);
@@ -325,6 +425,7 @@ public class GameController {
     	
     	return newCard;
     }
+    
     private Label[] createMultipleLabels(ability[] abilities,boolean value){
     	Label[] labels = new Label[abilities.length];
     	for(int i=0; i< abilities.length; i++){
