@@ -303,7 +303,7 @@ public class GameController {
 				for(int i=0; i<abilities.length;i++){
 					text = text + abilities[i].getName() + "\n" ;
 				}
-				System.out.println("User bench" + userBench.getChildren().size());
+				//System.out.println("User bench" + userBench.getChildren().size());
 				tttext.setText(text);
 				button.setTooltip(tttext);
 			}
@@ -324,7 +324,6 @@ public class GameController {
 		{
     		if(button.getParent().getParent()==userHand){
     			optionsList.add("Make active");
-    			optionsList.add("Put on bench");
     		}
     		else if(button.getParent().getParent()==userBench){
     			if (userActivePokemon.getChildren().isEmpty())
@@ -362,7 +361,7 @@ public class GameController {
 	}
 	else
 	{
-    	if(button.getParent().getParent()==userHand){
+    	if(button.getParent().getParent()==userHand && userBench.getChildren().size() < 5){
 			optionsList.add("Put on bench");
 		}
 		else if(button.getParent().getParent()==userActivePokemon){
