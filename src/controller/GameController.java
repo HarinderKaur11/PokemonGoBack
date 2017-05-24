@@ -291,7 +291,7 @@ public class GameController {
     			@Override 
     			public void handle(ActionEvent e) {
     				ArrayList<String> optionsList = new ArrayList<String>();
-    				pokemonOptions(button, optionsList);
+    				pokemonOptions(button, optionsList, pokemon);
     			}
     	
     	});
@@ -326,11 +326,11 @@ public class GameController {
     	return pokemonCard;
     }
     
-    private void pokemonOptions(Button button, ArrayList<String> optionsList)
+    private void pokemonOptions(Button button, ArrayList<String> optionsList, Pokemon pokemon)
     {
     	if(userActivePokemon.getChildren().isEmpty())
 		{
-    		if(button.getParent().getParent()==userHand){
+    		if(button.getParent().getParent()==userHand && pokemon.getStage()=="Basic"){
     			optionsList.add("Make active");
     		}
     		else if(button.getParent().getParent()==userBench){
