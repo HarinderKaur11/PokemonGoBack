@@ -12,21 +12,26 @@ import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.Labeled;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
@@ -386,11 +391,54 @@ public class GameController {
 		    		button.getParent().setLayoutY(0);
 		    		userBench.getChildren().add(button.getParent());
 		    	}
-		    	else{
-		    		button.getParent().setLayoutX(0);
-		    		button.getParent().setLayoutY(0);
-		    		AIBench.getChildren().add(button.getParent());
+		    }
+		    else if(selected == "Retreat"){
+		    	button.getParent().setLayoutX(0);
+		    	button.getParent().setLayoutY(0);
+		    }
+		    else if(selected == "View card abilities")
+		    {
+		    	Debug.message("Showing card abilities");
+		    	Dialog<String> abilitiesDialog = new Dialog<>();
+		    	abilitiesDialog.setTitle("Abilities");
+		    	abilitiesDialog.setHeaderText("Select any ability to use");
+		    	ButtonType attackButton = new ButtonType("Attack", ButtonData.OK_DONE);
+		    	abilitiesDialog.getDialogPane().getButtonTypes().addAll(attackButton, ButtonType.CANCEL);
+		    	GridPane grid = new GridPane();
+		    	grid.setHgap(10);
+		    	grid.setVgap(10);
+		    	grid.setPadding(new Insets(20, 150, 10, 10));
+		    	
+		    	final ToggleGroup group = new ToggleGroup();
+		    	
+		    	for(ability a : user.getActivePokemon().getAbilities()){
+		    		FlowPane temppane = new FlowPane();
+		    		RadioButton rb = new RadioButton(a.getName());
+		    		rb.setUserData(a.getName());
+		    		rb.setToggleGroup(group);
+		    		temppane.getChildren().add(rb);
+		    		temppane.getChildren().add(new Label(Integer.toString(((damageAbility) a).getDamage())));
+		    		grid.add(temppane, 0, 0);
 		    	}
+		    	
+		    	abilitiesDialog.getDialogPane().setContent(grid);
+		    	abilitiesDialog.getResult();
+		    	abilitiesDialog.setResultConverter(dialogButton -> {
+		    	    if (dialogButton == attackButton) {
+		    	        return group.getSelectedToggle().getUserData().toString();
+		    	    }
+		    	    return null;
+		    	});
+
+		    	
+		    	Optional<String> result2 = abilitiesDialog.showAndWait();
+		    	for(ability b: user.getActivePokemon().getAbilities()){
+		    		if(b.getName()==result2.get()){
+		    			b.useAbility();
+		    			aiDamage.setText(Integer.toString(ai.getActivePokemon().getDamage()));
+		    		}
+		    	}
+		    		
 		    }
 		}
 		}
