@@ -2,17 +2,21 @@ package model;
 
 import java.util.ArrayList;
 
+import controller.GameController;
+
 public class AIplayer extends Player {
 	
 	private String name;
 	private int score;
 	private cardItem deck;
+	private GameController controller;
 	
-	public AIplayer(String newName) {
+	public AIplayer(String newName,GameController newController) {
 		super(newName);
 		this.name = newName;
 		deck = new Deck();
 		((Deck) deck).buildDeck(1);
+		this.controller = newController;
 	}
 	
 	public String getName() {
@@ -40,6 +44,7 @@ public class AIplayer extends Player {
 				((CardsGroup) this.inhand).removeCard(this.activePokemon);
 				noPokemon = false;
 				Debug.message("Active pokemon set: "+this.activePokemon.getName());
+				updateGUI();
 			}
 			if(noPokemon){
 				//declare Mulligan
@@ -51,6 +56,7 @@ public class AIplayer extends Player {
 				bench.add(card2);
 				Debug.message("Card added to bench: "+ card2.getName());
 				((CardsGroup) this.inhand).removeCard(card2);
+				updateGUI();
 			}
 		}
 		
@@ -58,6 +64,7 @@ public class AIplayer extends Player {
 		ArrayList<Energy> energyCards = ((CardsGroup) this.inhand).getAllEnergyCards();
 		if(!energyCards.isEmpty() && !energyCardUsed){
 			energyCardUsed = checkAndPlayEnergy(energyCards);
+			updateGUI();
 		}
 		
 		ArrayList<Trainer> trainerCard = ((CardsGroup) this.inhand).getAllTranerCards();
@@ -65,11 +72,13 @@ public class AIplayer extends Player {
 			((CardsGroup) this.inhand).removeCard(trainerCard.get(0));
 			trainerCard.get(0).getAbility().useAbility();
 			Debug.message("Trainer card used "+ trainerCard.get(0).getName());
+			updateGUI();
 		}
 		
 		energyCards = ((CardsGroup) this.inhand).getAllEnergyCards();
 		if(!energyCards.isEmpty() && !energyCardUsed){
 			energyCardUsed = checkAndPlayEnergy(energyCards);
+			updateGUI();
 		}
 		
 		ability attack = null;
@@ -78,6 +87,7 @@ public class AIplayer extends Player {
 		while(attack==null && i>0){
 			if(((damageAbility) abilits[i-1]).getEnergyInfo().length <= this.activePokemon.getAttachedCardsCount()){
 				attack=abilits[i-1];
+				updateGUI();
 			}
 			i--;
 		}
@@ -103,6 +113,10 @@ public class AIplayer extends Player {
 			}
 		}
 		return false;
+	}
+	
+	public void updateGUI(){
+		controller.refreshAICards(this.getInhandCards(),this.bench.toArray(new Pokemon[this.bench.size()]),this.activePokemon);
 	}
 	
 }

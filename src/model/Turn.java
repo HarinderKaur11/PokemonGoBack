@@ -1,10 +1,13 @@
 package model;
 
+import controller.GameController;
+
 public class Turn {
 	
 	private static Turn turn;
 	private AIplayer ai;
 	private UserPlayer user;
+	private GameController controller;
 	
 	private Turn(){
 		
@@ -17,9 +20,10 @@ public class Turn {
         return turn;
     }
 	
-	public void setPlayer(AIplayer newAi, UserPlayer newuser){
+	public void setPlayer(AIplayer newAi, UserPlayer newuser, GameController newControl){
 		ai = newAi;
 		user = newuser;
+		this.controller = newControl;
 	}
 	
 	public Player getCurrentPlayer(){
@@ -33,11 +37,13 @@ public class Turn {
 	
 	public void changeTurn(){
 		if(user.getTurn()){
-			((UserPlayer) user).setTurn(false);
-			((AIplayer) ai).setTurn(true);
+			user.setTurn(false);
+			controller.dealCard("ai");
+			ai.setTurn(true);
 		}else{
-			((UserPlayer) user).setTurn(true);
-			((AIplayer) ai).setTurn(false);			
+			user.setTurn(true);
+			controller.dealCard("user");
+			ai.setTurn(false);			
 		}
 	}
 	
