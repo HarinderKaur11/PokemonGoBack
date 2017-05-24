@@ -280,7 +280,6 @@ public class GameController {
 				for(int i=0; i<abilities.length;i++){
 					text = text + abilities[i].getName() + "\n" ;
 				}
-				System.out.println(text);
 				tttext.setText(text);
 				button.setTooltip(tttext);
 			}
@@ -312,18 +311,15 @@ public class GameController {
     		if(button.getParent().getParent()==userHand){
     			optionsList.add("Make active");
     			optionsList.add("Put on bench");
-    			optionsList.add("View card abilities");
     		}
     		else if(button.getParent().getParent()==userBench){
     			if (userActivePokemon.getChildren().isEmpty())
     			{
     				optionsList.add("Make active");
     			}
-    			optionsList.add("View card abilities");
     		}
     		else {
     			optionsList.add("Retreat");
-    			optionsList.add("View card abilities");
     		}
 		List<String> dialogData = Arrays.asList(optionsList.toArray(new String[optionsList.size()]));
 
@@ -352,12 +348,8 @@ public class GameController {
 	{
     	if(button.getParent().getParent()==userHand){
 			optionsList.add("Put on bench");
-			optionsList.add("View card abilities");
 		}
-		else if(button.getParent().getParent()==userBench){
-			optionsList.add("View card abilities");
-		}
-		else {
+		else if(button.getParent().getParent()==userActivePokemon){
 			optionsList.add("Retreat");
 			optionsList.add("View card abilities");
 		}
