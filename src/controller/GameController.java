@@ -264,11 +264,22 @@ public class GameController {
     	pokemonCard.setMaxWidth(88);
     	PokemonName.setWrapText(true);
     	
+    	Button button = new Button();   	
     	if(panel == userHand || pokemonCard.getParent() == userBench)
     	{
-    		Button button = new Button();
+    		button.setOnAction(new EventHandler<ActionEvent>() {
+    			@Override 
+    			public void handle(ActionEvent e) {
+    				ArrayList<String> optionsList = new ArrayList<String>();
+    				dialogOptions(button, optionsList);
+    			}
     	
-    		pokemonCard.setOnMouseEntered(new EventHandler<MouseEvent>(){
+    	});
+    		
+    		pokemonCard.getChildren().add(button);
+    	}
+    	
+    	pokemonCard.setOnMouseEntered(new EventHandler<MouseEvent>(){
 
 			@Override
 			public void handle(MouseEvent event) {
@@ -278,25 +289,14 @@ public class GameController {
 				//text.setText(IntoString());
 				ability[] abilities = pokemon.getAbilities();
 				for(int i=0; i<abilities.length;i++){
-					text = text + abilities[i].getName() + "\n" ;
+				text = text + abilities[i].getName() + "\n" ;
 				}
-				System.out.println(text);
 				tttext.setText(text);
 				button.setTooltip(tttext);
 			}
-    		
-    	});
+		
+		});
     	
-    	button.setOnAction(new EventHandler<ActionEvent>() {
-    		@Override public void handle(ActionEvent e) {
-    			ArrayList<String> optionsList = new ArrayList<String>();
-    			dialogOptions(button, optionsList);
-    		}
-    	
-    	});
-    	
-    	pokemonCard.getChildren().add(button);
-    	}
     	pokemonCard.getChildren().add(cardID);
     	pokemonCard.getChildren().add(PokemonStage);
     	pokemonCard.getChildren().add(PokemonHp);
@@ -312,18 +312,15 @@ public class GameController {
     		if(button.getParent().getParent()==userHand){
     			optionsList.add("Make active");
     			optionsList.add("Put on bench");
-    			optionsList.add("View card abilities");
     		}
     		else if(button.getParent().getParent()==userBench){
     			if (userActivePokemon.getChildren().isEmpty())
     			{
     				optionsList.add("Make active");
     			}
-    			optionsList.add("View card abilities");
     		}
     		else {
     			optionsList.add("Retreat");
-    			optionsList.add("View card abilities");
     		}
 		List<String> dialogData = Arrays.asList(optionsList.toArray(new String[optionsList.size()]));
 
@@ -352,12 +349,8 @@ public class GameController {
 	{
     	if(button.getParent().getParent()==userHand){
 			optionsList.add("Put on bench");
-			optionsList.add("View card abilities");
 		}
-		else if(button.getParent().getParent()==userBench){
-			optionsList.add("View card abilities");
-		}
-		else {
+		else if(button.getParent().getParent()==userActivePokemon){
 			optionsList.add("Retreat");
 			optionsList.add("View card abilities");
 		}
