@@ -12,7 +12,7 @@
    <children>
       <ScrollPane layoutX="23.0" prefHeight="92.0" prefWidth="622.0" vbarPolicy="NEVER">
          <content>
-            <HBox fx:id="AIHand" minWidth="628.0" prefHeight="82.0"/>
+            <HBox fx:id="AIHand" minWidth="628.0" prefHeight="82.0" />
          </content>
       </ScrollPane>
       <Pane fx:id="gullu" layoutX="22.0" layoutY="99.0" prefHeight="417.0" prefWidth="622.0" stylesheets="@style.css">
@@ -21,6 +21,7 @@
             <Button fx:id="AIDeck" layoutX="14.0" layoutY="101.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="52.0" text="Deck" />
             <Button fx:id="AIRewardCards" layoutX="14.0" layoutY="247.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="52.0" text="Reward Cards" />
             <Button fx:id="UserRewardCards" layoutX="556.0" layoutY="100.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="52.0" text="Reward Cards" />
+            <Button fx:id="UserEndTurnBtn" layoutX="14.0" layoutY="362.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="65.0" text="Done" />
             <Button fx:id="UserDeck" layoutX="556.0" layoutY="248.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="52.0" text="Deck" />
             <Button fx:id="UserDiscardPile" layoutX="556.0" layoutY="326.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="52.0" text="Discard Pile" />
             <HBox fx:id="AIBench" layoutX="132.0" prefHeight="80.0" prefWidth="385.0" stylesheets="@style.css" />
@@ -39,7 +40,7 @@
       </Pane>
       <ScrollPane fx:id="scrollPane" layoutX="21.0" layoutY="516.0" prefHeight="98.0" prefWidth="626.0" vbarPolicy="NEVER">
          <content>
-            <HBox fx:id="userHand" minWidth="628.0" prefHeight="89.0"/>
+            <HBox fx:id="userHand" minWidth="628.0" prefHeight="89.0" />
          </content>
       </ScrollPane>
    </children>

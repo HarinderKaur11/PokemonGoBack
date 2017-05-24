@@ -9,8 +9,6 @@ import java.util.Random;
 import javafx.animation.KeyFrame;
 import javafx.animation.PathTransition;
 import javafx.animation.Timeline;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -21,7 +19,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
@@ -39,7 +36,6 @@ import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import model.AIplayer;
 import model.Debug;
-import model.Player;
 import model.Pokemon;
 import model.Turn;
 import model.UserPlayer;
@@ -49,11 +45,22 @@ import model.damageAbility;
 
 public class GameController {
 	
-	private Player user;
-	private Player ai;
+	private UserPlayer user;
+	private AIplayer ai;
+	
+
+	@FXML private ScrollPane userHandScroll;
+	@FXML private HBox userBench;
+	@FXML private HBox userHand;
+	@FXML private ScrollPane AIHandScroll;
+	@FXML private HBox AIBench;
+	@FXML private HBox AIHand;
+	@FXML private Pane aiActivePokemon;
+	@FXML private Pane userActivePokemon;
+	@FXML private Button UserEndTurnBtn = new Button();;
 	
 	public GameController(){
-
+		
 	}
 	
 	public void toss(){
@@ -180,31 +187,20 @@ public class GameController {
 	
 	public void init(boolean userTurn,boolean aiTurn){
 		user = new UserPlayer("Flash");
-		ai = new AIplayer("Future Flash");
+		ai = new AIplayer("Future Flash",this);
+		UserEndTurnBtn.setOnAction(new EventHandler<ActionEvent>() {
+		    @Override public void handle(ActionEvent e) {
+		        Turn.getInstance().changeTurn();
+		    }
+		});
     	addCardsToPanel(user.dealMultipleCards(7),userHand);
     	addCardsToPanel(ai.dealMultipleCards(7), AIHand);
-		Turn turn = new Turn(ai,user);
-		ai.setTurn(userTurn);
-		user.setTurn(aiTurn);
-	}
-	
-	@FXML
-	private ScrollPane userHandScroll;
-	@FXML
-	private HBox userBench;
-	@FXML
-	private HBox userHand;
-	@FXML
-	private ScrollPane AIHandScroll;
-	@FXML
-	private HBox AIBench;
-	@FXML
-	private HBox AIHand;
-	@FXML
-	private Pane aiActivePokemon;
-	@FXML
-	private Pane userActivePokemon;
-    
+		Turn.getInstance().setPlayer(ai,user,this);
+		Debug.message("User turn : "+userTurn);
+		Debug.message("AI Turn: "+aiTurn);
+		((UserPlayer) user).setTurn(userTurn);
+		((AIplayer) ai).setTurn(aiTurn);
+	}    
     public void addCardsToPanel(cardItem[] cards, HBox panel){
     	FlowPane newCard = null;
     	for(cardItem card : cards){
@@ -224,6 +220,17 @@ public class GameController {
     			panel.getChildren().remove(node);
     		}
     	}
+    }
+    
+    public void addCardToPanel(cardItem card, HBox panel){
+    	FlowPane newCard = null;
+    	if(card instanceof Pokemon){
+    		newCard = createPokemonCard((Pokemon) card, panel);
+    	}
+    	else {
+    		newCard = createCard(card);
+    	}
+    	panel.getChildren().add(newCard);
     }
     
     public void ShowCardDetails(Pokemon pokemon,HBox panel){
@@ -289,7 +296,7 @@ public class GameController {
 				//text.setText(IntoString());
 				ability[] abilities = pokemon.getAbilities();
 				for(int i=0; i<abilities.length;i++){
-				text = text + abilities[i].getName() + "\n" ;
+					text = text + abilities[i].getName() + "\n" ;
 				}
 				tttext.setText(text);
 				button.setTooltip(tttext);
@@ -464,5 +471,52 @@ public class GameController {
     public HBox getAIHand(){
     	return this.AIHand;
     }
+
+	public void refreshAICards(cardItem[] inhandCards, Pokemon[] benchCards, Pokemon activePokemon) {
+		addCardsToAIPanel(inhandCards, AIHand);	
+		addCardsToAIPanel(benchCards, AIBench);
+		if(activePokemon!=null){
+			aiActivePokemon.getChildren().clear();
+			aiActivePokemon.getChildren().add(createPokemonCard(activePokemon));
+		}
+	}
     
+	public void addCardsToAIPanel(cardItem[] cards, HBox panel){
+		panel.getChildren().clear();
+		addCardsToPanel(cards, panel);
+	}
+	
+	 private FlowPane createPokemonCard(Pokemon pokemon){
+	    	FlowPane pokemonCard = new FlowPane();
+	    	pokemonCard.getStyleClass().add("pokemonCard");
+	    	Label cardID = new Label(Integer.toString(pokemon.getID())+"\t");
+	    	cardID.getStyleClass().add("cardID");
+	    	Label PokemonStage = new Label(pokemon.getStage()+"\t");
+	    	Label PokemonHp = new Label(Integer.toString(pokemon.getHP()));
+	    	Label PokemonName = new Label(pokemon.getName());
+	    	PokemonName.setPrefWidth(70);
+	    	pokemonCard.setMaxWidth(88);
+	    	PokemonName.setWrapText(true);
+
+	    	pokemonCard.getChildren().add(cardID);
+	    	pokemonCard.getChildren().add(PokemonStage);
+	    	pokemonCard.getChildren().add(PokemonHp);
+	    	pokemonCard.getChildren().add(PokemonName);
+	    	
+	    	return pokemonCard;
+	 }
+
+	public void dealCard(String player) {
+		cardItem newcard;
+		if(player=="user"){
+			newcard = user.dealCard();
+			addCardToPanel(newcard, userHand);
+		}
+		else {
+			newcard = ai.dealCard();
+			ai.updateGUI();
+		}
+		
+	}
+	
 }
