@@ -350,7 +350,8 @@ public class GameController {
 		    		button.getParent().setLayoutY(0);
 		    		userActivePokemon.getChildren().add(button.getParent());
 		    		user.setActivePokemon((Pokemon) searchCardInHand(((Label) button.getParent().lookup(".cardID")).getText().trim()));
-		    		Debug.message(((Label) button.getParent().lookup(".cardID")).getText().trim());
+		    		((CardsGroup) user.getInhand()).removeCard(user.getActivePokemon());
+		    		//Debug.message(((Label) button.getParent().lookup(".cardID")).getText().trim());
 		    }
 		    else if(selected=="Put on bench"){
 		    		button.getParent().setLayoutX(0);
