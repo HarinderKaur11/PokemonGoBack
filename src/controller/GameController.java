@@ -208,7 +208,7 @@ public class GameController {
     			newCard = createPokemonCard((Pokemon) card, panel);
     		}
     		else {
-    			newCard = createCard(card);
+    			newCard = createCard(card, panel);
     		}
     		panel.getChildren().add(newCard);
     	}
@@ -228,7 +228,7 @@ public class GameController {
     		newCard = createPokemonCard((Pokemon) card, panel);
     	}
     	else {
-    		newCard = createCard(card);
+    		newCard = createCard(card, panel);
     	}
     	panel.getChildren().add(newCard);
     }
@@ -272,13 +272,13 @@ public class GameController {
     	PokemonName.setWrapText(true);
     	
     	Button button = new Button();   	
-    	if(panel == userHand || pokemonCard.getParent() == userBench)
+    	if(panel == userHand || panel == userBench)
     	{
     		button.setOnAction(new EventHandler<ActionEvent>() {
     			@Override 
     			public void handle(ActionEvent e) {
     				ArrayList<String> optionsList = new ArrayList<String>();
-    				dialogOptions(button, optionsList);
+    				pokemonOptions(button, optionsList);
     			}
     	
     	});
@@ -312,7 +312,7 @@ public class GameController {
     	return pokemonCard;
     }
     
-    private void dialogOptions(Button button, ArrayList<String> optionsList)
+    private void pokemonOptions(Button button, ArrayList<String> optionsList)
     {
     	if(userActivePokemon.getChildren().isEmpty())
 		{
@@ -384,16 +384,13 @@ public class GameController {
 		    		AIBench.getChildren().add(button.getParent());
 		    	}
 		    }
-		    else if(selected=="View card abilities"){
-		    	
-		    }
 		}
 		}
 	}
 
     
-    @FXML
-    private FlowPane createCard(cardItem card){
+    
+    private FlowPane createCard(cardItem card, HBox panel){
     	FlowPane newCard = new FlowPane();
     	
     	newCard.getStyleClass().add("card");
@@ -402,22 +399,49 @@ public class GameController {
     	cardName.setPrefWidth(70);
     	newCard.setMaxWidth(88);
     	cardName.setWrapText(true);
-    	Button button = new Button();
     	
-    	button.setOnAction(new EventHandler<ActionEvent>() {
-		
-    		@Override public void handle(ActionEvent e) {
-    			ArrayList<String> optionsList = new ArrayList<String>();
-    			
-    		}
+    	Button button = new Button();   	
+    	if(panel == userHand || panel == userBench)
+    	{
+    		button.setOnAction(new EventHandler<ActionEvent>() {
+    			@Override 
+    			public void handle(ActionEvent e) {
+    				ArrayList<String> optionsList = new ArrayList<String>();
+    				trainerOptions(button, optionsList);
+    			}
     	
     	});
+    		
+    		newCard.getChildren().add(button);
+    	}
+    	
+    	newCard.setOnMouseEntered(new EventHandler<MouseEvent>(){
 
+			@Override
+			public void handle(MouseEvent event) {
+				// TODO Auto-generated method stub
+				String text = new String();
+				Tooltip tttext = new Tooltip();
+				//text.setText(IntoString());
+				//ability[] abilities = card.getAbilities();
+				//for(int i=0; i<abilities.length;i++){
+				//text = text + abilities[i].getName() + "\n" ;
+				}
+				//tttext.setText(text);
+				//button.setTooltip(tttext);
+		
+		});
+    	
     	newCard.getChildren().add(cardID);
     	newCard.getChildren().add(cardName);
     	
     	return newCard;
     }
+    
+    private void trainerOptions(Button button, ArrayList<String> optionsList) {
+		
+		
+	}
     
     private Label[] createMultipleLabels(ability[] abilities,boolean value){
     	Label[] labels = new Label[abilities.length];
