@@ -17,7 +17,7 @@ public class healingAbility implements ability {
 
 	@Override
 	public void useAbility() {
-		Debug.message(Turn.getInstance().getCurrentPlayer().name);
+		//Debug.message(Turn.getInstance().getCurrentPlayer().name);
 		Turn.getInstance().getCurrentPlayer().getActivePokemon().removeDamage(healingValue);
 	}
 
