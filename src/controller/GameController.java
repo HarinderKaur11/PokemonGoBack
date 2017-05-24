@@ -356,7 +356,10 @@ public class GameController {
 		    else if(selected=="Put on bench"){
 		    		button.getParent().setLayoutX(0);
 		    		button.getParent().setLayoutY(0);
+		    		Pokemon pokemonBench = (Pokemon) searchCardInHand(((Label) button.getParent().lookup(".cardID")).getText().trim());
 		    		userBench.getChildren().add(button.getParent());
+		    		user.addCardonBench(pokemonBench);
+		    		((CardsGroup) user.getInhand()).removeCard(pokemonBench);
 		    }
 		}
 	}

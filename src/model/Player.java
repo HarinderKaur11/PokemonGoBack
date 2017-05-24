@@ -114,4 +114,8 @@ public class Player {
 		return this.bench.toArray(new Pokemon[this.bench.size()]);
 	}
 
+	public void addCardonBench(Pokemon newPokemon){
+		bench.add(newPokemon);
+		
+	}
 }
