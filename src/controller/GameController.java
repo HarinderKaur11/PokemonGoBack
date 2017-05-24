@@ -9,6 +9,8 @@ import java.util.Random;
 import javafx.animation.KeyFrame;
 import javafx.animation.PathTransition;
 import javafx.animation.Timeline;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -27,6 +29,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Labeled;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
@@ -411,19 +414,21 @@ public class GameController {
 		    	grid.setHgap(10);
 		    	grid.setVgap(10);
 		    	grid.setPadding(new Insets(20, 150, 10, 10));
-		    	
+		    			    	
 		    	final ToggleGroup group = new ToggleGroup();
 		    	
 		    	for(ability a : user.getActivePokemon().getAbilities()){
 		    		FlowPane temppane = new FlowPane();
 		    		RadioButton rb = new RadioButton(a.getName());
+		    		if(!(user.getActivePokemon().getAttachedCardsCount()>=((damageAbility) a).getEnergyInfo().length)){
+		    			rb.setDisable(true);
+		    		}
 		    		rb.setUserData(a.getName());
 		    		rb.setToggleGroup(group);
 		    		temppane.getChildren().add(rb);
 		    		temppane.getChildren().add(new Label(Integer.toString(((damageAbility) a).getDamage())));
 		    		grid.add(temppane, 0, 0);
 		    	}
-		    	
 		    	abilitiesDialog.getDialogPane().setContent(grid);
 		    	abilitiesDialog.getResult();
 		    	abilitiesDialog.setResultConverter(dialogButton -> {
@@ -432,16 +437,31 @@ public class GameController {
 		    	    }
 		    	    return null;
 		    	});
+		    	
 
 		    	
+		    	Node aButton = abilitiesDialog.getDialogPane().lookupButton(attackButton);
+		    	aButton.setDisable(true);
+		    	
+		    	group.selectedToggleProperty().addListener(new ChangeListener<Toggle>(){
+		    	    public void changed(ObservableValue<? extends Toggle> ov,
+		    	            Toggle old_toggle, Toggle new_toggle) {
+		    	                if (group.getSelectedToggle() != null) {
+		    	                	aButton.setDisable(false);
+		    	                }                
+		    	            }
+		    	    });
+		    	
 		    	Optional<String> result2 = abilitiesDialog.showAndWait();
-		    	for(ability b: user.getActivePokemon().getAbilities()){
-		    		if(b.getName()==result2.get()){
-		    			b.useAbility();
-		    			aiDamage.setText(Integer.toString(ai.getActivePokemon().getDamage()));
+		    	if(result2.isPresent()){
+		    		for(ability b: user.getActivePokemon().getAbilities()){
+		    			if(b.getName()==result2.get()){
+		    				b.useAbility();
+		    				aiDamage.setText(Integer.toString(ai.getActivePokemon().getDamage()));
+		    			}
+		    			
 		    		}
 		    	}
-		    		
 		    }
 		}
 		}
