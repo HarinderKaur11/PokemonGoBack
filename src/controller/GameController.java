@@ -228,7 +228,7 @@ public class GameController {
     		newCard = createPokemonCard((Pokemon) card, panel);
     	}
     	else {
-    		newCard = createCard(card);
+    		newCard = createCard(card, panel);
     	}
     	panel.getChildren().add(newCard);
     }
@@ -383,9 +383,6 @@ public class GameController {
 		    		button.getParent().setLayoutY(0);
 		    		AIBench.getChildren().add(button.getParent());
 		    	}
-		    }
-		    else if(selected=="View card abilities"){
-		    	
 		    }
 		}
 		}
