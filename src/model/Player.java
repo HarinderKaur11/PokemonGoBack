@@ -10,7 +10,8 @@ public class Player {
 	protected cardItem inhand;
 	protected Pokemon activePokemon;
 	protected ArrayList<ability> activeAbilities;
-	private boolean turn;
+	protected boolean turn;
+	protected ArrayList<Pokemon> bench;
 	
 //	public abstract String getName();
 //	public abstract int getScore();
@@ -21,6 +22,7 @@ public class Player {
 		((Deck) this.deck).buildDeck(1);
 		this.activeAbilities = new ArrayList<ability>();
 		this.inhand = new CardsGroup();
+		bench = new ArrayList<Pokemon>();
 	}
 	
 	public cardItem getDeckCard(){
@@ -51,6 +53,10 @@ public class Player {
 	
 	public cardItem[] getInhandCards(){
 		return ((CardsGroup) this.inhand).getCard();
+	}
+	
+	public cardItem getInhand(){
+		return this.inhand;
 	}
 	
 	public void setActivePokemon(Pokemon newPokemon){
@@ -85,11 +91,7 @@ public class Player {
 	public void addActiveAbility(ability newAbility){
 		this.activeAbilities.add(newAbility);
 	}
-	
-	public void setTurn(boolean newTurn){
-		this.turn = newTurn;
-	}
-	
+		
 	public boolean getTurn(){
 		return this.turn;
 	}
@@ -107,6 +109,9 @@ public class Player {
 		Player newPlayer = new Player("Flash");
 		
 		Debug.showCard(newPlayer.dealCard());
+	}
+	public Pokemon[] getBenchCards(){
+		return this.bench.toArray(new Pokemon[this.bench.size()]);
 	}
 
 }

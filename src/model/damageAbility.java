@@ -18,7 +18,8 @@ public class damageAbility implements ability {
 	}
 	
 	public void useAbility(){
-		Turn.getOpponent().getActivePokemon().addDamage(this.damageValue);
+		//Debug.message("Attacking Opponent pokemon "+Turn.getInstance().getOpponent().getActivePokemon().getName());
+		Turn.getInstance().getOpponent().getActivePokemon().addDamage(this.damageValue);
 	}
 
 	@Override
