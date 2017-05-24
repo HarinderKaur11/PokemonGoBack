@@ -24,7 +24,7 @@ public class Deck extends CardsGroup{
 						this.getGroupCards().add(new Pokemon(x, cards[1], stage, 80, newAbility));
 						break;
 					case "T":
-						this.getGroupCards().add(new Item_Trainer(cards[1],x));
+						this.getGroupCards().add(new Trainer(cards[1],x, new healingAbility("Heal pokemon",30)));
 						break;
 					case "E":
 						this.getGroupCards().add(new Energy(cards[1],x));
