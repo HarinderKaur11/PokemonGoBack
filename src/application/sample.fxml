@@ -33,6 +33,8 @@
                   <Pane fx:id="userActivePokemon" layoutX="74.0" layoutY="107.0" prefHeight="70.0" prefWidth="52.0" stylesheets="@style.css">
                   
                   </Pane>
+                  <Label fx:id="aiDamage" layoutX="36.0" layoutY="21.0" prefHeight="21.0" prefWidth="37.0" />
+                  <Label fx:id="userDamage" layoutX="36.0" layoutY="107.0" prefHeight="21.0" prefWidth="37.0" />
                </children>
             </Pane>
             <HBox fx:id="userBench" layoutX="132.0" layoutY="337.0" prefHeight="80.0" prefWidth="385.0" stylesheets="@style.css" />

@@ -22,6 +22,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
+import javafx.scene.control.Labeled;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
@@ -35,7 +36,9 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import model.AIplayer;
+import model.CardsGroup;
 import model.Debug;
+import model.Player;
 import model.Pokemon;
 import model.Turn;
 import model.UserPlayer;
@@ -57,7 +60,9 @@ public class GameController {
 	@FXML private HBox AIHand;
 	@FXML private Pane aiActivePokemon;
 	@FXML private Pane userActivePokemon;
-	@FXML private Button UserEndTurnBtn = new Button();;
+	@FXML private Button UserEndTurnBtn = new Button();
+	@FXML private Label userDamage = new Label();
+	@FXML private Label aiDamage = new Label();
 	
 	public GameController(){
 		
@@ -345,6 +350,8 @@ public class GameController {
 		    		button.getParent().setLayoutX(0);
 		    		button.getParent().setLayoutY(0);
 		    		userActivePokemon.getChildren().add(button.getParent());
+		    		user.setActivePokemon((Pokemon) searchCardInHand(((Label) button.getParent().lookup(".cardID")).getText().trim()));
+		    		Debug.message(((Label) button.getParent().lookup(".cardID")).getText().trim());
 		    }
 		    else if(selected=="Put on bench"){
 		    		button.getParent().setLayoutX(0);
@@ -470,12 +477,31 @@ public class GameController {
     	return this.AIHand;
     }
 
-	public void refreshAICards(cardItem[] inhandCards, Pokemon[] benchCards, Pokemon activePokemon) {
-		addCardsToAIPanel(inhandCards, AIHand);	
-		addCardsToAIPanel(benchCards, AIBench);
-		if(activePokemon!=null){
-			aiActivePokemon.getChildren().clear();
-			aiActivePokemon.getChildren().add(createPokemonCard(activePokemon));
+	public void refreshCards(Player player) {
+		HBox handpanel = null;
+		HBox benchpanel = null;
+		Pane activePokemon = null;
+		if(player instanceof AIplayer){
+			handpanel = AIHand;
+			benchpanel = AIBench;
+			activePokemon = aiActivePokemon;
+			if(user.getActivePokemon()!=null){
+				Debug.message("adding damage to label");
+				userDamage.setText(Integer.toString(user.getActivePokemon().getDamage()));
+			}
+		}else{
+			handpanel = userHand;
+			benchpanel = userBench;
+			activePokemon = userActivePokemon;
+			if(ai.getActivePokemon()!=null){
+				aiDamage.setText(Integer.toString(ai.getActivePokemon().getDamage()));
+			}
+		}
+		addCardsToAIPanel(player.getInhandCards(), handpanel);	
+		addCardsToAIPanel(player.getBenchCards(), benchpanel);
+		if(player.getActivePokemon()!=null){
+			activePokemon.getChildren().clear();
+			activePokemon.getChildren().add(createPokemonCard(player.getActivePokemon()));
 		}
 	}
     
@@ -515,6 +541,11 @@ public class GameController {
 			ai.updateGUI();
 		}
 		
+	}
+	
+	private cardItem searchCardInHand(String id){
+		Debug.message(Integer.valueOf(id));
+		return ((CardsGroup) user.getInhand()).getCard(Integer.valueOf(id));
 	}
 	
 }

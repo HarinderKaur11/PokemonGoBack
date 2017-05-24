@@ -110,5 +110,8 @@ public class Player {
 		
 		Debug.showCard(newPlayer.dealCard());
 	}
+	public Pokemon[] getBenchCards(){
+		return this.bench.toArray(new Pokemon[this.bench.size()]);
+	}
 
 }
