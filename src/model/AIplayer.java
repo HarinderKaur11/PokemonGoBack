@@ -69,10 +69,12 @@ public class AIplayer extends Player {
 		
 		ArrayList<Trainer> trainerCard = ((CardsGroup) this.inhand).getAllTranerCards();
 		if(!trainerCard.isEmpty() && this.activePokemon!=null){
-			((CardsGroup) this.inhand).removeCard(trainerCard.get(0));
-			trainerCard.get(0).getAbility().useAbility();
-			Debug.message("Trainer card used "+ trainerCard.get(0).getName());
-			updateGUI();
+			if(trainerCard.get(0).getAbility().getClass().getSimpleName()=="healingAbility" && this.activePokemon.getDamage()>20){
+				((CardsGroup) this.inhand).removeCard(trainerCard.get(0));
+				trainerCard.get(0).getAbility().useAbility();
+				Debug.message("Trainer card used "+ trainerCard.get(0).getName());
+				updateGUI();
+			}
 		}
 		
 		energyCards = ((CardsGroup) this.inhand).getAllEnergyCards();
@@ -81,15 +83,19 @@ public class AIplayer extends Player {
 			updateGUI();
 		}
 		
-		ability attack = null;
-		ability[] abilits = this.activePokemon.getAbilities();
-		int i = abilits.length;
-		while(attack==null && i>0){
-			if(((damageAbility) abilits[i-1]).getEnergyInfo().length <= this.activePokemon.getAttachedCardsCount()){
-				attack=abilits[i-1];
-				updateGUI();
+		if(Turn.getInstance().getOpponent().getActivePokemon()!=null){
+			ability attack = null;
+			ability[] abilits = this.activePokemon.getAbilities();
+			int i = abilits.length;
+			while(attack==null && i>0){
+				if(((damageAbility) abilits[i-1]).getEnergyInfo().length <= this.activePokemon.getAttachedCardsCount()){
+					attack=abilits[i-1];
+					attack.useAbility();
+					Debug.message("attacking");
+					updateGUI();
+				}
+				i--;
 			}
-			i--;
 		}
 		Turn.getInstance().changeTurn();
 	}
@@ -116,7 +122,7 @@ public class AIplayer extends Player {
 	}
 	
 	public void updateGUI(){
-		controller.refreshAICards(this.getInhandCards(),this.bench.toArray(new Pokemon[this.bench.size()]),this.activePokemon);
+		controller.refreshCards(this);
 	}
 	
 }
