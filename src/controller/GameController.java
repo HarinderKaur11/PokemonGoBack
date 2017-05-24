@@ -264,11 +264,22 @@ public class GameController {
     	pokemonCard.setMaxWidth(88);
     	PokemonName.setWrapText(true);
     	
+    	Button button = new Button();   	
     	if(panel == userHand || pokemonCard.getParent() == userBench)
     	{
-    		Button button = new Button();
+    		button.setOnAction(new EventHandler<ActionEvent>() {
+    			@Override 
+    			public void handle(ActionEvent e) {
+    				ArrayList<String> optionsList = new ArrayList<String>();
+    				dialogOptions(button, optionsList);
+    			}
     	
-    		pokemonCard.setOnMouseEntered(new EventHandler<MouseEvent>(){
+    	});
+    		
+    		pokemonCard.getChildren().add(button);
+    	}
+    	
+    	pokemonCard.setOnMouseEntered(new EventHandler<MouseEvent>(){
 
 			@Override
 			public void handle(MouseEvent event) {
@@ -278,24 +289,14 @@ public class GameController {
 				//text.setText(IntoString());
 				ability[] abilities = pokemon.getAbilities();
 				for(int i=0; i<abilities.length;i++){
-					text = text + abilities[i].getName() + "\n" ;
+				text = text + abilities[i].getName() + "\n" ;
 				}
 				tttext.setText(text);
 				button.setTooltip(tttext);
 			}
-    		
-    	});
+		
+		});
     	
-    	button.setOnAction(new EventHandler<ActionEvent>() {
-    		@Override public void handle(ActionEvent e) {
-    			ArrayList<String> optionsList = new ArrayList<String>();
-    			dialogOptions(button, optionsList);
-    		}
-    	
-    	});
-    	
-    	pokemonCard.getChildren().add(button);
-    	}
     	pokemonCard.getChildren().add(cardID);
     	pokemonCard.getChildren().add(PokemonStage);
     	pokemonCard.getChildren().add(PokemonHp);
