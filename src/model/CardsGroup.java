@@ -21,6 +21,53 @@ public class CardsGroup implements cardItem {
 	public void removeCard(cardItem newCard){
 		this.getGroupCards().remove(newCard);
 	}
+	
+	public Pokemon getBasicPokemonCard(){
+		for(cardItem card : groupCards){
+			if(card instanceof Pokemon && ((Pokemon) card).getStage()=="Basic"){
+				groupCards.remove(card);
+				return (Pokemon) card;
+			}
+		}
+		return null;
+	}
+	public ArrayList<Pokemon> getAllBasicPokemonCard(){
+		return getAllPokemonCard("Basic");
+	}
+	
+	public ArrayList<Pokemon> getStageOneCards(){
+		return getAllPokemonCard("StageOne");
+	}
+	
+	public ArrayList<Pokemon> getAllPokemonCard(String type){
+		ArrayList<Pokemon> pokemonCards = new ArrayList<Pokemon>();
+		for(cardItem card : groupCards){
+			if(card instanceof Pokemon && ((Pokemon) card).getStage()==type){
+				pokemonCards.add((Pokemon) card);
+			}
+		}
+		return pokemonCards;
+	}
+	public ArrayList<Energy> getAllEnergyCards(){
+		ArrayList<Energy> energyCards = new ArrayList<Energy>();
+		for(cardItem card : groupCards){
+			if(card instanceof Energy){
+				energyCards.add((Energy) card);
+			}
+		}
+		return energyCards;
+	}
+	
+	public ArrayList<Trainer> getAllTranerCards(){
+		ArrayList<Trainer> trainerCards = new ArrayList<Trainer>();
+		for(cardItem card : groupCards){
+			if(card instanceof Trainer || card instanceof stadium_Trainer || card instanceof supporter_Trainer || card instanceof Item_Trainer){
+				trainerCards.add((Trainer) card);
+			}
+		}
+		return trainerCards;
+	}
+		
 
 	@Override
 	public String getName() {

@@ -2,15 +2,27 @@ package model;
 
 public class Turn {
 	
-	private static Player ai;
-	private static Player user;
+	private static Turn turn;
+	private AIplayer ai;
+	private UserPlayer user;
 	
-	public Turn(Player newAi, Player newuser){
-		Turn.ai = newAi;
-		Turn.user = newuser;
+	private Turn(){
+		
 	}
 	
-	public static Player getCurrentPlayer(){
+	public static Turn getInstance(){
+        if(turn == null){
+            turn = new Turn();
+        }
+        return turn;
+    }
+	
+	public void setPlayer(AIplayer newAi, UserPlayer newuser){
+		ai = newAi;
+		user = newuser;
+	}
+	
+	public Player getCurrentPlayer(){
 		if(!user.getTurn()){
 			return ai;
 		}
@@ -19,14 +31,17 @@ public class Turn {
 		}
 	}
 	
-	public static void changeTurn(){
-		user.setTurn(!user.getTurn());
-		Debug.message("User turn" + user.getTurn());
-		ai.setTurn(!ai.getTurn());
-		Debug.message("AI turn" + ai.getTurn());
+	public void changeTurn(){
+		if(user.getTurn()){
+			((UserPlayer) user).setTurn(false);
+			((AIplayer) ai).setTurn(true);
+		}else{
+			((UserPlayer) user).setTurn(true);
+			((AIplayer) ai).setTurn(false);			
+		}
 	}
 	
-	public static Player getOpponent(){
+	public Player getOpponent(){
 		if(user.getTurn()){
 			return ai;
 		}
