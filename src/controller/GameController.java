@@ -26,7 +26,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
-import javafx.scene.control.Labeled;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Toggle;
@@ -46,6 +45,7 @@ import javafx.util.Duration;
 import model.AIplayer;
 import model.CardsGroup;
 import model.Debug;
+import model.Energy;
 import model.Player;
 import model.Pokemon;
 import model.Turn;
@@ -303,7 +303,6 @@ public class GameController {
 
 			@Override
 			public void handle(MouseEvent event) {
-				// TODO Auto-generated method stub
 				String text = new String();
 				Tooltip tttext = new Tooltip();
 				//text.setText(IntoString());
@@ -344,10 +343,12 @@ public class GameController {
     		}
 		List<String> dialogData = Arrays.asList(optionsList.toArray(new String[optionsList.size()]));
 
+		@SuppressWarnings({ "rawtypes", "unchecked" })
 		Dialog dialog = new ChoiceDialog(dialogData.get(0), dialogData);
 		dialog.setTitle("Available options");
 		dialog.setHeaderText("Select your choice");
 
+		@SuppressWarnings("unchecked")
 		Optional<String> result = dialog.showAndWait();
 		String selected = "cancelled.";
 				
@@ -382,10 +383,12 @@ public class GameController {
 		}
 		List<String> dialogData = Arrays.asList(optionsList.toArray(new String[optionsList.size()]));
 
+		@SuppressWarnings({ "unchecked", "rawtypes" })
 		Dialog dialog = new ChoiceDialog(dialogData.get(0), dialogData);
 		dialog.setTitle("Available options");
 		dialog.setHeaderText("Select your choice");
 
+		@SuppressWarnings("unchecked")
 		Optional<String> result = dialog.showAndWait();
 		String selected = "cancelled.";
 				
@@ -475,6 +478,7 @@ public class GameController {
     	newCard.getStyleClass().add("card");
     	Label cardID = new Label(Integer.toString(card.getID())+"\t");
     	Label cardName = new Label(card.getName());
+    	cardID.getStyleClass().add("cardID");
     	cardName.setPrefWidth(70);
     	newCard.setMaxWidth(88);
     	cardName.setWrapText(true);
@@ -486,7 +490,10 @@ public class GameController {
     			@Override 
     			public void handle(ActionEvent e) {
     				ArrayList<String> optionsList = new ArrayList<String>();
-    				trainerOptions(button, optionsList);
+    				if(card instanceof Energy){
+    					EnergyOptions(button, optionsList);
+    				}
+    				//trainerOptions(button, optionsList);
     			}
     	
     	});
@@ -498,16 +505,17 @@ public class GameController {
 
 			@Override
 			public void handle(MouseEvent event) {
-				// TODO Auto-generated method stub
+				@SuppressWarnings("unused")
 				String text = new String();
+				@SuppressWarnings("unused")
 				Tooltip tttext = new Tooltip();
 				//text.setText(IntoString());
 				//ability[] abilities = card.getAbilities();
 				//for(int i=0; i<abilities.length;i++){
 				//text = text + abilities[i].getName() + "\n" ;
-				}
-				//tttext.setText(text);
-				//button.setTooltip(tttext);
+//				tttext.setText(text);
+//				button.setTooltip(tttext);
+			}
 		
 		});
     	
@@ -517,9 +525,32 @@ public class GameController {
     	return newCard;
     }
     
-    private void trainerOptions(Button button, ArrayList<String> optionsList) {
+    private void EnergyOptions(Button button, ArrayList<String> optionsList) {
+    	optionsList.add("ActivePokemon");
 		
-		
+    	List<String> dialogData = Arrays.asList(optionsList.toArray(new String[optionsList.size()]));
+
+		@SuppressWarnings({ "rawtypes", "unchecked" })
+		Dialog dialog = new ChoiceDialog(dialogData.get(0), dialogData);
+		dialog.setTitle("Select pokemon");
+		dialog.setHeaderText("Select your choice");
+
+		@SuppressWarnings("unchecked")
+		Optional<String> result = dialog.showAndWait();
+		String selected = "cancelled.";
+				
+		if (result.isPresent()) {
+		    selected = result.get();
+		    if(selected=="ActivePokemon"){
+		    	
+		    	//Debug.message(((Label) button.getParent().lookup(".cardID")).getText().trim());
+		    		cardItem card = searchCardInHand(((Label) button.getParent().lookup(".cardID")).getText().trim());
+		    		userHand.getChildren().remove(button.getParent());
+		    		((CardsGroup) user.getInhand()).removeCard(card);
+		    		user.getActivePokemon().attachCard(card);
+		    		//Debug.message(((Label) button.getParent().lookup(".cardID")).getText().trim());
+		    }
+		}
 	}
     
     private Label[] createMultipleLabels(ability[] abilities,boolean value){
