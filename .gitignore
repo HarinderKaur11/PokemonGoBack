@@ -48,3 +48,8 @@ Temporary Items
 
 bin/
 build/
+
+build.fxbuild
+build.xml
+*.zip
+*.jar
