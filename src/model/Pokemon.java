@@ -113,6 +113,10 @@ public class Pokemon implements cardItem{
 		return totalEnergy;
 	}
 	
+	public void evolve(Pokemon basicCard){
+		this.pStage.evolve(basicCard);
+	}
+	
 	public boolean equals(Object o){
 		if(o instanceof Pokemon){
 			Pokemon tempP = (Pokemon) o;
