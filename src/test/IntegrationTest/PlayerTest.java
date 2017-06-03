@@ -19,7 +19,7 @@ public class PlayerTest {
 		
 		String expected="Flash";
 		String actual1=uip.getName();
-		String actual2=uip.getName();
+		String actual2=aip.getName();
 		
 		Assert.assertEquals(expected, actual1);
 		Assert.assertEquals(expected, actual2);
