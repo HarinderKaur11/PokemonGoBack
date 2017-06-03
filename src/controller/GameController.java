@@ -526,8 +526,14 @@ public class GameController {
     }
     
     private void EnergyOptions(Button button, ArrayList<String> optionsList) {
-    	optionsList.add("ActivePokemon");
-		
+    	if(! userActivePokemon.getChildren().isEmpty())
+	    {
+    		optionsList.add("ActivePokemon");
+	    }
+    	if(! userBench.getChildren().isEmpty())
+    	{
+    		optionsList.add("BenchPokemon");
+    	}
     	List<String> dialogData = Arrays.asList(optionsList.toArray(new String[optionsList.size()]));
 
 		@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -541,15 +547,17 @@ public class GameController {
 				
 		if (result.isPresent()) {
 		    selected = result.get();
-		    if(selected=="ActivePokemon"){
-		    	
-		    	//Debug.message(((Label) button.getParent().lookup(".cardID")).getText().trim());
-		    		cardItem card = searchCardInHand(((Label) button.getParent().lookup(".cardID")).getText().trim());
-		    		userHand.getChildren().remove(button.getParent());
-		    		((CardsGroup) user.getInhand()).removeCard(card);
-		    		user.getActivePokemon().attachCard(card);
-		    		//Debug.message(((Label) button.getParent().lookup(".cardID")).getText().trim());
-		    }
+		    
+			    
+			    if(selected=="ActivePokemon"){
+			    	
+			    	//Debug.message(((Label) button.getParent().lookup(".cardID")).getText().trim());
+			    		cardItem card = searchCardInHand(((Label) button.getParent().lookup(".cardID")).getText().trim());
+			    		userHand.getChildren().remove(button.getParent());
+			    		((CardsGroup) user.getInhand()).removeCard(card);
+			    		user.getActivePokemon().attachCard(card);
+			    		//Debug.message(((Label) button.getParent().lookup(".cardID")).getText().trim());
+			    }
 		}
 	}
     
