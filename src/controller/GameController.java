@@ -53,6 +53,7 @@ import model.UserPlayer;
 import model.ability;
 import model.cardItem;
 import model.damageAbility;
+import view.basicPokemonCard;
 
 public class GameController {
 	
@@ -271,68 +272,34 @@ public class GameController {
     }
    
     private FlowPane createPokemonCard(Pokemon pokemon, HBox panel){
-    	FlowPane pokemonCard = new FlowPane();
+    	basicPokemonCard pokemonCard = new basicPokemonCard(pokemon);
     	//pokemonCard.setStyle("-fx-background-color: #fff;"+"-fx-border-color: #000;"+"-fx-border-width: 1px;"+
     	//		"-fx-pref-width: 52px;"+ "-fx-pref-height: 70px");
-    	pokemonCard.getStyleClass().add("pokemonCard");
-    	Label cardID = new Label(Integer.toString(pokemon.getID())+"\t");
-    	cardID.getStyleClass().add("cardID");
-    	Label PokemonStage = new Label(pokemon.getStage()+"\t");
-    	Label PokemonHp = new Label(Integer.toString(pokemon.getHP()));
-    	Label PokemonName = new Label(pokemon.getName());
-    	PokemonName.setPrefWidth(70);
-    	pokemonCard.setMaxWidth(88);
-    	PokemonName.setWrapText(true);
     	
-    	Button button = new Button();   	
     	if(panel == userHand || panel == userBench)
     	{
-    		button.setOnAction(new EventHandler<ActionEvent>() {
+    		pokemonCard.addOptionsActionListener(new EventHandler<ActionEvent>() {
     			@Override 
     			public void handle(ActionEvent e) {
     				ArrayList<String> optionsList = new ArrayList<String>();
-    				pokemonOptions(button, optionsList, pokemon);
+    				pokemonOptions(pokemonCard, optionsList, pokemon);
     			}
     	
-    	});
+    		});
     		
-    		pokemonCard.getChildren().add(button);
     	}
-    	
-    	pokemonCard.setOnMouseEntered(new EventHandler<MouseEvent>(){
-
-			@Override
-			public void handle(MouseEvent event) {
-				String text = new String();
-				Tooltip tttext = new Tooltip();
-				//text.setText(IntoString());
-				ability[] abilities = pokemon.getAbilities();
-				for(int i=0; i<abilities.length;i++){
-					text = text + abilities[i].getName() + "\n" ;
-				}
-				//System.out.println("User bench" + userBench.getChildren().size());
-				tttext.setText(text);
-				button.setTooltip(tttext);
-			}
-		
-		});
-    	
-    	pokemonCard.getChildren().add(cardID);
-    	pokemonCard.getChildren().add(PokemonStage);
-    	pokemonCard.getChildren().add(PokemonHp);
-    	pokemonCard.getChildren().add(PokemonName);
     	
     	return pokemonCard;
     }
     
-    private void pokemonOptions(Button button, ArrayList<String> optionsList, Pokemon pokemon)
+    private void pokemonOptions(basicPokemonCard pokemonCard, ArrayList<String> optionsList, Pokemon pokemon)
     {
     	if(userActivePokemon.getChildren().isEmpty())
 		{
-    		if(button.getParent().getParent()==userHand && pokemon.getStage()=="Basic"){
+    		if(pokemonCard.getParent()==userHand && pokemon.getStage()=="Basic"){
     			optionsList.add("Make active");
     		}
-    		else if(button.getParent().getParent()==userBench){
+    		else if(pokemonCard.getParent()==userBench){
     			if (userActivePokemon.getChildren().isEmpty())
     			{
     				optionsList.add("Make active");
@@ -355,18 +322,18 @@ public class GameController {
 		if (result.isPresent()) {
 		    selected = result.get();
 		    if(selected=="Make active"){
-		    		button.getParent().setLayoutX(0);
-		    		button.getParent().setLayoutY(0);
-		    		userActivePokemon.getChildren().add(button.getParent());
-		    		user.setActivePokemon((Pokemon) searchCardInHand(((Label) button.getParent().lookup(".cardID")).getText().trim()));
+		    		pokemonCard.setLayoutX(0);
+		    		pokemonCard.setLayoutY(0);
+		    		userActivePokemon.getChildren().add(pokemonCard);
+		    		user.setActivePokemon((Pokemon) searchCardInHand(((Label) pokemonCard.lookup(".cardID")).getText().trim()));
 		    		((CardsGroup) user.getInhand()).removeCard(user.getActivePokemon());
 		    		//Debug.message(((Label) button.getParent().lookup(".cardID")).getText().trim());
 		    }
 		    else if(selected=="Put on bench"){
-		    		button.getParent().setLayoutX(0);
-		    		button.getParent().setLayoutY(0);
-		    		Pokemon pokemonBench = (Pokemon) searchCardInHand(((Label) button.getParent().lookup(".cardID")).getText().trim());
-		    		userBench.getChildren().add(button.getParent());
+		    		pokemonCard.setLayoutX(0);
+		    		pokemonCard.setLayoutY(0);
+		    		Pokemon pokemonBench = (Pokemon) searchCardInHand(((Label) pokemonCard.lookup(".cardID")).getText().trim());
+		    		userBench.getChildren().add(pokemonCard);
 		    		user.addCardonBench(pokemonBench);
 		    		((CardsGroup) user.getInhand()).removeCard(pokemonBench);
 		    }
@@ -374,14 +341,14 @@ public class GameController {
 	}
 	else
 	{
-    	if(button.getParent().getParent()==userHand && userBench.getChildren().size() < 5){
+    	if(pokemonCard.getParent()==userHand && userBench.getChildren().size() < 5){
 			optionsList.add("Put on bench");
 		}
-		else if(button.getParent().getParent()==userActivePokemon){
+		else if(pokemonCard.getParent()==userActivePokemon){
 			optionsList.add("Retreat");
 			optionsList.add("View card abilities");
 		}
-		else if(button.getParent().getParent()==userBench){
+		else if(pokemonCard.getParent()==userBench){
 			optionsList.add("");
 		}
 		List<String> dialogData = Arrays.asList(optionsList.toArray(new String[optionsList.size()]));
@@ -398,15 +365,15 @@ public class GameController {
 		if (result.isPresent()) {
 		    selected = result.get();
 		    if(selected=="Put on bench"){
-		    	if(button.getParent().getParent()==userHand || button.getParent().getParent()==userBench){
-		    		button.getParent().setLayoutX(0);
-		    		button.getParent().setLayoutY(0);
-		    		userBench.getChildren().add(button.getParent());
+		    	if(pokemonCard.getParent()==userHand || pokemonCard.getParent()==userBench){
+		    		pokemonCard.setLayoutX(0);
+		    		pokemonCard.setLayoutY(0);
+		    		userBench.getChildren().add(pokemonCard);
 		    	}
 		    }
 		    else if(selected == "Retreat"){
-		    	button.getParent().setLayoutX(0);
-		    	button.getParent().setLayoutY(0);
+		    	pokemonCard.setLayoutX(0);
+		    	pokemonCard.setLayoutY(0);
 		    }
 		    else if(selected == "View card abilities")
 		    {
