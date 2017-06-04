@@ -56,8 +56,22 @@ public class DeckFileReader {
 				
 				
 				Deck1[j] = cards[Integer.parseInt(sCurrentLine)-1];
-				//Debug.message(line[i]);
-
+				//Debug.message(Deck1[j]);
+				String[] deckcard = Deck1[j].split(":");
+				Debug.message(deckcard.length + " " + deckcard[1]);
+				//String[] card = deckcard[0];
+				deck.add(deckcard);
+						
+//				switch(deckcard[1]){
+//				case "trainer":
+//					break;
+//				
+//				case "energy":
+//					break;
+//					
+//				case "pokemon":
+//					break;
+//				}
 				
 				
 				//Debug.message(sCurrentLine);
