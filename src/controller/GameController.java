@@ -381,6 +381,9 @@ public class GameController {
 			optionsList.add("Retreat");
 			optionsList.add("View card abilities");
 		}
+		else if(button.getParent().getParent()==userBench){
+			optionsList.add("");
+		}
 		List<String> dialogData = Arrays.asList(optionsList.toArray(new String[optionsList.size()]));
 
 		@SuppressWarnings({ "unchecked", "rawtypes" })
