@@ -8,4 +8,9 @@ public class basicPokemon extends pokemonStage{
 	public String getStage(){
 		return this.stage;
 	}
+
+	@Override
+	public void evolve(Pokemon basicCard) {
+		System.out.println("I cant evolve.");
+	}
 }
