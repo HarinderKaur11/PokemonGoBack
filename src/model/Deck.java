@@ -14,18 +14,20 @@ public class Deck extends CardsGroup{
 		ArrayList<ability> newAbility = new ArrayList<ability>();
 		Energy[] EnergyInfo = {new Energy("Fighting")};
 		newAbility.add(new damageAbility("Attack", 10, EnergyInfo,"Pokemon"));
+		
 		int x = 1;
 		for(String[] cards : cardsList){
 			//int n = Integer.parseInt(cards[0]);
 			//Debug.message(n+" "+cards[1]);
 			//for(int i=1;i<=n;i++){
 				switch(cards[2]){
+					
 					case "pokemon":
 						if (cards[3] == "basic"){
-						this.getGroupCards().add(new Pokemon(x, cards[0], new pokemonStage(cards[3]), Integer.parseInt(cards[6]), newAbility));
+						this.getGroupCards().add(new Pokemon(x, cards[0], stage, Integer.parseInt(cards[6]), newAbility));
 						}
 						else {
-							this.getGroupCards().add(new Pokemon(x, cards[0], cards[3], cards[7], newAbility));
+							this.getGroupCards().add(new Pokemon(x, cards[0], new stageOnePokemon(cards[4]), Integer.parseInt(cards[7]), newAbility));
 						}
 						break;
 					case "trainer":
