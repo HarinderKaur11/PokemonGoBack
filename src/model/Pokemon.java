@@ -146,4 +146,8 @@ public class Pokemon implements cardItem{
 		// TODO Auto-generated method stub
 		return this.hitpoints;
 	}
+
+	public String getBasePokemonName() {
+		return ((stageOnePokemon) this.pStage).getBasicPokemonName();
+	}
 }

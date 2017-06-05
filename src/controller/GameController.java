@@ -39,7 +39,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.CubicCurveTo;
 import javafx.scene.shape.MoveTo;
-import javafx.scene.shape.PathElement;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
@@ -467,20 +466,7 @@ public class GameController {
 			    }
 		}
 	}
-    
-    private Label[] createMultipleLabels(ability[] abilities,boolean value){
-    	Label[] labels = new Label[abilities.length];
-    	for(int i=0; i< abilities.length; i++){
-    		if(value){
-    			labels[i] = new Label(abilities[i].getName());
-    		}
-    		else{
-    			labels[i] = new Label(Integer.toString(((damageAbility) abilities[i]).getDamage()));
-    		}
-    	}
-    	return labels;
-    }
-    
+        
     public HBox getUserBench(){
     	return this.userBench;
     }
@@ -570,9 +556,10 @@ public class GameController {
 		if(!userActivePokemon.getChildren().isEmpty()){
 			PokemonCard tempCard = (PokemonCard) userActivePokemon.getChildren().get(0);
 			if(tempCard.getCard().getStage()=="Basic"){
-//				if(card.getCard().getName()==){
-//					
-//				}
+				if(card.getCard().getName()==card.getCard().getBasePokemonName()){
+//					tempCard.evolve(card.getCard());
+					
+				}
 			}
 		}
 		
