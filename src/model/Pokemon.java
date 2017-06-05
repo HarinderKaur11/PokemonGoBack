@@ -113,6 +113,10 @@ public class Pokemon implements cardItem{
 		return totalEnergy;
 	}
 	
+	public void evolve(Pokemon basicCard){
+		this.pStage.evolve(basicCard);
+	}
+	
 	public boolean equals(Object o){
 		if(o instanceof Pokemon){
 			Pokemon tempP = (Pokemon) o;
@@ -141,5 +145,9 @@ public class Pokemon implements cardItem{
 	public int getHP() {
 		// TODO Auto-generated method stub
 		return this.hitpoints;
+	}
+
+	public String getBasePokemonName() {
+		return ((stageOnePokemon) this.pStage).getBasicPokemonName();
 	}
 }

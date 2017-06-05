@@ -11,7 +11,7 @@ public class AIplayer extends Player {
 	private cardItem deck;
 	private GameController controller;
 	
-	public AIplayer(String newName,GameController newController) {
+	public AIplayer(String newName,GameController newController){
 		super(newName);
 		this.name = newName;
 		deck = new Deck();
@@ -62,7 +62,7 @@ public class AIplayer extends Player {
 		
 
 		ArrayList<Energy> energyCards = ((CardsGroup) this.inhand).getAllEnergyCards();
-		if(!energyCards.isEmpty() && !energyCardUsed){
+		if(!energyCards.isEmpty() && !energyCardUsed && this.activePokemon!=null){
 			energyCardUsed = checkAndPlayEnergy(energyCards);
 			updateGUI();
 		}
@@ -97,7 +97,10 @@ public class AIplayer extends Player {
 				i--;
 			}
 		}
-		Turn.getInstance().changeTurn();
+		if(Turn.getInstance().getCurrentPlayer()==this)
+		{
+			Turn.getInstance().changeTurn();
+		}
 	}
 	
 	private boolean checkAndPlayEnergy(ArrayList<Energy> energyCards){

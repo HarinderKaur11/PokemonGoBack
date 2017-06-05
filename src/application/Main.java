@@ -17,7 +17,7 @@ public class Main extends Application {
         
         loader.setController(controller);
         Parent root = loader.load();
-        primaryStage.setTitle("Hello World");
+        primaryStage.setTitle("PokemonGB");
         primaryStage.setScene(new Scene(root, 671, 622));
         primaryStage.setResizable(false);
         primaryStage.show();

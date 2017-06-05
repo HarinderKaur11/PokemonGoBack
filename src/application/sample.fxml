@@ -27,12 +27,12 @@
             <HBox fx:id="AIBench" layoutX="132.0" prefHeight="80.0" prefWidth="385.0" stylesheets="@style.css" />
             <Pane fx:id="pane" layoutX="225.0" layoutY="109.0" prefHeight="200.0" prefWidth="200.0" stylesheets="@style.css">
                <children>
-                  <Pane fx:id="aiActivePokemon" layoutX="74.0" layoutY="21.0" prefHeight="70.0" prefWidth="52.0" stylesheets="@style.css">
+                  <HBox fx:id="aiActivePokemon" layoutX="74.0" layoutY="21.0" prefHeight="70.0" prefWidth="52.0" stylesheets="@style.css">
                   
-                  </Pane>
-                  <Pane fx:id="userActivePokemon" layoutX="74.0" layoutY="107.0" prefHeight="70.0" prefWidth="52.0" stylesheets="@style.css">
+                  </HBox>
+                  <HBox fx:id="userActivePokemon" layoutX="74.0" layoutY="107.0" prefHeight="70.0" prefWidth="52.0" stylesheets="@style.css">
                   
-                  </Pane>
+                  </HBox>
                   <Label fx:id="aiDamage" layoutX="36.0" layoutY="21.0" prefHeight="21.0" prefWidth="37.0" />
                   <Label fx:id="userDamage" layoutX="36.0" layoutY="107.0" prefHeight="21.0" prefWidth="37.0" />
                </children>
