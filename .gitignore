@@ -47,3 +47,9 @@ Temporary Items
 .apdisk
 
 bin/
+build/
+
+build.fxbuild
+build.xml
+*.zip
+*.jar
