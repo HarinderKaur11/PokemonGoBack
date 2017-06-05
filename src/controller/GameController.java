@@ -32,6 +32,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.CubicCurveTo;
 import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.PathElement;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
@@ -63,6 +64,8 @@ public class GameController {
 	@FXML private Button UserEndTurnBtn = new Button();
 	@FXML private Label userDamage = new Label();
 	@FXML private Label aiDamage = new Label();
+	@FXML private Pane userDiscardPile;
+	
 	
 	public GameController(){
 		
@@ -423,6 +426,7 @@ public class GameController {
     		newCard.getChildren().add(button);
     	}
     	
+    	
     	newCard.setOnMouseEntered(new EventHandler<MouseEvent>(){
 
 			@Override
@@ -541,6 +545,34 @@ public class GameController {
 			ai.updateGUI();
 		}
 		
+	}
+	
+	public void discardPile(Button button, ArrayList<String> optionsList){
+		if((user.getActivePokemon().getHP())==(user.getActivePokemon().getDamage())){
+			userDiscardPile.getChildren().add((Node) userActivePokemon.getChildren());
+			
+			if(userBench.getChildren().isEmpty()){
+				Alert alert = new Alert(Alert.AlertType.INFORMATION,"You lost the Game");
+			}
+			List<String> dialogData = Arrays.asList(optionsList.toArray(new String[optionsList.size()]));
+
+			Dialog dialog = new ChoiceDialog(dialogData.get(0), dialogData);
+			dialog.setTitle("Select a bench pokemon to make it active");
+			dialog.setHeaderText("Select your choice");
+
+			Optional<String> result = dialog.showAndWait();
+			String selected ;
+					
+			if (result.isPresent()) {
+			    selected = result.get();
+			    if(selected=="Make active"){
+			    		button.getParent().setLayoutX(0);
+			    		button.getParent().setLayoutY(0);
+			    		userDiscardPile.getChildren().add(button.getParent());
+			    		user.setActivePokemon((Pokemon) searchCardInHand(((Label) button.getParent().lookup(".cardID")).getText().trim()));
+			    		((CardsGroup) user.getInhand()).removeCard(user.getActivePokemon());
+			}}
+		}
 	}
 	
 	private cardItem searchCardInHand(String id){
