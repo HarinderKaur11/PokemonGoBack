@@ -26,7 +26,6 @@ public class PokemonCard extends FlowPane{
 	public PokemonCard(Pokemon newCard, HBox newLoc){
 		this.card = newCard;
 		this.location = newLoc;
-		init();
 		this.setMaxWidth(88);
 		this.getStyleClass().add("pokemonCard");
 		this.cardID = new Label();
@@ -60,7 +59,9 @@ public class PokemonCard extends FlowPane{
     	this.getChildren().add(this.PokemonStage);
     	this.getChildren().add(this.PokemonHp);
     	this.getChildren().add(this.cardName);
-    	this.getChildren().add(this.button);   
+    	this.getChildren().add(this.button);
+
+		init();
 	}
 		
 	public void init(){
