@@ -640,13 +640,4 @@ public class GameController {
 		}
 		return null;
 	}
-	
-	public void funtion(){
-		for(Node card : userBench.getChildren()){
-			PokemonCard tempCard = (PokemonCard) card;
-			int id = tempCard.getCard().getID();
-		}
-	}
-	
-	
 }
