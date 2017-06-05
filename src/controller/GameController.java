@@ -314,7 +314,15 @@ public class GameController {
         			pokemonCard.setLayoutY(0);
         			break;
     			case "Evolve":
-    				evolveoptions(pokemonCard);
+    				PokemonCard card = evolveoptions(pokemonCard);
+    				if(card!=null){
+    					card.evolve(pokemonCard.getCard());
+    					userHand.getChildren().remove(pokemonCard);
+    					((CardsGroup) user.getInhand()).removeCard(pokemonCard.getCard());
+    				}
+    				else{
+    					Debug.message("No pokemon found");
+    				}
     				break;
     			case "View card abilities": 
     				Debug.message("Showing card abilities");
@@ -551,30 +559,43 @@ public class GameController {
 		return ((CardsGroup) user.getInhand()).getCard(Integer.valueOf(id));
 	}
 	
-	private FlowPane evolveoptions(PokemonCard card){
-		ArrayList<FlowPane> basicpokemons = new ArrayList<FlowPane>();
+	private PokemonCard evolveoptions(PokemonCard card){
+		String basicPname = card.getCard().getBasePokemonName();
+		ArrayList<PokemonCard> basicpokemons = new ArrayList<PokemonCard>();
 		if(!userActivePokemon.getChildren().isEmpty()){
 			PokemonCard tempCard = (PokemonCard) userActivePokemon.getChildren().get(0);
 			if(tempCard.getCard().getStage()=="Basic"){
-				if(card.getCard().getName()==card.getCard().getBasePokemonName()){
+				if(tempCard.getCard().getName()==basicPname){
 //					tempCard.evolve(card.getCard());
-					
+					basicpokemons.add(tempCard);
 				}
 			}
 		}
-		
+		for(Node tempNode : userBench.getChildren()){
+			PokemonCard tempCard = (PokemonCard) tempNode;
+			if(tempCard.getCard().getStage()=="Basic" && tempCard.getCard().getName() == basicPname){
+				basicpokemons.add(tempCard);
+			}
+		}
 		ArrayList<String> optionsList = new ArrayList<String>();
 		
-		optionsList.add("");
+		for(PokemonCard tempcard : basicpokemons){
+			optionsList.add(tempcard.getCard().getName());
+		}
+		if(!optionsList.isEmpty()){
+			DialogBoxHandler dialog = new DialogBoxHandler();
+			Optional<String> result = dialog.getDialog(optionsList);
+			String selected = "cancelled.";
 		
-		DialogBoxHandler dialog = new DialogBoxHandler();
-    	Optional<String> result = dialog.getDialog(optionsList);
-    	String selected = "cancelled.";
-		
-    	if (result.isPresent()) {
-    		selected = result.get();
-    	
-    	}
+			if (result.isPresent()) {
+				selected = result.get();
+				for(PokemonCard tempCard : basicpokemons){
+					if(tempCard.getCard().getName().equals(selected)){
+						return tempCard;
+					}
+				}
+			}
+		}
 		return null;
 	}
 	
