@@ -8,7 +8,7 @@ public class UserPlayer extends Player {
 		super(newName);
 		this.name = newName;
 		deck = new Deck();
-		((Deck) deck).buildDeckTest();
+		((Deck) deck).buildDeck(2);
 		activeAbilities = new ArrayList<ability>();
 	}
 		

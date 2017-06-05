@@ -42,7 +42,7 @@ public class basicPokemonCard extends FlowPane{
     	this.setOnMouseEntered(new EventHandler<MouseEvent>(){
 
     		@Override
-    		public void handle(MouseEvent event) {
+    		public void handle(MouseEvent event){
     			String text = new String();
     			Tooltip tttext = new Tooltip();
     			//text.setText(IntoString());

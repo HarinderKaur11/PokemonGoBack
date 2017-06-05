@@ -11,7 +11,7 @@ public class AIplayer extends Player {
 	private cardItem deck;
 	private GameController controller;
 	
-	public AIplayer(String newName,GameController newController) {
+	public AIplayer(String newName,GameController newController){
 		super(newName);
 		this.name = newName;
 		deck = new Deck();
