@@ -1,7 +1,5 @@
 package view;
 
-import java.util.ArrayList;
-
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
@@ -9,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
 import model.ability;
 import model.Pokemon;
 
@@ -18,7 +17,7 @@ public class basicPokemonCard extends FlowPane{
 	private Label PokemonHp;
 	private Label cardID;
 	private Button button;
-	private String location;
+	private HBox location;
 	
 	private Pokemon card;
 	
@@ -39,7 +38,6 @@ public class basicPokemonCard extends FlowPane{
     	this.cardName.setPrefWidth(70);
     	this.cardName.setWrapText(true);
     	this.button = new Button();
-    	this.location = "deck";
 
     	this.setOnMouseEntered(new EventHandler<MouseEvent>(){
 
@@ -67,16 +65,21 @@ public class basicPokemonCard extends FlowPane{
     	
 	}
 	
-	public void setLocation(String newLocation){
+	public void setLocation(HBox newLocation){
 		this.location = newLocation;
+		this.location.getChildren().add(this);
 	}
 	
-	public String getLocation(){
+	public HBox getLocation(){
 		return this.location;
 	}
 	
 	public void addOptionsActionListener(EventHandler<ActionEvent> evt){
     		button.setOnAction(evt);
+	}
+
+	public Pokemon getCard() {
+		return this.card;
 	}		
 	
 }

@@ -68,8 +68,8 @@ public class GameController {
 	@FXML private ScrollPane AIHandScroll;
 	@FXML private HBox AIBench;
 	@FXML private HBox AIHand;
-	@FXML private Pane aiActivePokemon;
-	@FXML private Pane userActivePokemon;
+	@FXML private HBox aiActivePokemon;
+	@FXML private HBox userActivePokemon;
 	@FXML private Button UserEndTurnBtn = new Button();
 	@FXML private Label userDamage = new Label();
 	@FXML private Label aiDamage = new Label();
@@ -301,26 +301,18 @@ public class GameController {
 		   	if(selected=="Make active"){
 		   		pokemonCard.setLayoutX(0);
 		   		pokemonCard.setLayoutY(0);
-		   		userActivePokemon.getChildren().add(pokemonCard);
-		   		user.setActivePokemon((Pokemon) searchCardInHand(((Label) pokemonCard.lookup(".cardID")).getText().trim()));
+		   		pokemonCard.setLocation(userActivePokemon);
+		   		user.setActivePokemon(pokemonCard.getCard());
 		   		((CardsGroup) user.getInhand()).removeCard(user.getActivePokemon());
 		   		//Debug.message(((Label) button.getParent().lookup(".cardID")).getText().trim());
 		   	}
 		   	else if(selected=="Put on bench"){
 		   		pokemonCard.setLayoutX(0);
 		   		pokemonCard.setLayoutY(0);
-		   		Pokemon pokemonBench = (Pokemon) searchCardInHand(((Label) pokemonCard.lookup(".cardID")).getText().trim());
-		   		userBench.getChildren().add(pokemonCard);
-		   		user.addCardonBench(pokemonBench);
-		   		((CardsGroup) user.getInhand()).removeCard(pokemonBench);
+		   		pokemonCard.setLocation(userBench);
+		   		user.addCardonBench(pokemonCard.getCard());
+		   		((CardsGroup) user.getInhand()).removeCard(pokemonCard.getCard());
 		   	}
-		   	else if(selected=="Put on bench"){
-    			if(pokemonCard.getParent()==userHand || pokemonCard.getParent()==userBench){
-    				pokemonCard.setLayoutX(0);
-    				pokemonCard.setLayoutY(0);
-    				userBench.getChildren().add(pokemonCard);
-    			}
-    		}
     		else if(selected == "Retreat"){
     			pokemonCard.setLayoutX(0);
     			pokemonCard.setLayoutY(0);
@@ -387,9 +379,7 @@ public class GameController {
 		}
 	}
 
-    
-    
-    private FlowPane createCard(cardItem card, HBox panel){
+	private FlowPane createCard(cardItem card, HBox panel){
     	FlowPane newCard = new FlowPane();
     	
     	newCard.getStyleClass().add("card");
@@ -573,6 +563,10 @@ public class GameController {
 	private cardItem searchCardInHand(String id){
 		Debug.message(Integer.valueOf(id));
 		return ((CardsGroup) user.getInhand()).getCard(Integer.valueOf(id));
+	}
+	
+	private Pokemon searchCardInHand(Pokemon card) {
+		return null;
 	}
 	
 }
