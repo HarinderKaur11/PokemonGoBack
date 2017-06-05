@@ -56,7 +56,6 @@ import model.cardItem;
 import model.damageAbility;
 import view.DialogBoxHandler;
 import view.PokemonCard;
-import view.basicPokemonCard;
 
 public class GameController {
 	
@@ -251,7 +250,7 @@ public class GameController {
     }
       
     private FlowPane createPokemonCard(Pokemon pokemon, HBox panel){
-    	basicPokemonCard pokemonCard = new basicPokemonCard(pokemon, panel);
+    	PokemonCard pokemonCard = new PokemonCard(pokemon, panel);
     	//pokemonCard.setStyle("-fx-background-color: #fff;"+"-fx-border-color: #000;"+"-fx-border-width: 1px;"+
     	//		"-fx-pref-width: 52px;"+ "-fx-pref-height: 70px");
     	pokemonCard.addOptionsActionListener(new EventHandler<ActionEvent>() {
@@ -265,7 +264,7 @@ public class GameController {
     	return pokemonCard;
     }
     
-    private void pokemonOptions(basicPokemonCard pokemonCard, ArrayList<String> optionsList, Pokemon pokemon)
+    private void pokemonOptions(PokemonCard pokemonCard, ArrayList<String> optionsList, Pokemon pokemon)
     {
     	HBox tempLoc = pokemonCard.getLocation();
     	
