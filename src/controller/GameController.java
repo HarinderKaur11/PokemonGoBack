@@ -11,6 +11,7 @@ import javafx.animation.PathTransition;
 import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -23,6 +24,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
@@ -439,7 +441,8 @@ public class GameController {
     	return newCard;
     }
     
-    private void EnergyOptions(Button button, ArrayList<String> optionsList) {
+    @SuppressWarnings("unchecked")
+	private void EnergyOptions(Button button, ArrayList<String> optionsList) {
     	if(! userActivePokemon.getChildren().isEmpty())
 	    {
     		optionsList.add("ActivePokemon");
@@ -450,12 +453,11 @@ public class GameController {
     	}
     	List<String> dialogData = Arrays.asList(optionsList.toArray(new String[optionsList.size()]));
 
-		@SuppressWarnings({ "rawtypes", "unchecked" })
+		@SuppressWarnings({ "rawtypes" })
 		Dialog dialog = new ChoiceDialog(dialogData.get(0), dialogData);
 		dialog.setTitle("Select pokemon");
 		dialog.setHeaderText("Select your choice");
 
-		@SuppressWarnings("unchecked")
 		Optional<String> result = dialog.showAndWait();
 		String selected = "cancelled.";
 				
@@ -472,6 +474,46 @@ public class GameController {
 			    		user.getActivePokemon().attachCard(card);
 			    		//Debug.message(((Label) button.getParent().lookup(".cardID")).getText().trim());
 			    }
+			    else if(selected=="BenchPokemon")
+			    {
+			    	ArrayList<String> benchCards = new ArrayList();
+			    	for(Node card : userBench.getChildren()){
+						PokemonCard tempCard = (PokemonCard) card;
+						int id = tempCard.getCard().getID();
+						Debug.message(id);
+						benchCards.add(String.valueOf(id));
+			    	}
+			    	List<String> benchData = Arrays.asList(benchCards.toArray(new String[benchCards.size()]));
+			    	
+					@SuppressWarnings({ "rawtypes" })
+					Dialog benchDialog = new ChoiceDialog(benchData.get(0), benchData);
+					benchDialog.setTitle("Select pokemon");
+					benchDialog.setHeaderText("Select your choice");
+
+					Optional<String> benchOp = benchDialog.showAndWait();
+					String select = "cancelled.";
+					if(benchOp.isPresent())
+					{
+						select = benchOp.get();
+						Debug.message(select);
+						Pokemon benchC = null;
+						for(Pokemon pokemon: user.getBenchCards())
+						{
+							if(pokemon.getID() == Integer.parseInt(select))
+							{
+								benchC = pokemon;
+							}
+						}
+				    	
+				    	cardItem card = searchCardInHand(((Label) button.getParent().lookup(".cardID")).getText().trim());
+			    		userHand.getChildren().remove(button.getParent());
+			    		((CardsGroup) user.getInhand()).removeCard(card);
+				    	
+			    		benchC.attachCard(card);
+						
+					}
+			    }
+
 		}
 	}
         
