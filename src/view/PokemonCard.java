@@ -6,35 +6,34 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
-import model.ability;
+import javafx.scene.layout.FlowPane;
 import model.Pokemon;
+import model.ability;
 
-public class basicPokemonCard extends FlowPane{
+public class PokemonCard extends FlowPane{
 	private Label cardName;
-	private Label PokemonStage; 
+	private Label PokemonStage;
 	private Label PokemonHp;
 	private Label cardID;
 	private Button button;
 	private HBox location;
+	private boolean evolved = false;
+	private Pokemon baseCard;
 	
 	private Pokemon card;
 	
-	public basicPokemonCard(Pokemon newCard){
+	public PokemonCard(Pokemon newCard, HBox newLoc){
 		this.card = newCard;
+		this.location = newLoc;
 		init();
-	}
-		
-	public void init(){
-
-    	this.setMaxWidth(88);
+		this.setMaxWidth(88);
 		this.getStyleClass().add("pokemonCard");
-    	this.cardID = new Label(Integer.toString(card.getID())+"\t");
+		this.cardID = new Label();
     	this.cardID.getStyleClass().add("cardID");
-    	this.PokemonStage = new Label(card.getStage()+"\t");
-    	this.PokemonHp = new Label(Integer.toString(card.getHP()));
-    	this.cardName = new Label(card.getName());
+    	this.PokemonStage = new Label();
+    	this.PokemonHp = new Label();
+    	this.cardName = new Label();
     	this.cardName.setPrefWidth(70);
     	this.cardName.setWrapText(true);
     	this.button = new Button();
@@ -61,8 +60,14 @@ public class basicPokemonCard extends FlowPane{
     	this.getChildren().add(this.PokemonStage);
     	this.getChildren().add(this.PokemonHp);
     	this.getChildren().add(this.cardName);
-    	this.getChildren().add(this.button);    	
-    	
+    	this.getChildren().add(this.button);   
+	}
+		
+	public void init(){
+    	this.cardID.setText(Integer.toString(card.getID())+"\t");
+    	this.PokemonStage.setText(card.getStage()+"\t");
+    	this.PokemonHp.setText(Integer.toString(card.getHP()));
+    	this.cardName.setText(card.getName());   	
 	}
 	
 	public void setLocation(HBox newLocation){
@@ -80,6 +85,12 @@ public class basicPokemonCard extends FlowPane{
 
 	public Pokemon getCard() {
 		return this.card;
-	}		
+	}
 	
+	public void evolve(Pokemon stageOne){
+		this.baseCard = this.card;
+		this.card = stageOne;
+		this.evolved = true;
+		init();
+	}
 }
