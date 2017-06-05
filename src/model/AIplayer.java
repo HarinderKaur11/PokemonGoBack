@@ -62,7 +62,7 @@ public class AIplayer extends Player {
 		
 
 		ArrayList<Energy> energyCards = ((CardsGroup) this.inhand).getAllEnergyCards();
-		if(!energyCards.isEmpty() && !energyCardUsed){
+		if(!energyCards.isEmpty() && !energyCardUsed && this.activePokemon!=null){
 			energyCardUsed = checkAndPlayEnergy(energyCards);
 			updateGUI();
 		}
