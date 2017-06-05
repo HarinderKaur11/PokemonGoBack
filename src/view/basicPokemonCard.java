@@ -18,6 +18,7 @@ public class basicPokemonCard extends FlowPane{
 	private Label PokemonHp;
 	private Label cardID;
 	private Button button;
+	private String location;
 	
 	private Pokemon card;
 	
@@ -38,6 +39,7 @@ public class basicPokemonCard extends FlowPane{
     	this.cardName.setPrefWidth(70);
     	this.cardName.setWrapText(true);
     	this.button = new Button();
+    	this.location = "deck";
 
     	this.setOnMouseEntered(new EventHandler<MouseEvent>(){
 
@@ -63,6 +65,14 @@ public class basicPokemonCard extends FlowPane{
     	this.getChildren().add(this.cardName);
     	this.getChildren().add(this.button);    	
     	
+	}
+	
+	public void setLocation(String newLocation){
+		this.location = newLocation;
+	}
+	
+	public String getLocation(){
+		return this.location;
 	}
 	
 	public void addOptionsActionListener(EventHandler<ActionEvent> evt){
