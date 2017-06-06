@@ -643,8 +643,8 @@ public class GameController {
 		ArrayList<PokemonCard> basicpokemons = new ArrayList<PokemonCard>();
 		if(!userActivePokemon.getChildren().isEmpty()){
 			PokemonCard tempCard = (PokemonCard) userActivePokemon.getChildren().get(0);
-			if(tempCard.getCard().getStage()=="Basic"){
-				if(tempCard.getCard().getName()==basicPname){
+			if(tempCard.getCard().getStage().equals("Basic")){
+				if(tempCard.getCard().getName().equals(basicPname)){
 //					tempCard.evolve(card.getCard());
 					basicpokemons.add(tempCard);
 				}
@@ -652,7 +652,7 @@ public class GameController {
 		}
 		for(Node tempNode : userBench.getChildren()){
 			PokemonCard tempCard = (PokemonCard) tempNode;
-			if(tempCard.getCard().getStage()=="Basic" && tempCard.getCard().getName() == basicPname){
+			if(tempCard.getCard().getStage().equals("Basic") && tempCard.getCard().getName().equals(basicPname)){
 				basicpokemons.add(tempCard);
 			}
 		}
