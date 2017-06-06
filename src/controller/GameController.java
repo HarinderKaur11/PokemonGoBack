@@ -75,6 +75,7 @@ public class GameController {
 	@FXML private Button UserEndTurnBtn = new Button();
 	@FXML private Label userDamage = new Label();
 	@FXML private Label aiDamage = new Label();
+	@FXML private Button UserDiscardPile;
 	
 	public GameController(){
 		
@@ -312,8 +313,43 @@ public class GameController {
     		   		((CardsGroup) user.getInhand()).removeCard(pokemonCard.getCard());
     				break;
     			case "Retreat":
-    				pokemonCard.setLayoutX(0);
-        			pokemonCard.setLayoutY(0);
+        			ArrayList<String> benchCards = new ArrayList();
+			    	for(Node card : userBench.getChildren()){
+						PokemonCard tempCard = (PokemonCard) card;
+						int id = tempCard.getCard().getID();
+						Debug.message(id);
+						benchCards.add(String.valueOf(id));
+			    	}
+			    	List<String> benchData = Arrays.asList(benchCards.toArray(new String[benchCards.size()]));
+			    	
+        			@SuppressWarnings({ "rawtypes", "unchecked" })
+					Dialog benchDialog = new ChoiceDialog(benchData.get(0), benchData);
+					benchDialog.setTitle("Select a bench pokemon to be active");
+					benchDialog.setHeaderText("Select your choice");
+
+					@SuppressWarnings("unchecked") 
+					Optional<String> benchOp = benchDialog.showAndWait();
+					String select = "cancelled.";
+					if(benchOp.isPresent())
+					{
+						select = benchOp.get();
+						Debug.message(select);
+						PokemonCard benchC = null;
+						for(Node tempNode: userBench.getChildren())
+						{
+							PokemonCard tempCard = (PokemonCard) tempNode;
+							if(tempCard.getCard().getID() == Integer.parseInt(select))
+							{
+								benchC = tempCard;
+								System.out.println(benchC.getCard().getName());
+							}
+						}
+//						user.setActivePokemon(null);
+						user.setActivePokemon(benchC.getCard());
+						userActivePokemon.getChildren().add(benchC);
+			    		userBench.getChildren().add(pokemonCard);
+			    		user.addCardonBench(pokemonCard.getCard());
+					}
         			break;
     			case "Evolve":
     				PokemonCard card = evolveoptions(pokemonCard);
