@@ -357,6 +357,7 @@ public class GameController {
     					card.evolve(pokemonCard.getCard());
     					userHand.getChildren().remove(pokemonCard);
     					((CardsGroup) user.getInhand()).removeCard(pokemonCard.getCard());
+    					user.addCardonBench(pokemonCard.getCard());
     				}
     				else{
     					Debug.message("No pokemon found");
@@ -658,7 +659,7 @@ public class GameController {
 		ArrayList<String> optionsList = new ArrayList<String>();
 		
 		for(PokemonCard tempcard : basicpokemons){
-			optionsList.add(tempcard.getCard().getName());
+			optionsList.add(Integer.toString(tempcard.getCard().getID()));
 		}
 		if(!optionsList.isEmpty()){
 			DialogBoxHandler dialog = new DialogBoxHandler();
@@ -668,7 +669,7 @@ public class GameController {
 			if (result.isPresent()) {
 				selected = result.get();
 				for(PokemonCard tempCard : basicpokemons){
-					if(tempCard.getCard().getName().equals(selected)){
+					if(tempCard.getCard().getID()==(Integer.parseInt(selected))){
 						return tempCard;
 					}
 				}
@@ -677,3 +678,4 @@ public class GameController {
 		return null;
 	}
 }
+
