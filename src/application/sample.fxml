@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 
@@ -16,11 +17,10 @@
       </ScrollPane>
       <Pane fx:id="gullu" layoutX="22.0" layoutY="99.0" prefHeight="417.0" prefWidth="622.0" stylesheets="@style.css">
          <children>
-            <Button fx:id="AIDeck" layoutX="14.0" layoutY="101.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="52.0" text="Deck" />
-            <Button fx:id="AIRewardCards" layoutX="14.0" layoutY="247.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="52.0" text="Reward Cards" />
-            <Button fx:id="UserRewardCards" layoutX="556.0" layoutY="100.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="52.0" text="Reward Cards" />
-            <Button fx:id="UserEndTurnBtn" layoutX="14.0" layoutY="362.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="65.0" text="Done" />
-            <Button fx:id="UserDeck" layoutX="556.0" layoutY="248.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="52.0" text="Deck" />
+            <Button fx:id="UserEndTurnBtn" layoutX="14.0" layoutY="362.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="65.0" text="Done" textFill="#ff0303">
+               <effect>
+                  <DropShadow height="50.65" radius="20.377499999999998" spread="0.5" width="32.86" />
+               </effect></Button>
             <HBox fx:id="AIBench" layoutX="132.0" prefHeight="80.0" prefWidth="385.0" stylesheets="@style.css" />
             <Pane fx:id="pane" layoutX="225.0" layoutY="109.0" prefHeight="200.0" prefWidth="200.0" stylesheets="@style.css">
                <children>
@@ -47,6 +47,32 @@
                <effect>
                   <ColorAdjust brightness="0.07" />
                </effect>
+            </Pane>
+            <Pane fx:id="UserDeck" layoutX="560.0" layoutY="247.0" prefHeight="70.0" prefWidth="52.0">
+               <children>
+                  <Label layoutX="12.0" layoutY="27.0" text="Deck" textFill="#f80000" />
+               </children>
+            </Pane>
+            <Pane fx:id="AIDeck" layoutX="14.0" layoutY="90.0" prefHeight="70.0" prefWidth="52.0">
+               <children>
+                  <Label contentDisplay="TOP" layoutX="12.0" layoutY="27.0" text="AIDeck" textAlignment="CENTER" textFill="#ee0303" />
+               </children>
+               <effect>
+                  <ColorAdjust brightness="0.07" />
+               </effect>
+            </Pane>
+            <Pane fx:id="AIRewardCards" layoutX="14.0" layoutY="232.0" prefHeight="70.0" prefWidth="52.0">
+               <children>
+                  <Label contentDisplay="TOP" layoutX="12.0" layoutY="27.0" text="Rew.." textAlignment="CENTER" textFill="#ee0303" />
+               </children>
+               <effect>
+                  <ColorAdjust brightness="0.07" />
+               </effect>
+            </Pane>
+            <Pane fx:id="UserRewardCards" layoutX="556.0" layoutY="90.0" prefHeight="70.0" prefWidth="52.0">
+               <children>
+                  <Label layoutX="12.0" layoutY="27.0" text="Rew.." textFill="#f80000" />
+               </children>
             </Pane>
          </children>
       </Pane>
