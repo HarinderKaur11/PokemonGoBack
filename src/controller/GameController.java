@@ -72,9 +72,9 @@ public class GameController {
 	@FXML private HBox AIHand;
 	@FXML private HBox aiActivePokemon;
 	@FXML private HBox userActivePokemon;
-	@FXML private Button UserEndTurnBtn = new Button();
-	@FXML private Label userDamage = new Label();
-	@FXML private Label aiDamage = new Label();
+	@FXML private Button UserEndTurnBtn;
+	@FXML private Label userDamage;
+	@FXML private Label aiDamage;
 	
 	public GameController(){
 		
@@ -203,6 +203,9 @@ public class GameController {
 	}
 	
 	public void init(boolean userTurn,boolean aiTurn){
+		UserEndTurnBtn = new Button();
+		userDamage = new Label();
+		aiDamage = new Label();
 		user = new UserPlayer("Flash");
 		ai = new AIplayer("Future Flash",this);
 		UserEndTurnBtn.setOnAction(new EventHandler<ActionEvent>() {
