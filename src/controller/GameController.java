@@ -349,9 +349,10 @@ public class GameController {
 						}
 //						user.setActivePokemon(null);
 						user.setActivePokemon(benchC.getCard());
-						userActivePokemon.getChildren().add(benchC);
-			    		userBench.getChildren().add(pokemonCard);
 			    		user.addCardonBench(pokemonCard.getCard());
+			    		
+			    		userActivePokemon.getChildren().add(benchC);
+			    		userBench.getChildren().add(pokemonCard);
 					}
         			break;
     			case "Evolve":
