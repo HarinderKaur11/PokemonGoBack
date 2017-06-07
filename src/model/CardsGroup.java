@@ -10,6 +10,12 @@ public class CardsGroup implements cardItem {
 		this.getGroupCards().add(newCard);
 	}
 	
+	public void addCards(cardItem[] newCards){
+		for(cardItem card: newCards){
+			this.addCard(card);
+		}
+	}
+	
 	public cardItem getCard(int id){
 		for(cardItem card:groupCards){
 			if(card.getID() == id){

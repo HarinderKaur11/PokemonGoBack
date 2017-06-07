@@ -110,7 +110,6 @@ public class Player {
 	
 	public static void main(String arg[]){
 		Player newPlayer = new Player("Flash");
-		
 		Debug.showCard(newPlayer.dealCard());
 	}
 	public Pokemon[] getBenchCards(){
@@ -118,7 +117,10 @@ public class Player {
 	}
 
 	public void addCardonBench(Pokemon newPokemon){
-		bench.add(newPokemon);
+		bench.add(newPokemon);		
+	}
+	
+	public void removeCardFromBench(cardItem newcard){
 		
 	}
 }
