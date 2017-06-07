@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class DeckFileReader {
 	private String deck1file = "resources/deck1.txt";
@@ -58,7 +59,7 @@ public class DeckFileReader {
 				Deck1[j] = cards[Integer.parseInt(sCurrentLine)-1];
 				//Debug.message(Deck1[j]);
 				String[] deckcard = Deck1[j].split(":");
-				Debug.message(deckcard.length + " " + deckcard[1]);
+				//Debug.message(deckcard.length + " " + deckcard[1]);
 				//String[] card = deckcard[0];
 				deck.add(deckcard);
 						
@@ -94,6 +95,18 @@ public class DeckFileReader {
 //				card[card.length-1] = type;
 //				deck.add(card);
 //				//Debug.message(card[0]+" "+card[1]+" "+card[2]);
+				
+			}
+			
+			for(String [] card:deck){
+				if(card[1].equals("pokemon")){
+				String carditem = String.join(" ", card);
+				//String carditem = Arrays.toString(card);
+				//Debug.message(carditem);
+				String retreat = carditem.substring(carditem.indexOf("retreat"), carditem.indexOf("attack"));
+				String abilities = carditem.substring(carditem.indexOf("attack"));
+				Debug.message(abilities);
+				}        
 				
 			}
 
