@@ -204,6 +204,9 @@ public class GameController {
 	}
 	
 	public void init(boolean userTurn,boolean aiTurn){
+		UserEndTurnBtn = new Button();
+		userDamage = new Label();
+		aiDamage = new Label();
 		user = new UserPlayer("Flash");
 		ai = new AIplayer("Future Flash",this);
 		UserEndTurnBtn.setOnAction(new EventHandler<ActionEvent>() {
@@ -346,9 +349,10 @@ public class GameController {
 						}
 //						user.setActivePokemon(null);
 						user.setActivePokemon(benchC.getCard());
-						userActivePokemon.getChildren().add(benchC);
-			    		userBench.getChildren().add(pokemonCard);
 			    		user.addCardonBench(pokemonCard.getCard());
+			    		
+			    		userActivePokemon.getChildren().add(benchC);
+			    		userBench.getChildren().add(pokemonCard);
 					}
         			break;
     			case "Evolve":
@@ -357,6 +361,7 @@ public class GameController {
     					card.evolve(pokemonCard.getCard());
     					userHand.getChildren().remove(pokemonCard);
     					((CardsGroup) user.getInhand()).removeCard(pokemonCard.getCard());
+    					user.addCardonBench(pokemonCard.getCard());
     				}
     				else{
     					Debug.message("No pokemon found");
@@ -642,8 +647,8 @@ public class GameController {
 		ArrayList<PokemonCard> basicpokemons = new ArrayList<PokemonCard>();
 		if(!userActivePokemon.getChildren().isEmpty()){
 			PokemonCard tempCard = (PokemonCard) userActivePokemon.getChildren().get(0);
-			if(tempCard.getCard().getStage()=="Basic"){
-				if(tempCard.getCard().getName()==basicPname){
+			if(tempCard.getCard().getStage().equals("Basic")){
+				if(tempCard.getCard().getName().equals(basicPname)){
 //					tempCard.evolve(card.getCard());
 					basicpokemons.add(tempCard);
 				}
@@ -651,14 +656,14 @@ public class GameController {
 		}
 		for(Node tempNode : userBench.getChildren()){
 			PokemonCard tempCard = (PokemonCard) tempNode;
-			if(tempCard.getCard().getStage()=="Basic" && tempCard.getCard().getName() == basicPname){
+			if(tempCard.getCard().getStage().equals("Basic") && tempCard.getCard().getName().equals(basicPname)){
 				basicpokemons.add(tempCard);
 			}
 		}
 		ArrayList<String> optionsList = new ArrayList<String>();
 		
 		for(PokemonCard tempcard : basicpokemons){
-			optionsList.add(tempcard.getCard().getName());
+			optionsList.add(Integer.toString(tempcard.getCard().getID()));
 		}
 		if(!optionsList.isEmpty()){
 			DialogBoxHandler dialog = new DialogBoxHandler();
@@ -668,7 +673,7 @@ public class GameController {
 			if (result.isPresent()) {
 				selected = result.get();
 				for(PokemonCard tempCard : basicpokemons){
-					if(tempCard.getCard().getName().equals(selected)){
+					if(tempCard.getCard().getID()==(Integer.parseInt(selected))){
 						return tempCard;
 					}
 				}
@@ -677,3 +682,4 @@ public class GameController {
 		return null;
 	}
 }
+
