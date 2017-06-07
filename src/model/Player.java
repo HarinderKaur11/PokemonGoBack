@@ -13,6 +13,7 @@ public class Player {
 	protected boolean turn;
 	protected ArrayList<Pokemon> bench;
 	protected CardsGroup userDiscardPile;
+	protected CardsGroup rewardCards;
 	
 //	public abstract String getName();
 //	public abstract int getScore();
@@ -38,6 +39,10 @@ public class Player {
 			cards.add(getDeckCard());
 		}
 		return cards.toArray(new cardItem[cards.size()]);
+	}
+	
+	public void addRewardCards(int i){
+		rewardCards.addCards(dealMultipleCards(i));
 	}
 	
 	public cardItem dealCard(){
