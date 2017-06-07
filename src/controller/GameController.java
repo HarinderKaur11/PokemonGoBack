@@ -204,6 +204,9 @@ public class GameController {
 	}
 	
 	public void init(boolean userTurn,boolean aiTurn){
+		UserEndTurnBtn = new Button();
+		userDamage = new Label();
+		aiDamage = new Label();
 		user = new UserPlayer("Flash");
 		ai = new AIplayer("Future Flash",this);
 		UserEndTurnBtn.setOnAction(new EventHandler<ActionEvent>() {
