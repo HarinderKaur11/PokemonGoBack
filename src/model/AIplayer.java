@@ -9,14 +9,12 @@ public class AIplayer extends Player {
 	private String name;
 	private int score;
 	private cardItem deck;
-	private GameController controller;
 	
-	public AIplayer(String newName,GameController newController){
+	public AIplayer(String newName){
 		super(newName);
 		this.name = newName;
 		deck = new Deck();
 		((Deck) deck).buildDeck(1);
-		this.controller = newController;
 	}
 	
 	public String getName() {
@@ -125,7 +123,7 @@ public class AIplayer extends Player {
 	}
 	
 	public void updateGUI(){
-		controller.refreshCards(this);
+		GameController.getInstance().refreshCards(this);
 	}
 	
 }

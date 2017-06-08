@@ -9,7 +9,7 @@
      -fx-background-position: center center;
      -fx-effect: dropshadow(three-pass-box, black, 10, 0.5, 0, 0);
  }
- #gullu1{
+ #gameStage{
      -fx-background-color: #f7c042;
      -fx-effect: dropshadow(three-pass-box, black, 10, 0.5, 0, 0);
  }

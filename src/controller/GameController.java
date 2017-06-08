@@ -33,7 +33,7 @@ import view.GeneralCard;
 import view.PokemonCard;
 
 public class GameController {
-	
+	@FXML private static GameController controller;
 	private UserPlayer user;
 	private AIplayer ai;
 	
@@ -46,29 +46,34 @@ public class GameController {
 	@FXML private HBox AIHand;
 	@FXML private HBox aiActivePokemon;
 	@FXML private HBox userActivePokemon;
-	@FXML private Button UserEndTurnBtn = new Button();
-	@FXML private Label userDamage = new Label();
-	@FXML private Label aiDamage = new Label();
+	@FXML private Button UserEndTurnBtn;
+	@FXML private Label userDamage;
+	@FXML private Label aiDamage;
+	@FXML private Pane gameStage;
 	
-	public GameController(){}
+	private GameController(){
+	}
+	
+	public static GameController getInstance(){
+        if(controller == null){
+            controller = new GameController();
+        }
+        return controller;
+    }
 	
  	public void init(){
 		
  		boolean[] turn = Turn.getInstance().toss();
- 		
- 		UserEndTurnBtn = new Button();
-		userDamage = new Label();
-		aiDamage = new Label();
 		user = new UserPlayer("Flash");
-		ai = new AIplayer("Future Flash",this);
+		ai = new AIplayer("Future Flash");
 		UserEndTurnBtn.setOnAction(new EventHandler<ActionEvent>() {
 		    @Override public void handle(ActionEvent e) {
-		        Turn.getInstance().changeTurn();
+		    	Turn.getInstance().changeTurn();
 		    }
 		});
     	addCardsToPanel(user.dealMultipleCards(7),userHand);
     	addCardsToPanel(ai.dealMultipleCards(7), AIHand);
-		Turn.getInstance().setPlayer(ai,user,this);
+		Turn.getInstance().setPlayer(ai,user);
 		
 		Debug.message("User turn : "+turn[0]);
 		Debug.message("AI Turn: "+turn[1]);
