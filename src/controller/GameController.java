@@ -75,7 +75,6 @@ public class GameController {
 	@FXML private Button UserEndTurnBtn = new Button();
 	@FXML private Label userDamage = new Label();
 	@FXML private Label aiDamage = new Label();
-	@FXML private Button UserDiscardPile;
 	
 	public GameController(){
 		
@@ -352,8 +351,10 @@ public class GameController {
 						user.setActivePokemon(benchC.getCard());
 			    		user.addCardonBench(pokemonCard.getCard());
 			    		
-			    		userActivePokemon.getChildren().add(benchC);
-			    		userBench.getChildren().add(pokemonCard);
+			    		//userActivePokemon.getChildren().add(benchC);
+			    		benchC.setLocation(userActivePokemon);
+			    		//userBench.getChildren().add(pokemonCard);
+			    		pokemonCard.setLocation(userBench);
 					}
         			break;
     			case "Evolve":
