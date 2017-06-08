@@ -261,16 +261,17 @@ public class GameController {
     	pokemonCard.addOptionsActionListener(new EventHandler<ActionEvent>() {
     		@Override 
     		public void handle(ActionEvent e) {
-    			ArrayList<String> optionsList = new ArrayList<String>();
-    			pokemonOptions(pokemonCard, optionsList, pokemon);
+    			pokemonOptions(pokemonCard, pokemon);
     		}
     	});
     	
     	return pokemonCard;
     }
     
-    private void pokemonOptions(PokemonCard pokemonCard, ArrayList<String> optionsList, Pokemon pokemon)
+    private void pokemonOptions(PokemonCard pokemonCard, Pokemon pokemon)
     {
+
+		ArrayList<String> optionsList = new ArrayList<String>();
     	HBox tempLoc = pokemonCard.getLocation();
     	
     	if(tempLoc==userHand){
