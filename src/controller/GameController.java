@@ -4,33 +4,19 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
-
-import javafx.animation.KeyFrame;
-import javafx.animation.PathTransition;
-import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
-import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.ButtonBar.ButtonData;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.CubicCurveTo;
-import javafx.scene.shape.MoveTo;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import javafx.util.Duration;
 import model.AIplayer;
 import model.CardsGroup;
 import model.Debug;
@@ -43,6 +29,7 @@ import model.ability;
 import model.cardItem;
 import model.damageAbility;
 import view.DialogBoxHandler;
+import view.GeneralCard;
 import view.PokemonCard;
 
 public class GameController {
@@ -127,17 +114,16 @@ public class GameController {
     	pokemonCard.addOptionsActionListener(new EventHandler<ActionEvent>() {
     		@Override 
     		public void handle(ActionEvent e) {
-    			pokemonOptions(pokemonCard, pokemon);
+    			pokemonOptions(pokemonCard);
     		}
     	});
     	
     	return pokemonCard;
     }
     
-    private void pokemonOptions(PokemonCard pokemonCard, Pokemon pokemon)
+    private void pokemonOptions(PokemonCard pokemonCard)
     {
-
-		ArrayList<String> optionsList = new ArrayList<String>();
+    	ArrayList<String> optionsList = new ArrayList<String>();
     	HBox tempLoc = pokemonCard.getLocation();
     	
     	if(tempLoc==userHand){
@@ -188,7 +174,7 @@ public class GameController {
         		   		((CardsGroup) user.getInhand()).removeCard(pokemonCard.getCard());
         				break;
         			case "Retreat":
-            			ArrayList<String> benchCards = new ArrayList();
+            			ArrayList<String> benchCards = new ArrayList<String>();
     			    	for(Node card : userBench.getChildren()){
     						PokemonCard tempCard = (PokemonCard) card;
     						int id = tempCard.getCard().getID();
@@ -305,60 +291,27 @@ public class GameController {
 	}
 
 	private FlowPane createCard(cardItem card, HBox panel){
-    	FlowPane newCard = new FlowPane();
+    	GeneralCard newCard = new GeneralCard(card);
     	
-    	newCard.getStyleClass().add("card");
-    	Label cardID = new Label(Integer.toString(card.getID())+"\t");
-    	Label cardName = new Label(card.getName());
-    	cardID.getStyleClass().add("cardID");
-    	cardName.setPrefWidth(70);
-    	newCard.setMaxWidth(88);
-    	cardName.setWrapText(true);
-    	
-    	Button button = new Button();   	
     	if(panel == userHand || panel == userBench)
     	{
-    		button.setOnAction(new EventHandler<ActionEvent>() {
+    		newCard.addOptionsActionListener(new EventHandler<ActionEvent>() {
     			@Override 
     			public void handle(ActionEvent e) {
-    				ArrayList<String> optionsList = new ArrayList<String>();
     				if(card instanceof Energy){
-    					EnergyOptions(button, optionsList);
+    					EnergyOptions(newCard);
     				}
     				//trainerOptions(button, optionsList);
     			}
     	
-    	});
-    		
-    		newCard.getChildren().add(button);
-    	}
-    	
-    	newCard.setOnMouseEntered(new EventHandler<MouseEvent>(){
-
-			@Override
-			public void handle(MouseEvent event) {
-				@SuppressWarnings("unused")
-				String text = new String();
-				@SuppressWarnings("unused")
-				Tooltip tttext = new Tooltip();
-				//text.setText(IntoString());
-				//ability[] abilities = card.getAbilities();
-				//for(int i=0; i<abilities.length;i++){
-				//text = text + abilities[i].getName() + "\n" ;
-//				tttext.setText(text);
-//				button.setTooltip(tttext);
-			}
-		
-		});
-    	
-    	newCard.getChildren().add(cardID);
-    	newCard.getChildren().add(cardName);
-    	
+    		});
+    	}   	
     	return newCard;
     }
     
     @SuppressWarnings("unchecked")
-	private void EnergyOptions(Button button, ArrayList<String> optionsList) {
+	private void EnergyOptions(GeneralCard newcard) {
+		ArrayList<String> optionsList = new ArrayList<String>();
     	if(! userActivePokemon.getChildren().isEmpty())
 	    {
     		optionsList.add("ActivePokemon");
@@ -367,32 +320,30 @@ public class GameController {
     	{
     		optionsList.add("BenchPokemon");
     	}
-    	List<String> dialogData = Arrays.asList(optionsList.toArray(new String[optionsList.size()]));
+    	if(!optionsList.isEmpty()){
+    		List<String> dialogData = Arrays.asList(optionsList.toArray(new String[optionsList.size()]));
 
-		@SuppressWarnings({ "rawtypes" })
-		Dialog dialog = new ChoiceDialog(dialogData.get(0), dialogData);
-		dialog.setTitle("Select pokemon");
-		dialog.setHeaderText("Select your choice");
+    		@SuppressWarnings({ "rawtypes" })
+    		Dialog dialog = new ChoiceDialog(dialogData.get(0), dialogData);
+    		dialog.setTitle("Select pokemon");
+    		dialog.setHeaderText("Select your choice");
 
-		Optional<String> result = dialog.showAndWait();
-		String selected = "cancelled.";
-				
-		if (result.isPresent()) {
-		    selected = result.get();
-		    
-			    
-			    if(selected=="ActivePokemon"){
+    		Optional<String> result = dialog.showAndWait();
+    		String selected = "cancelled.";
+    				
+    		if (result.isPresent()) {
+    		    selected = result.get();
+    		    if(selected=="ActivePokemon"){
 			    	
 			    	//Debug.message(((Label) button.getParent().lookup(".cardID")).getText().trim());
-			    		cardItem card = searchCardInHand(((Label) button.getParent().lookup(".cardID")).getText().trim());
-			    		userHand.getChildren().remove(button.getParent());
-			    		((CardsGroup) user.getInhand()).removeCard(card);
-			    		user.getActivePokemon().attachCard(card);
+			    		userHand.getChildren().remove(newcard);
+			    		((CardsGroup) user.getInhand()).removeCard(newcard.getCard());
+			    		user.getActivePokemon().attachCard(newcard.getCard());
 			    		//Debug.message(((Label) button.getParent().lookup(".cardID")).getText().trim());
 			    }
 			    else if(selected=="BenchPokemon")
 			    {
-			    	ArrayList<String> benchCards = new ArrayList();
+			    	ArrayList<String> benchCards = new ArrayList<String>();
 			    	for(Node card : userBench.getChildren()){
 						PokemonCard tempCard = (PokemonCard) card;
 						int id = tempCard.getCard().getID();
@@ -421,17 +372,15 @@ public class GameController {
 							}
 						}
 				    	
-				    	cardItem card = searchCardInHand(((Label) button.getParent().lookup(".cardID")).getText().trim());
-			    		userHand.getChildren().remove(button.getParent());
-			    		((CardsGroup) user.getInhand()).removeCard(card);
-				    	
-			    		benchC.attachCard(card);
+			    		userHand.getChildren().remove(newcard);
+			    		((CardsGroup) user.getInhand()).removeCard(newcard.getCard());
+			    		benchC.attachCard(newcard.getCard());
 						
 					}
-			    }
-
-		}
-	}
+			    }    
+    		}
+    	}
+    }
         
     public HBox getUserBench(){
     	return this.userBench;
@@ -512,11 +461,6 @@ public class GameController {
 		
 	}
 	
-	private cardItem searchCardInHand(String id){
-		Debug.message(Integer.valueOf(id));
-		return ((CardsGroup) user.getInhand()).getCard(Integer.valueOf(id));
-	}
-	
 	private PokemonCard evolveoptions(PokemonCard card){
 		String basicPname = card.getCard().getBasePokemonName();
 		ArrayList<PokemonCard> basicpokemons = new ArrayList<PokemonCard>();
@@ -557,4 +501,3 @@ public class GameController {
 		return null;
 	}
 }
-
