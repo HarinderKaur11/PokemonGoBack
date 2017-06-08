@@ -287,148 +287,154 @@ public class GameController {
     		}
     	}
     	else if(tempLoc==userBench){
-    		optionsList.add("Make active");
+    		if(userActivePokemon.getChildren().isEmpty()){
+    			optionsList.add("Make active");
+    		}
     	}
     	else if(tempLoc==userActivePokemon){
     		optionsList.add("Retreat");
 			optionsList.add("View card abilities");
     	}
-    	
-    	DialogBoxHandler dialog = new DialogBoxHandler();
-    	Optional<String> result = dialog.getDialog(optionsList);
-		String selected = "cancelled.";
+    	if(optionsList.isEmpty()){
     		
-    	if (result.isPresent()) {
-    		selected = result.get();
-    		switch(selected){
-    			case "Make active":
-    				pokemonCard.setLayoutX(0);
-    		   		pokemonCard.setLayoutY(0);
-    		   		pokemonCard.setLocation(userActivePokemon);
-    		   		user.setActivePokemon(pokemonCard.getCard());
-    		   		((CardsGroup) user.getInhand()).removeCard(user.getActivePokemon());
-    				break;
-    			case "Put on bench":
-    				pokemonCard.setLayoutX(0);
-    		   		pokemonCard.setLayoutY(0);
-    		   		pokemonCard.setLocation(userBench);
-    		   		user.addCardonBench(pokemonCard.getCard());
-    		   		((CardsGroup) user.getInhand()).removeCard(pokemonCard.getCard());
-    				break;
-    			case "Retreat":
-        			ArrayList<String> benchCards = new ArrayList();
-			    	for(Node card : userBench.getChildren()){
-						PokemonCard tempCard = (PokemonCard) card;
-						int id = tempCard.getCard().getID();
-						Debug.message(id);
-						benchCards.add(String.valueOf(id));
-			    	}
-			    	List<String> benchData = Arrays.asList(benchCards.toArray(new String[benchCards.size()]));
-			    	
-        			@SuppressWarnings({ "rawtypes", "unchecked" })
-					Dialog benchDialog = new ChoiceDialog(benchData.get(0), benchData);
-					benchDialog.setTitle("Select a bench pokemon to be active");
-					benchDialog.setHeaderText("Select your choice");
+    	}
+    	else{
+    		DialogBoxHandler dialog = new DialogBoxHandler();
+        	Optional<String> result = dialog.getDialog(optionsList);
+    		String selected = "cancelled.";
+        		
+        	if (result.isPresent()) {
+        		selected = result.get();
+        		switch(selected){
+        			case "Make active":
+        				pokemonCard.setLayoutX(0);
+        		   		pokemonCard.setLayoutY(0);
+        		   		pokemonCard.setLocation(userActivePokemon);
+        		   		user.setActivePokemon(pokemonCard.getCard());
+        		   		((CardsGroup) user.getInhand()).removeCard(user.getActivePokemon());
+        				break;
+        			case "Put on bench":
+        				pokemonCard.setLayoutX(0);
+        		   		pokemonCard.setLayoutY(0);
+        		   		pokemonCard.setLocation(userBench);
+        		   		user.addCardonBench(pokemonCard.getCard());
+        		   		((CardsGroup) user.getInhand()).removeCard(pokemonCard.getCard());
+        				break;
+        			case "Retreat":
+            			ArrayList<String> benchCards = new ArrayList();
+    			    	for(Node card : userBench.getChildren()){
+    						PokemonCard tempCard = (PokemonCard) card;
+    						int id = tempCard.getCard().getID();
+    						Debug.message(id);
+    						benchCards.add(String.valueOf(id));
+    			    	}
+    			    	List<String> benchData = Arrays.asList(benchCards.toArray(new String[benchCards.size()]));
+    			    	
+            			@SuppressWarnings({ "rawtypes", "unchecked" })
+    					Dialog benchDialog = new ChoiceDialog(benchData.get(0), benchData);
+    					benchDialog.setTitle("Select a bench pokemon to be active");
+    					benchDialog.setHeaderText("Select your choice");
 
-					@SuppressWarnings("unchecked") 
-					Optional<String> benchOp = benchDialog.showAndWait();
-					String select = "cancelled.";
-					if(benchOp.isPresent())
-					{
-						select = benchOp.get();
-						Debug.message(select);
-						PokemonCard benchC = null;
-						for(Node tempNode: userBench.getChildren())
-						{
-							PokemonCard tempCard = (PokemonCard) tempNode;
-							if(tempCard.getCard().getID() == Integer.parseInt(select))
-							{
-								benchC = tempCard;
-								System.out.println(benchC.getCard().getName());
-							}
-						}
-//						user.setActivePokemon(null);
-						user.setActivePokemon(benchC.getCard());
-			    		user.addCardonBench(pokemonCard.getCard());
-			    		
-			    		//userActivePokemon.getChildren().add(benchC);
-			    		benchC.setLocation(userActivePokemon);
-			    		//userBench.getChildren().add(pokemonCard);
-			    		pokemonCard.setLocation(userBench);
-					}
-        			break;
-    			case "Evolve":
-    				PokemonCard card = evolveoptions(pokemonCard);
-    				if(card!=null){
-    					card.evolve(pokemonCard.getCard());
-    					userHand.getChildren().remove(pokemonCard);
-    					((CardsGroup) user.getInhand()).removeCard(pokemonCard.getCard());
-    					user.addCardonBench(pokemonCard.getCard());
-    				}
-    				else{
-    					Debug.message("No pokemon found");
-    				}
-    				break;
-    			case "View card abilities": 
-    				Debug.message("Showing card abilities");
-        			Dialog<String> abilitiesDialog = new Dialog<>();
-        			abilitiesDialog.setTitle("Abilities");
-        			abilitiesDialog.setHeaderText("Select any ability to use");
-        			ButtonType attackButton = new ButtonType("Attack", ButtonData.OK_DONE);
-        			abilitiesDialog.getDialogPane().getButtonTypes().addAll(attackButton, ButtonType.CANCEL);
-        			GridPane grid = new GridPane();
-        			grid.setHgap(10);
-        			grid.setVgap(10);
-        			grid.setPadding(new Insets(20, 150, 10, 10));
-    		   			    	
-        			final ToggleGroup group = new ToggleGroup();
-    		   	
-        			for(ability a : user.getActivePokemon().getAbilities()){
-        				FlowPane temppane = new FlowPane();
-        				RadioButton rb = new RadioButton(a.getName());
-        				if(!(user.getActivePokemon().getAttachedCardsCount()>=((damageAbility) a).getEnergyInfo().length)){
-        					rb.setDisable(true);
+    					@SuppressWarnings("unchecked") 
+    					Optional<String> benchOp = benchDialog.showAndWait();
+    					String select = "cancelled.";
+    					if(benchOp.isPresent())
+    					{
+    						select = benchOp.get();
+    						Debug.message(select);
+    						PokemonCard benchC = null;
+    						for(Node tempNode: userBench.getChildren())
+    						{
+    							PokemonCard tempCard = (PokemonCard) tempNode;
+    							if(tempCard.getCard().getID() == Integer.parseInt(select))
+    							{
+    								benchC = tempCard;
+    								System.out.println(benchC.getCard().getName());
+    							}
+    						}
+//    						user.setActivePokemon(null);
+    						user.setActivePokemon(benchC.getCard());
+    			    		user.addCardonBench(pokemonCard.getCard());
+    			    		
+    			    		//userActivePokemon.getChildren().add(benchC);
+    			    		benchC.setLocation(userActivePokemon);
+    			    		//userBench.getChildren().add(pokemonCard);
+    			    		pokemonCard.setLocation(userBench);
+    					}
+            			break;
+        			case "Evolve":
+        				PokemonCard card = evolveoptions(pokemonCard);
+        				if(card!=null){
+        					card.evolve(pokemonCard.getCard());
+        					userHand.getChildren().remove(pokemonCard);
+        					((CardsGroup) user.getInhand()).removeCard(pokemonCard.getCard());
+        					user.addCardonBench(pokemonCard.getCard());
         				}
-        				rb.setUserData(a.getName());
-        				rb.setToggleGroup(group);
-        				temppane.getChildren().add(rb);
-        				temppane.getChildren().add(new Label(Integer.toString(((damageAbility) a).getDamage())));
-        				grid.add(temppane, 0, 0);
-        			}
-        			abilitiesDialog.getDialogPane().setContent(grid);
-        			abilitiesDialog.getResult();
-        			abilitiesDialog.setResultConverter(dialogButton -> {
-        				if (dialogButton == attackButton) {
-        					return group.getSelectedToggle().getUserData().toString();
+        				else{
+        					Debug.message("No pokemon found");
         				}
-        				return null;
-        			});
-    		   	
-    		    	
-       				Node aButton = abilitiesDialog.getDialogPane().lookupButton(attackButton);
-       				aButton.setDisable(true);
-    	    	
-       				group.selectedToggleProperty().addListener(new ChangeListener<Toggle>(){
-       					public void changed(ObservableValue<? extends Toggle> ov,
-    	    	            Toggle old_toggle, Toggle new_toggle) {
-    	    	                if (group.getSelectedToggle() != null) {
-    	    	                	aButton.setDisable(false);
-    	    	                }                
-    	    	            }
-    	    	    });
-    	    	
-        			Optional<String> result2 = abilitiesDialog.showAndWait();
-        			if(result2.isPresent()){
-        				for(ability b: user.getActivePokemon().getAbilities()){
-        					if(b.getName()==result2.get()){
-        						b.useAbility();
-        						aiDamage.setText(Integer.toString(ai.getActivePokemon().getDamage()));
-        					}
-    		    		}
-        			}
-    		   		break;
-    		}
-		}
+        				break;
+        			case "View card abilities": 
+        				Debug.message("Showing card abilities");
+            			Dialog<String> abilitiesDialog = new Dialog<>();
+            			abilitiesDialog.setTitle("Abilities");
+            			abilitiesDialog.setHeaderText("Select any ability to use");
+            			ButtonType attackButton = new ButtonType("Attack", ButtonData.OK_DONE);
+            			abilitiesDialog.getDialogPane().getButtonTypes().addAll(attackButton, ButtonType.CANCEL);
+            			GridPane grid = new GridPane();
+            			grid.setHgap(10);
+            			grid.setVgap(10);
+            			grid.setPadding(new Insets(20, 150, 10, 10));
+        		   			    	
+            			final ToggleGroup group = new ToggleGroup();
+        		   	
+            			for(ability a : user.getActivePokemon().getAbilities()){
+            				FlowPane temppane = new FlowPane();
+            				RadioButton rb = new RadioButton(a.getName());
+            				if(!(user.getActivePokemon().getAttachedCardsCount()>=((damageAbility) a).getEnergyInfo().length)){
+            					rb.setDisable(true);
+            				}
+            				rb.setUserData(a.getName());
+            				rb.setToggleGroup(group);
+            				temppane.getChildren().add(rb);
+            				temppane.getChildren().add(new Label(Integer.toString(((damageAbility) a).getDamage())));
+            				grid.add(temppane, 0, 0);
+            			}
+            			abilitiesDialog.getDialogPane().setContent(grid);
+            			abilitiesDialog.getResult();
+            			abilitiesDialog.setResultConverter(dialogButton -> {
+            				if (dialogButton == attackButton) {
+            					return group.getSelectedToggle().getUserData().toString();
+            				}
+            				return null;
+            			});
+        		   	
+        		    	
+           				Node aButton = abilitiesDialog.getDialogPane().lookupButton(attackButton);
+           				aButton.setDisable(true);
+        	    	
+           				group.selectedToggleProperty().addListener(new ChangeListener<Toggle>(){
+           					public void changed(ObservableValue<? extends Toggle> ov,
+        	    	            Toggle old_toggle, Toggle new_toggle) {
+        	    	                if (group.getSelectedToggle() != null) {
+        	    	                	aButton.setDisable(false);
+        	    	                }                
+        	    	            }
+        	    	    });
+        	    	
+            			Optional<String> result2 = abilitiesDialog.showAndWait();
+            			if(result2.isPresent()){
+            				for(ability b: user.getActivePokemon().getAbilities()){
+            					if(b.getName()==result2.get()){
+            						b.useAbility();
+            						aiDamage.setText(Integer.toString(ai.getActivePokemon().getDamage()));
+            					}
+        		    		}
+            			}
+        		   		break;
+        		}
+        	}
+    	}
 	}
 
 	private FlowPane createCard(cardItem card, HBox panel){
