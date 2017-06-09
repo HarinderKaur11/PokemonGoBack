@@ -18,7 +18,7 @@ public class EvolveTest {
 	// pending
 	@Test
 	public void test() {
-		
+		String expected= "StageOne";
 		ArrayList<ability> newAbilities=new ArrayList<ability>();
 		pokemonStage newPokemonStage=new basicPokemon();
 		
@@ -28,22 +28,16 @@ public class EvolveTest {
 		UserPlayer up= new UserPlayer("alex");
 		
 		up.setActivePokemon(p);
-<<<<<<< HEAD
 		System.out.println(up.getActivePokemon().getName()+"   "+up.getActivePokemon().getStage());
 	
-		p.evolve(e);
-	    
+		
+	    up.evolve(e, p);
 		System.out.println(up.getActivePokemon().getName()+"   "+up.getActivePokemon().getStage());
 		
 		
-		//String actual=up.getActivePokemon().getStage();
-		
-=======
-		System.out.println(up.getActivePokemon().getName());
-		System.out.println(up.getActivePokemon().getStage());
-		e.evolve(p);
->>>>>>> 999cf368095ae1b18357e887fd524ffffd197b7c
-		
+		String actual=up.getActivePokemon().getStage();
+
+		assertEquals(expected, actual);
 		
 	}
 
