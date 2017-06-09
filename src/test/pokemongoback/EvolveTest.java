@@ -28,6 +28,7 @@ public class EvolveTest {
 		UserPlayer up= new UserPlayer("alex");
 		
 		up.setActivePokemon(p);
+<<<<<<< HEAD
 		System.out.println(up.getActivePokemon().getName()+"   "+up.getActivePokemon().getStage());
 	
 		p.evolve(e);
@@ -37,6 +38,11 @@ public class EvolveTest {
 		
 		//String actual=up.getActivePokemon().getStage();
 		
+=======
+		System.out.println(up.getActivePokemon().getName());
+		System.out.println(up.getActivePokemon().getStage());
+		e.evolve(p);
+>>>>>>> 999cf368095ae1b18357e887fd524ffffd197b7c
 		
 		
 	}

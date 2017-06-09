@@ -35,19 +35,9 @@ public class AIplayer extends Player {
 	private void runAI(){
 		boolean energyCardUsed = false;
 		ArrayList<Pokemon> cards = ((CardsGroup) this.inhand).getAllBasicPokemonCard();
-		if(this.activePokemon==null){
-			boolean noPokemon = true;
-			if(cards.size()!=0){
-				this.activePokemon = cards.remove(0);
-				((CardsGroup) this.inhand).removeCard(this.activePokemon);
-				noPokemon = false;
-				Debug.message("Active pokemon set: "+this.activePokemon.getName());
-				updateGUI();
-			}
-			if(noPokemon){
-				//declare Mulligan
-			}
-		}
+		
+		activePokemonMove();
+		
 		if(cards.size()!=0){
 			if(bench.getGroupCards().size()<5){
 				Pokemon card2 = cards.remove(0);
@@ -121,6 +111,24 @@ public class AIplayer extends Player {
 			}
 		}
 		return false;
+	}
+	
+	public void activePokemonMove(){
+		ArrayList<Pokemon> cards = ((CardsGroup) this.inhand).getAllBasicPokemonCard();
+		if(this.activePokemon==null){
+			if(!this.bench.getGroupCards().isEmpty()){
+				this.activePokemon = (Pokemon) this.bench.getGroupCards().get(0);
+			}
+			else if(cards.size()!=0){
+				this.activePokemon = cards.remove(0);
+				((CardsGroup) this.inhand).removeCard(this.activePokemon);
+				Debug.message("Active pokemon set: "+this.activePokemon.getName());
+				updateGUI();
+			}
+			else{
+				//declare Mulligan
+			}
+		}
 	}
 	
 	public void updateGUI(){

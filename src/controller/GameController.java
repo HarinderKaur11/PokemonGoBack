@@ -58,7 +58,7 @@ public class GameController {
 	@FXML private Label aiDamage;
 	@FXML private Pane gameStage;
 	@FXML private BorderPane gameBoard;
-	
+	@FXML private VBox btndn_rew,aiDisc_deck,AIReward,UIDisc_deck;
 	private GameController(){
 	}
 	
@@ -120,7 +120,7 @@ public class GameController {
     	panel.getChildren().add(newCard);
     }
       
-    private FlowPane createPokemonCard(Pokemon pokemon, HBox panel){
+    private PokemonCard createPokemonCard(Pokemon pokemon, HBox panel){
     	PokemonCard pokemonCard = new PokemonCard(pokemon, panel);
     	//pokemonCard.setStyle("-fx-background-color: #fff;"+"-fx-border-color: #000;"+"-fx-border-width: 1px;"+
     	//		"-fx-pref-width: 52px;"+ "-fx-pref-height: 70px");
@@ -233,8 +233,7 @@ public class GameController {
         				if(card!=null){
         					card.evolve(pokemonCard.getCard());
         					userHand.getChildren().remove(pokemonCard);
-        					((CardsGroup) user.getInhand()).removeCard(pokemonCard.getCard());
-        					user.getBench().addCard(pokemonCard.getCard());
+        					user.evolve(pokemonCard.getCard(), pokemonCard.getBasicCard());
         				}
         				else{
         					Debug.message("No pokemon found");
@@ -303,7 +302,7 @@ public class GameController {
     	}
 	}
 
-	private FlowPane createCard(cardItem card, HBox panel){
+	private GeneralCard createCard(cardItem card, HBox panel){
     	GeneralCard newCard = new GeneralCard(card);
     	
     	if(panel == userHand || panel == userBench)
@@ -551,31 +550,45 @@ public class GameController {
 				}
 			}
 			else{
-				ButtonType NewGame = new ButtonType("New Game", ButtonBar.ButtonData.YES);
-	            ButtonType Close = new ButtonType("Quit Game", ButtonBar.ButtonData.NO);
-				Alert ts = new Alert(Alert.AlertType.INFORMATION,"Game Over",NewGame,Close);
-	            ts.initStyle(StageStyle.UNDECORATED);
-	            ts.setHeaderText(null);
-	            ts.setX(475);
-	            ts.setY(270);
-	            Optional<ButtonType> result1 = ts.showAndWait();
-	            if(result1.isPresent()){
-	            	if(result1.get().getButtonData() == ButtonBar.ButtonData.YES){
-	            		userBench.getChildren().clear();
-	            		userActivePokemon.getChildren().clear();
-	            		userHand.getChildren().clear();
-	            		AIBench.getChildren().clear();
-	            		aiActivePokemon.getChildren().clear();
-	            		AIHand.getChildren().clear();
-	            		
-	            		init();
-	            	}
-	            	else{
-	            		Platform.exit();
-	            	}
-	            }
+				winOrLoss();
 			}
 		}
+		else{
+			if(ai.getBench().getCard().length != 0){
+				PokemonCard card = (PokemonCard) aiActivePokemon.getChildren().remove(0);
+				ai.getDiscardPile().addCard(card.getCard());
+				ai.activePokemonMove();
+			}
+			else{
+				winOrLoss();
+			}
+		}
+	}
+	
+	private void winOrLoss(){
+		ButtonType NewGame = new ButtonType("New Game", ButtonBar.ButtonData.YES);
+        ButtonType Close = new ButtonType("Quit Game", ButtonBar.ButtonData.NO);
+		Alert ts = new Alert(Alert.AlertType.INFORMATION,"Game Over",NewGame,Close);
+        ts.initStyle(StageStyle.UNDECORATED);
+        ts.setHeaderText(null);
+        ts.setX(475);
+        ts.setY(270);
+        Optional<ButtonType> result1 = ts.showAndWait();
+        if(result1.isPresent()){
+        	if(result1.get().getButtonData() == ButtonBar.ButtonData.YES){
+        		userBench.getChildren().clear();
+        		userActivePokemon.getChildren().clear();
+        		userHand.getChildren().clear();
+        		AIBench.getChildren().clear();
+        		aiActivePokemon.getChildren().clear();
+        		AIHand.getChildren().clear();
+        		
+        		init();
+        	}
+        	else{
+        		Platform.exit();
+        	}
+        }
 	}
 	
 	public void makeUIResponsive(){
@@ -595,11 +608,15 @@ public class GameController {
 		userScrollPane.setPrefWidth(maxWidth);
 		
 		gameBoard.setPrefHeight(boardAreaHeight);
-//		gameBoard.setPrefWidth(boardWidth);
-		
+//		gameBoard.setPrefWidth(boaWidth);
 		userBench.setPrefHeight(handHeight);
 		AIBench.setPrefHeight(handHeight);
-		
+		//btndn_rew.setLayoutY(gameBoard.getPrefHeight()/6.5);
+    //	btndn_rew.setLayoutX(gameBoard.getPrefWidth()/6);
+    	//aiDisc_deck.setLayoutY(gameBoard.getPrefHeight()/5.8);
+    	//aiDisc_deck.setLayoutX(gameBoard.getPrefWidth()/6);
+    	//UIDisc_deck.setLayoutY(gameBoard.getPrefHeight()/2.5);
+    	
 	}
 	
 }
