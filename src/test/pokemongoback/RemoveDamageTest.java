@@ -19,12 +19,30 @@ public class RemoveDamageTest {
 	
 	@Test
 	public void test(){
+		
+	
+		
 		ArrayList<ability> newAbilities=new ArrayList<ability>();
 		pokemonStage basic=new basicPokemon();
 		Pokemon pk = new Pokemon(2, "Pikachu", basic, 80, newAbilities);
 		System.out.println(pk.getDamage());
+		pk.removeDamage(10);
+		System.out.println(pk.getDamage());
 		pk.addDamage(10);
 		System.out.println(pk.getDamage());
+		pk.removeDamage(10);
+		System.out.println(pk.getDamage());
+		pk.addDamage(20);
+		System.out.println(pk.getDamage());
+		pk.removeDamage(10);
+		System.out.println(pk.getDamage());
+		pk.removeDamage(20);
+		System.out.println(pk.getDamage());
+		pk.addDamage(20);
+		System.out.println(pk.getDamage());
+		pk.removeDamage(0);
+		
+		
 		
 		
 		
