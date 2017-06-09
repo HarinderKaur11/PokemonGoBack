@@ -1,11 +1,8 @@
 package test.pokemongoback;
 import controller.GameController;
-
 import java.util.ArrayList;
-
 import org.junit.Test;
 import org.omg.Messaging.SyncScopeHelper;
-
 import javafx.scene.layout.HBox;
 import model.Pokemon;
 import model.UserPlayer;
