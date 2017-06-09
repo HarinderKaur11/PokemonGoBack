@@ -42,10 +42,10 @@ public class GameController {
 	private AIplayer ai;
 	
 
-	@FXML private ScrollPane userHandScroll;
+	@FXML private ScrollPane userScrollPane;
 	@FXML private HBox userBench;
 	@FXML private HBox userHand;
-	@FXML private ScrollPane AIHandScroll;
+	@FXML private ScrollPane aiScrollPane;
 	@FXML private HBox AIBench;
 	@FXML private HBox AIHand;
 	@FXML private HBox aiActivePokemon;
@@ -515,7 +515,7 @@ public class GameController {
 		Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
 		double maxHeight = screenBounds.getHeight();
 		double maxWidth = screenBounds.getWidth();
-		double handHeight = maxHeight/10;
+		double handHeight = maxHeight/8;
 		double boardAreaHeight = maxHeight-(2*handHeight);
 		double boardWidth = maxWidth - 200.0;
 		
@@ -523,12 +523,15 @@ public class GameController {
 		gameStage.setPrefWidth(maxWidth);
 		
 		AIHand.setPrefHeight(handHeight);
-		AIHand.setPrefWidth(maxWidth);
-		AIBench.setPrefHeight(handHeight);
+		aiScrollPane.setPrefWidth(maxWidth);
+		userHand.setPrefHeight(handHeight);
+		userScrollPane.setPrefWidth(maxWidth);
 		
 		gameBoard.setPrefHeight(boardAreaHeight);
 //		gameBoard.setPrefWidth(boardWidth);
 		
+		userBench.setPrefHeight(handHeight);
+		AIBench.setPrefHeight(handHeight);
 		
 	}
 	
