@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -21,6 +23,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
+import javafx.stage.StageStyle;
 import model.AIplayer;
 import model.CardsGroup;
 import model.Debug;
@@ -155,8 +158,8 @@ public class GameController {
     		}
     	}
     	else if(tempLoc==userActivePokemon){
-    		optionsList.add("Retreat");
 			optionsList.add("View card abilities");
+    		optionsList.add("Retreat");
     	}
     	if(optionsList.isEmpty()){
     		
@@ -180,7 +183,7 @@ public class GameController {
         				pokemonCard.setLayoutX(0);
         		   		pokemonCard.setLayoutY(0);
         		   		pokemonCard.setLocation(userBench);
-        		   		user.addCardonBench(pokemonCard.getCard());
+        		   		user.getBench().addCard(pokemonCard.getCard());
         		   		((CardsGroup) user.getInhand()).removeCard(pokemonCard.getCard());
         				break;
         			case "Retreat":
@@ -217,7 +220,7 @@ public class GameController {
     						}
 //    						user.setActivePokemon(null);
     						user.setActivePokemon(benchC.getCard());
-    			    		user.addCardonBench(pokemonCard.getCard());
+    			    		user.getBench().addCard(pokemonCard.getCard());
     			    		
     			    		//userActivePokemon.getChildren().add(benchC);
     			    		benchC.setLocation(userActivePokemon);
@@ -231,7 +234,7 @@ public class GameController {
         					card.evolve(pokemonCard.getCard());
         					userHand.getChildren().remove(pokemonCard);
         					((CardsGroup) user.getInhand()).removeCard(pokemonCard.getCard());
-        					user.addCardonBench(pokemonCard.getCard());
+        					user.getBench().addCard(pokemonCard.getCard());
         				}
         				else{
         					Debug.message("No pokemon found");
@@ -374,11 +377,11 @@ public class GameController {
 						select = benchOp.get();
 						Debug.message(select);
 						Pokemon benchC = null;
-						for(Pokemon pokemon: user.getBenchCards())
+						for(cardItem pokemon: user.getBench().getCard())
 						{
 							if(pokemon.getID() == Integer.parseInt(select))
 							{
-								benchC = pokemon;
+								benchC = (Pokemon) pokemon;
 							}
 						}
 				    	
@@ -417,6 +420,9 @@ public class GameController {
 				Debug.message("adding damage to label");
 				userDamage.setText(Integer.toString(user.getActivePokemon().getDamage()));
 			}
+			else{
+				userDamage.setText("0");
+			}
 		}else{
 			handpanel = userHand;
 			benchpanel = userBench;
@@ -424,9 +430,16 @@ public class GameController {
 			if(ai.getActivePokemon()!=null){
 				aiDamage.setText(Integer.toString(ai.getActivePokemon().getDamage()));
 			}
+			else{
+				aiDamage.setText("0");
+			}
 		}
-		addCardsToAIPanel(player.getInhandCards(), handpanel);	
-		addCardsToAIPanel(player.getBenchCards(), benchpanel);
+		if(player.getInhandCards()!=null){
+			addCardsToAIPanel(player.getInhandCards(), handpanel);	
+		}
+		if(player.getBench().getCard()!=null){
+			addCardsToAIPanel(player.getBench().getCard(), benchpanel);
+		}
 		if(player.getActivePokemon()!=null){
 			activePokemon.getChildren().clear();
 			activePokemon.getChildren().add(createPokemonCard(player.getActivePokemon()));
@@ -509,6 +522,60 @@ public class GameController {
 			}
 		}
 		return null;
+	}
+	
+	public void knockout(){
+		Player player = Turn.getInstance().getOpponent();
+		if(player instanceof UserPlayer){
+			PokemonCard card = (PokemonCard) userActivePokemon.getChildren().remove(0);
+			user.getDiscardPile().addCard(card.getCard());
+			if(user.getBench().getCard().length != 0){
+				ArrayList<String> optionsList = new ArrayList<String>();
+				for(cardItem pCard: user.getBench().getCard()){
+					optionsList.add(Integer.toString(pCard.getID()));
+				}
+				DialogBoxHandler dialog = new DialogBoxHandler();
+				Optional<String> result = dialog.getDialog(optionsList);
+				String selected = "cancelled.";
+			
+				if (result.isPresent()) {
+					selected = result.get();
+					for(Node nodeCard : userBench.getChildren()){
+						if(((PokemonCard) nodeCard).getCard().getID() == Integer.parseInt(selected)){
+							((PokemonCard) nodeCard).setLocation(userActivePokemon);
+							Pokemon pokemon = ((PokemonCard) nodeCard).getCard();
+							user.setActivePokemon(pokemon);
+							user.getBench().removeCard(pokemon);
+						}
+					}
+				}
+			}
+			else{
+				ButtonType NewGame = new ButtonType("New Game", ButtonBar.ButtonData.YES);
+	            ButtonType Close = new ButtonType("Quit Game", ButtonBar.ButtonData.NO);
+				Alert ts = new Alert(Alert.AlertType.INFORMATION,"Game Over",NewGame,Close);
+	            ts.initStyle(StageStyle.UNDECORATED);
+	            ts.setHeaderText(null);
+	            ts.setX(475);
+	            ts.setY(270);
+	            Optional<ButtonType> result1 = ts.showAndWait();
+	            if(result1.isPresent()){
+	            	if(result1.get().getButtonData() == ButtonBar.ButtonData.YES){
+	            		userBench.getChildren().clear();
+	            		userActivePokemon.getChildren().clear();
+	            		userHand.getChildren().clear();
+	            		AIBench.getChildren().clear();
+	            		aiActivePokemon.getChildren().clear();
+	            		AIHand.getChildren().clear();
+	            		
+	            		init();
+	            	}
+	            	else{
+	            		Platform.exit();
+	            	}
+	            }
+			}
+		}
 	}
 	
 	public void makeUIResponsive(){

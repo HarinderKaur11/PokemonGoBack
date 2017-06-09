@@ -49,9 +49,9 @@ public class AIplayer extends Player {
 			}
 		}
 		if(cards.size()!=0){
-			if(bench.size()<5){
+			if(bench.getGroupCards().size()<5){
 				Pokemon card2 = cards.remove(0);
-				bench.add(card2);
+				bench.addCard(card2);
 				Debug.message("Card added to bench: "+ card2.getName());
 				((CardsGroup) this.inhand).removeCard(card2);
 				updateGUI();
@@ -110,7 +110,8 @@ public class AIplayer extends Player {
 			return true;
 		}
 		else{
-			for(Pokemon pokemon : bench){
+			for(cardItem card : bench.getGroupCards()){
+				Pokemon pokemon = (Pokemon) card;
 				if(pokemon.getAttachedCards().length<pokemon.totalEnergyRequired()){
 					pokemon.attachCard(energyCards.get(0));
 					((CardsGroup) this.inhand).removeCard(energyCards.get(0));
