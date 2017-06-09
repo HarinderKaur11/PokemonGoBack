@@ -58,7 +58,7 @@ public class GameController {
 	@FXML private Label aiDamage;
 	@FXML private Pane gameStage;
 	@FXML private BorderPane gameBoard;
-	
+	@FXML private VBox btndn_rew,aiDisc_deck,AIReward,UIDisc_deck;
 	private GameController(){
 	}
 	
@@ -609,11 +609,15 @@ public class GameController {
 		userScrollPane.setPrefWidth(maxWidth);
 		
 		gameBoard.setPrefHeight(boardAreaHeight);
-//		gameBoard.setPrefWidth(boardWidth);
-		
+//		gameBoard.setPrefWidth(boaWidth);
 		userBench.setPrefHeight(handHeight);
 		AIBench.setPrefHeight(handHeight);
-		
+		//btndn_rew.setLayoutY(gameBoard.getPrefHeight()/6.5);
+    //	btndn_rew.setLayoutX(gameBoard.getPrefWidth()/6);
+    	//aiDisc_deck.setLayoutY(gameBoard.getPrefHeight()/5.8);
+    	//aiDisc_deck.setLayoutX(gameBoard.getPrefWidth()/6);
+    	//UIDisc_deck.setLayoutY(gameBoard.getPrefHeight()/2.5);
+    	
 	}
 	
 }
