@@ -120,7 +120,7 @@ public class GameController {
     	panel.getChildren().add(newCard);
     }
       
-    private FlowPane createPokemonCard(Pokemon pokemon, HBox panel){
+    private PokemonCard createPokemonCard(Pokemon pokemon, HBox panel){
     	PokemonCard pokemonCard = new PokemonCard(pokemon, panel);
     	//pokemonCard.setStyle("-fx-background-color: #fff;"+"-fx-border-color: #000;"+"-fx-border-width: 1px;"+
     	//		"-fx-pref-width: 52px;"+ "-fx-pref-height: 70px");
@@ -303,7 +303,7 @@ public class GameController {
     	}
 	}
 
-	private FlowPane createCard(cardItem card, HBox panel){
+	private GeneralCard createCard(cardItem card, HBox panel){
     	GeneralCard newCard = new GeneralCard(card);
     	
     	if(panel == userHand || panel == userBench)
@@ -551,31 +551,45 @@ public class GameController {
 				}
 			}
 			else{
-				ButtonType NewGame = new ButtonType("New Game", ButtonBar.ButtonData.YES);
-	            ButtonType Close = new ButtonType("Quit Game", ButtonBar.ButtonData.NO);
-				Alert ts = new Alert(Alert.AlertType.INFORMATION,"Game Over",NewGame,Close);
-	            ts.initStyle(StageStyle.UNDECORATED);
-	            ts.setHeaderText(null);
-	            ts.setX(475);
-	            ts.setY(270);
-	            Optional<ButtonType> result1 = ts.showAndWait();
-	            if(result1.isPresent()){
-	            	if(result1.get().getButtonData() == ButtonBar.ButtonData.YES){
-	            		userBench.getChildren().clear();
-	            		userActivePokemon.getChildren().clear();
-	            		userHand.getChildren().clear();
-	            		AIBench.getChildren().clear();
-	            		aiActivePokemon.getChildren().clear();
-	            		AIHand.getChildren().clear();
-	            		
-	            		init();
-	            	}
-	            	else{
-	            		Platform.exit();
-	            	}
-	            }
+				winOrLoss();
 			}
 		}
+		else{
+			if(ai.getBench().getCard().length != 0){
+				PokemonCard card = (PokemonCard) aiActivePokemon.getChildren().remove(0);
+				ai.getDiscardPile().addCard(card.getCard());
+				ai.activePokemonMove();
+			}
+			else{
+				winOrLoss();
+			}
+		}
+	}
+	
+	private void winOrLoss(){
+		ButtonType NewGame = new ButtonType("New Game", ButtonBar.ButtonData.YES);
+        ButtonType Close = new ButtonType("Quit Game", ButtonBar.ButtonData.NO);
+		Alert ts = new Alert(Alert.AlertType.INFORMATION,"Game Over",NewGame,Close);
+        ts.initStyle(StageStyle.UNDECORATED);
+        ts.setHeaderText(null);
+        ts.setX(475);
+        ts.setY(270);
+        Optional<ButtonType> result1 = ts.showAndWait();
+        if(result1.isPresent()){
+        	if(result1.get().getButtonData() == ButtonBar.ButtonData.YES){
+        		userBench.getChildren().clear();
+        		userActivePokemon.getChildren().clear();
+        		userHand.getChildren().clear();
+        		AIBench.getChildren().clear();
+        		aiActivePokemon.getChildren().clear();
+        		AIHand.getChildren().clear();
+        		
+        		init();
+        	}
+        	else{
+        		Platform.exit();
+        	}
+        }
 	}
 	
 	public void makeUIResponsive(){
