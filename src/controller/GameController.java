@@ -10,13 +10,17 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Screen;
 import model.AIplayer;
 import model.CardsGroup;
 import model.Debug;
@@ -50,6 +54,7 @@ public class GameController {
 	@FXML private Label userDamage;
 	@FXML private Label aiDamage;
 	@FXML private Pane gameStage;
+	@FXML private BorderPane gameBoard;
 	
 	private GameController(){
 	}
@@ -505,4 +510,26 @@ public class GameController {
 		}
 		return null;
 	}
+	
+	public void makeUIResponsive(){
+		Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+		double maxHeight = screenBounds.getHeight();
+		double maxWidth = screenBounds.getWidth();
+		double handHeight = maxHeight/10;
+		double boardAreaHeight = maxHeight-(2*handHeight);
+		double boardWidth = maxWidth - 200.0;
+		
+		gameStage.setPrefHeight(maxHeight);
+		gameStage.setPrefWidth(maxWidth);
+		
+		AIHand.setPrefHeight(handHeight);
+		AIHand.setPrefWidth(maxWidth);
+		AIBench.setPrefHeight(handHeight);
+		
+		gameBoard.setPrefHeight(boardAreaHeight);
+//		gameBoard.setPrefWidth(boardWidth);
+		
+		
+	}
+	
 }

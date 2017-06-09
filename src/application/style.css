@@ -2,20 +2,28 @@
     -fx-background-color: #207cf1;
     -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);
 }
-#gullu{
-     -fx-background-image: url("poke.png");
-     -fx-background-repeat: stretch;
-     -fx-background-size: 622  417;
-     -fx-background-position: center center;
+#gameBoard{
+     -fx-background-color: #fff;
      -fx-effect: dropshadow(three-pass-box, black, 10, 0.5, 0, 0);
  }
  #gameStage{
-     -fx-background-color: #f7c042;
-     -fx-effect: dropshadow(three-pass-box, black, 10, 0.5, 0, 0);
+ 	-fx-alignment: top-center;
+    -fx-background-color: #f7c042;
+    -fx-effect: dropshadow(three-pass-box, black, 10, 0.5, 0, 0);
  }
+ #innergamebox{
+ 	-fx-alignment: center;
+ }
+#AIBench{
+	-fx-alignment:top-center;
+}
+#userBench{
+	-fx-alignment:bottom-center;
+}
+ 
 #userBench, #pane7, #AIBench, #AIHand, #userBench, #userHand{
-     -fx-border-color: #2e5b10;
-         -fx-border-width: 2px;
+    -fx-border-color: #2e5b10;
+	-fx-border-width: 2px;
 }
 #userActivePokemon, #aiActivePokemon{
 	     -fx-border-color: #2e3b57;

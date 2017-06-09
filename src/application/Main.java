@@ -18,12 +18,11 @@ public class Main extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("sample.fxml"));
         loader.setController(GameController.getInstance());
         Parent root = loader.load();
+
+        GameController.getInstance().makeUIResponsive();
         primaryStage.setTitle("PokemonGB");
         primaryStage.setScene(new Scene(root));
         primaryStage.setMaximized(true);
-        Pane gameStage = new Pane();
-        gameStage.setPrefHeight(primaryStage.getHeight());
-        gameStage.setPrefWidth(primaryStage.getWidth());
         primaryStage.setResizable(false);
         primaryStage.show();
         
