@@ -233,8 +233,7 @@ public class GameController {
         				if(card!=null){
         					card.evolve(pokemonCard.getCard());
         					userHand.getChildren().remove(pokemonCard);
-        					((CardsGroup) user.getInhand()).removeCard(pokemonCard.getCard());
-        					user.getBench().addCard(pokemonCard.getCard());
+        					user.evolve(pokemonCard.getCard(), pokemonCard.getBasicCard());
         				}
         				else{
         					Debug.message("No pokemon found");
