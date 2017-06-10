@@ -6,10 +6,20 @@ import java.util.Collections;
 public class Deck extends CardsGroup{
 	
 	private String name;
+	private int deckNumber;
 	
-	public void buildDeck(int deckNumber){
-		DeckFileReader filereader = new DeckFileReader(deckNumber);
-		ArrayList<String[]> cardsList = filereader.getDeck();
+	public Deck(){}
+	
+	public Deck(int n){
+		this.deckNumber = n;
+	}
+	
+	public void buildDeck(){
+		DeckFileReader filereader = new DeckFileReader(this.deckNumber);
+		this.buildDeck(filereader.getDeck());
+	}
+	
+	public void buildDeck(ArrayList<String[]> cardsList){
 		pokemonStage stage = new basicPokemon();
 		ArrayList<ability> newAbility = new ArrayList<ability>();
 		Energy[] EnergyInfo = {new Energy("Fighting")};
@@ -52,7 +62,7 @@ public class Deck extends CardsGroup{
 			//}
 			//Debug.message(this.getGroupCards().size());
 		}
-		this.shufflecards();
+		//this.shufflecards();
 	}
 	/* Method for testing purpose only */
 	public void buildDeckTest(){
@@ -68,7 +78,7 @@ public class Deck extends CardsGroup{
 		for(;j<60;j++){
 			this.getGroupCards().add(new Pokemon(j,"Raichu", new stageOnePokemon("Pikachu"), 30, newAbility));
 		}
-		this.shufflecards();
+		//this.shufflecards();
 	}
 	
 	public void display(){
