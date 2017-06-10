@@ -1,5 +1,8 @@
 package test.pokemongoback;
 import controller.GameController;
+
+import static org.junit.Assert.*;
+
 import java.util.ArrayList;
 import org.junit.Test;
 import org.omg.Messaging.SyncScopeHelper;
@@ -11,39 +14,24 @@ import model.basicPokemon;
 import model.cardItem;
 import model.pokemonStage;
 
-public class RemoveDamageTest {
+public class RemoveDamageTest1 {
 
 	
 	@Test
 	public void test(){
 		
 	
-		
 		ArrayList<ability> newAbilities=new ArrayList<ability>();
 		pokemonStage basic=new basicPokemon();
 		Pokemon pk = new Pokemon(2, "Pikachu", basic, 80, newAbilities);
-		System.out.println(pk.getDamage());
+		
+		int expected=0;
 		pk.removeDamage(10);
-		System.out.println(pk.getDamage());
-		pk.addDamage(10);
-		System.out.println(pk.getDamage());
-		pk.removeDamage(10);
-		System.out.println(pk.getDamage());
-		pk.addDamage(20);
-		System.out.println(pk.getDamage());
-		pk.removeDamage(10);
-		System.out.println(pk.getDamage());
-		pk.removeDamage(20);
-		System.out.println(pk.getDamage());
-		pk.addDamage(20);
-		System.out.println(pk.getDamage());
-		pk.removeDamage(0);
 		
+		int actual=pk.getDamage();
+		assertEquals(expected,actual);
 		
-		
-		
-		
-	
+
 
 }
 }
