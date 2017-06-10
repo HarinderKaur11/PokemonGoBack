@@ -27,23 +27,17 @@ public class Deck extends CardsGroup{
 		
 		int x = 1;
 		for(String[] cards : cardsList){
-			//int n = Integer.parseInt(cards[0]);
-			//Debug.message(n+" "+cards[1]);
-			//for(int i=1;i<=n;i++){\
-			
-			if(cards[1]=="pokemon"){
-				Debug.message("Hello checkpoint");
-			}
 			
 				switch(cards[1]){
 					
 					case "pokemon":
+						
 						if(cards[3].equals("basic")){
-							//Debug.message("checkpoint3");
+							//Debug.message(cards[15] + cards[0]);
 							this.getGroupCards().add(new Pokemon(x, cards[0], stage, Integer.parseInt(cards[6]), newAbility));
 						}
 						else if(cards[3].equals("stage-one")){
-							//Debug.message(cards[3] + cards[6]);
+							//Debug.message(cards[0] + " evolves from " + cards[4]);
 							this.getGroupCards().add(new Pokemon(x, cards[0], new stageOnePokemon(cards[4]), Integer.parseInt(cards[7]), newAbility));
 						}
 						else{
