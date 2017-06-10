@@ -98,45 +98,90 @@ public class DeckFileReader {
 				
 			}
 			
-			for(String [] card:deck){
-				if(card[1].equals("pokemon")){
-					//Debug.message(card[0]);
-				String carditem = String.join(" ", card);
-				//String carditem = Arrays.toString(card);
-				//Debug.message(carditem);
-				String retreat = carditem.substring(carditem.indexOf("retreat cat"), carditem.indexOf("attack"));
-				String ability = carditem.substring(carditem.indexOf("attack"));
-				String [] abilities = ability.split(",");
-				//Debug.message(abilities[0]);
-				String [] abilityone = abilities[0].split("\\s+");
-				Debug.message(abilityone.length);
-				switch (abilities.length) {
-				case 2:
+			for(String [] card:deck)
+			{
+				int count =0;
+				switch(card[1])
+				{	
+					case "pokemon":
+						String carditem = String.join(" ", card);
+						String retreat = carditem.substring(carditem.indexOf("retreat cat"), carditem.indexOf("attack"));
+						String ability = carditem.substring(carditem.indexOf("attack"));
+						String [] abilities = ability.split(",");
+						String[] abilityone = abilities[0].split("\\s+"), abilitytwo, abilitythree;
+						String [] energyType = new String[3], energyCount = new String[3], line = new String[3];
+						if(abilityone.length == 4)
+						{
+							abilityone = (abilities[0] + abilities[1]).split("\\s+");
+							count=1;
+							energyType[0] = abilityone[2];
+							energyType[1] = abilityone[5];
+							energyCount[0] = abilityone[3];
+							energyCount[0] = abilityone[6];
+							line[0] = abilityone[7];
+						}
+						else
+						{
+							// for abilityone length = 5
+							count=1;
+							energyType[0] = abilityone[2];
+							energyCount[0] = abilityone[3];
+							line[0] = abilityone[4];
+							switch (abilities.length) 
+							{
+								case 2:
+									abilitytwo = abilities[1].split("\\s+");
+									count=2;
+									energyType[0] = abilityone[2];
+									energyType[1] = abilitytwo[1];
+									energyCount[0] = abilityone[3];
+									energyCount[0] = abilitytwo[2];
+									line[0] = abilityone[4];
+									line[1] = abilitytwo[3];
+									break;
+								case 3:
+									abilitytwo = abilities[1].split("\\s+");
+									if(abilitytwo.length == 3)
+									{
+										abilitytwo = (abilities[1] + abilities[2]).split("//s+");
+										count=2;
+										energyType[0] = abilityone[2];
+										energyType[1] = abilitytwo[1];
+										energyType[2] = abilitytwo[4];
+										energyCount[0] = abilityone[3];
+										energyCount[1] = abilitytwo[2];
+										energyCount[2] = abilitytwo[5];
+										line[0] = abilityone[4];
+										line[1] = abilitytwo[6];
+									}
+									else
+									{
+										//not needed yet (case not found)
+										abilitythree = abilities[2].split("\\s+");
+										count=3;
+										energyType[0] = abilityone[2];
+										energyType[1] = abilitytwo[1];
+										energyType[2] = abilitythree[1];
+										energyCount[0] = abilityone[3];
+										energyCount[1] = abilitytwo[2];
+										energyCount[2] = abilitythree[2];
+										line[0] = abilityone[4];
+										line[1] = abilitytwo[3];
+										line[2] = abilitythree[3];
+									}
+									break;
+							}
+							
+						}
+						Debug.message(count);
+						Debug.message(ability);
+						break;
 					
-					if(abilityone.length == 5){
-					//String	abilityfirst = abilities[0];
-					String abilitysec = abilities[1];	
-					}
-					break;
-				case 3:
-					//String [] abilityone = abilities[0].split("//s+");
-					if(abilityone.length == 5){
-					String	abilityfirst = abilities[0];
-					String[] abilitytwo = abilities[1].split("\\s+");
-					if(abilitytwo.length==4){
-						String abilitysecond = abilities[1];
-						//String abilitythird = abilities[2];
-					}
-					else if (abilitytwo.length == 3){
-						String abilitysecond = abilities[1] + abilities[2];
-			//Do more code
-					}
-					}
-					break;
-				default:
-					break;
-				}
-				Debug.message(ability);
+					case "trainer":
+						break;
+						
+					case "energy":
+						break;
 				}        
 				
 			}
