@@ -1,37 +1,33 @@
 package test.pokemongoback;
+
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 
 import org.junit.Test;
 
+import model.Energy;
 import model.Pokemon;
 import model.ability;
 import model.basicPokemon;
+import model.cardItem;
 import model.pokemonStage;
 
-public class KnockoutTest {
+public class DettachCardType1 {
 
 	@Test
-	public void testKnockout() {
-	
-	
-		int damage;
-		int hitpoints=60;
+	public void test() {
 		
-		String expected= "knockedOut";
-		
-
 		
 		ArrayList<ability> newAbilities=new ArrayList<ability>();
 		pokemonStage basic=new basicPokemon();
 		Pokemon pk = new Pokemon(2, "Pikachu", basic, 80, newAbilities);
-		System.out.println(pk.getDamage());
-		System.out.println(pk.getState());
-		pk.addDamage(90);
-		System.out.println(pk.getDamage());
-		System.out.println(pk.getState());
-		String actual=pk.getState();
-		assertEquals(expected, actual);
-}
+		
+		int expected=0;
+		pk.dettachCardType(Energy.class, 1);
+		
+		assertEquals(expected,pk.getAttachedCardsCount());
+		
+	}
+
 }
