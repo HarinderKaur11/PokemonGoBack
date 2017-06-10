@@ -112,7 +112,7 @@ public class DeckFileReader {
 						String [] energyType = new String[3], energyCount = new String[3], line = new String[3];
 						if(abilityone.length == 4)
 						{
-							abilityone = (abilities[0] + abilities[1]).split("\\s+");
+							abilityone = (abilities[0] + " " + abilities[1]).split("\\s+");
 							count=1;
 							energyType[0] = abilityone[2];
 							energyType[1] = abilityone[5];
@@ -120,15 +120,16 @@ public class DeckFileReader {
 							energyCount[0] = abilityone[6];
 							line[0] = abilityone[7];
 						}
-						else
+						else //if (abilityone.length == 5)
 						{
-							// for abilityone length = 5
-							count=1;
-							energyType[0] = abilityone[2];
-							energyCount[0] = abilityone[3];
-							line[0] = abilityone[4];
 							switch (abilities.length) 
 							{
+								case 1:
+									count=1;
+									energyType[0] = abilityone[2];
+									energyCount[0] = abilityone[3];
+									line[0] = abilityone[4];
+									break;
 								case 2:
 									abilitytwo = abilities[1].split("\\s+");
 									count=2;
@@ -143,16 +144,16 @@ public class DeckFileReader {
 									abilitytwo = abilities[1].split("\\s+");
 									if(abilitytwo.length == 3)
 									{
-										abilitytwo = (abilities[1] + abilities[2]).split("//s+");
+										abilitytwo = (abilitytwo.toString() + " " + abilities[2]).split("//s+");
 										count=2;
 										energyType[0] = abilityone[2];
-										energyType[1] = abilitytwo[1];
-										energyType[2] = abilitytwo[4];
+										//energyType[1] = abilitytwo[1];
+										//energyType[2] = abilitytwo[4];
 										energyCount[0] = abilityone[3];
-										energyCount[1] = abilitytwo[2];
-										energyCount[2] = abilitytwo[5];
+										//energyCount[1] = abilitytwo[2];
+										//energyCount[2] = abilitytwo[5];
 										line[0] = abilityone[4];
-										line[1] = abilitytwo[6];
+										//line[1] = abilitytwo[6];
 									}
 									else
 									{
@@ -171,7 +172,6 @@ public class DeckFileReader {
 									}
 									break;
 							}
-							
 						}
 						Debug.message(count);
 						Debug.message(ability);
@@ -181,8 +181,8 @@ public class DeckFileReader {
 						break;
 						
 					case "energy":
-						break;
-				}        
+						break;      
+				}
 				
 			}
 
