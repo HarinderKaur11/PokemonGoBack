@@ -72,15 +72,32 @@ public class DeckFileReader {
 			}
 
 			//parse abilities.txt
+			
+			//abilityName = ablty.substring(0, ablty.indexOf(":"))
+			
 			for(String ablty: abilityR)
 			{
 				String abilityElement = ablty.replace(":", " ").substring(ablty.indexOf(":")+1);
-				
+				String sub[] = abilityElement.split(",");
 //				Debug.message(abilityElement);
-				
-				for(String a: abilityElement.split(","))
+				if(abilityElement.indexOf("(") > 0)
+				{
+					if(abilityElement.indexOf(")") < 0)
+					{
+						sub = abilityElement.substring(0, abilityElement.indexOf("(")).split(",");
+					}
+					else
+					{
+						sub = abilityElement.substring(0, abilityElement.indexOf("(")).concat(abilityElement.substring(abilityElement.indexOf(")") + 1)).split(",");
+					}
+				}
+				for(String a: sub)
 				{
 					String array[] = a.split(" ");
+					
+					// if(bracket)
+					
+					
 //					int index = abilityElement.indexOf(",");
 //					getAbilityItem(a.substring(index+1, abilityElement.indexOf(" ")));
 					getAbilityItem(array[0]);
