@@ -244,15 +244,23 @@ public class DeckFileReader {
 				//Debug.message(drawCards);
 				break;
 			case "deck":
+				int i = 0;
 				for(String ab: a)
 				{
 					//Debug.message(ab);
 					if(ab.contains("target"))
-						target = ab.substring(ab.indexOf("target"+6), ab.indexOf(" ", ab.indexOf("target"+6)));
+					{
+						//Debug.message(ab);
+						//Debug.message(ab.indexOf(" ", ab.indexOf("target"+6)));
+						//Debug.message(ab.indexOf("target"+6));
+						target = a[i+1];
+						Debug.message(target);
+					}
 					if(ab.contains("destination"))
-						destination = ab.substring(ab.indexOf("destination"+11), ab.indexOf(" ", ab.indexOf("destination"+11)));
+						destination = a[i+1];
 					drawCards= String.valueOf(indexOf("\\d", ab));
-					Debug.message("deck"+drawCards);
+					//Debug.message("deck"+drawCards);
+					i++;
 				}
 				break;
 			case "search":
