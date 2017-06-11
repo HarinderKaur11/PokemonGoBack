@@ -76,13 +76,14 @@ public class DeckFileReader {
 			{
 				String abilityElement = ablty.replace(":", " ").substring(ablty.indexOf(":")+1);
 				
-				Debug.message(abilityElement);
+//				Debug.message(abilityElement);
 				
-				getAbilityItem(abilityElement.substring(0, abilityElement.indexOf(" ")));
 				for(String a: abilityElement.split(","))
 				{
-					int index = abilityElement.indexOf(",");
-					getAbilityItem(a.substring(index+1, abilityElement.indexOf(" ")));
+					String array[] = a.split(" ");
+//					int index = abilityElement.indexOf(",");
+//					getAbilityItem(a.substring(index+1, abilityElement.indexOf(" ")));
+					getAbilityItem(array[0]);
 				}
 				
 			}
