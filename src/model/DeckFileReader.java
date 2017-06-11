@@ -169,11 +169,13 @@ public class DeckFileReader {
 									break;
 							}
 						}
+
 //						for(String ab: abilityInfo)
 //						{
 //							Debug.message(ab);
 //						}
 						//Pokemon pk = new Pokemon();
+
 						break;
 					
 					case "trainer":

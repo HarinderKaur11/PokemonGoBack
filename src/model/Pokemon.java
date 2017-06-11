@@ -130,20 +130,20 @@ public class Pokemon implements cardItem{
 		return false;
 	}
 	
-	public static void main(String[] arg){
-		pokemonStage newPokemonStage = new stageOnePokemon("Pikachu");
-		pokemonStage newPokemon2Stage = new basicPokemon();
-		ArrayList<ability> newAbilities = new ArrayList<ability>();
-		Energy[] energyRequired = {new Energy("Lighting",6)};
-		newAbilities.add(new damageAbility("Thunder Bolt", 20, energyRequired, "Pokemon"));
-		Pokemon pikachu = new Pokemon(2, "Raichu", newPokemonStage, 80, newAbilities);
-		ability[] ability = pikachu.getAbilities();
-		
-		System.out.println(pikachu.getStage() +" "+ pikachu.getName() + " " + pikachu.getDamage() +" "+ ability[0].getClass().getName());
-		
-		Pokemon meow = new Pokemon(1, "Meow", newPokemon2Stage, 80, newAbilities); 
-		System.out.print(meow.getStage());
-	}
+//	public static void main(String[] arg){
+//		pokemonStage newPokemonStage = new stageOnePokemon("Pikachu");
+//		pokemonStage newPokemon2Stage = new basicPokemon();
+//		ArrayList<ability> newAbilities = new ArrayList<ability>();
+//		Energy[] energyRequired = {new Energy("Lighting",6)};
+//		newAbilities.add(new damageAbility("Thunder Bolt", 20, energyRequired, "Pokemon"));
+//		Pokemon pikachu = new Pokemon(2, "Raichu", newPokemonStage, 80, newAbilities);
+//		ability[] ability = pikachu.getAbilities();
+//		
+//		System.out.println(pikachu.getStage() +" "+ pikachu.getName() + " " + pikachu.getDamage() +" "+ ability[0].getClass().getName());
+//		
+//		Pokemon meow = new Pokemon(1, "Meow", newPokemon2Stage, 80, newAbilities); 
+//		System.out.print(meow.getStage());
+//	}
 
 	public int getHP() {
 		// TODO Auto-generated method stub
