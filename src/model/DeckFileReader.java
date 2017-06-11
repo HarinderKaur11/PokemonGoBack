@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.regex.*;
 
 public class DeckFileReader {
 	private String deck1file = "resources/deck1.txt";
@@ -35,16 +36,17 @@ public class DeckFileReader {
 		try {
 
 			String sCurrentLine;
-			String cardLine;
+			String cardLine, abilityLine;
 			br = new BufferedReader(new FileReader(filename));
 			cr = new BufferedReader(new FileReader(cardsfile));
 			ar = new BufferedReader(new FileReader(abilityfile));
 			
 			String cards[] = new String[100];   //change size
+			String abilityR[] = new String[74];
 //			br.readLine();
 			String Deck1[] = new String[60];
 			//String type = new String();
-			int i=0,j = 0;
+			int i=0,j = 0, k=0;
 			
 			while ((cardLine = cr.readLine()) != null) {
 				
@@ -52,139 +54,107 @@ public class DeckFileReader {
 				i++;
 			}
 			
-			
+			while ((abilityLine = ar.readLine()) != null) {
+				
+				abilityR[k] = abilityLine;
+				k++;
+			}
+
 			while ((sCurrentLine = br.readLine()) != null) {
 				
-				
 				Deck1[j] = cards[Integer.parseInt(sCurrentLine)-1];
-				//Debug.message(Deck1[j]);
+			
 				String[] deckcard = Deck1[j].split(":");
-				//Debug.message(deckcard.length + " " + deckcard[1]);
-				//String[] card = deckcard[0];
+				
 				deck.add(deckcard);
 						
-//				switch(deckcard[1]){
-//				case "trainer":
-//					break;
-//				
-//				case "energy":
-//					break;
-//					
-//				case "pokemon":
-//					break;
-//				}
-				
-				
-				//Debug.message(sCurrentLine);
 				j++;
+			}
+
+			//parse abilities.txt
+			for(String ablty: abilityR)
+			{
+				String abilityElement = ablty.replace(":", " ").substring(ablty.indexOf(":")+1);
 				
+				Debug.message(abilityElement);
 				
-//				if(sCurrentLine.startsWith("##")){
-//					type = sCurrentLine.substring(2, 3);
-//					//Debug.message(type);
-//				}
-//				if(!sCurrentLine.startsWith("* ")){
-//					continue;
-//				}
-//				sCurrentLine = sCurrentLine.replace("* ","");
-//				String[] cline = sCurrentLine.split(" ", 2);
-//				String[] card = new String[cline.length+1];
-//				for(int x=0;x<cline.length;x++){
-//					card[x] = cline[x];
-//				}
-//				card[card.length-1] = type;
-//				deck.add(card);
-//				//Debug.message(card[0]+" "+card[1]+" "+card[2]);
+				getAbilityItem(abilityElement.substring(0, abilityElement.indexOf(" ")));
+				for(String a: abilityElement.split(","))
+				{
+					int index = abilityElement.indexOf(",");
+					getAbilityItem(a.substring(index+1, abilityElement.indexOf(" ")));
+				}
 				
 			}
 			
 			for(String [] card:deck)
 			{
-				int count =0;
+				//parse cards.txt
 				switch(card[1])
 				{	
 					case "pokemon":
 						String carditem = String.join(" ", card);
-						String retreat = carditem.substring(carditem.indexOf("retreat cat"), carditem.indexOf("attack"));
+						//String retreat = carditem.substring(carditem.indexOf("retreat cat"), carditem.indexOf("attack"));
 						String ability = carditem.substring(carditem.indexOf("attack"));
-						String [] abilities = ability.split(",");
-						String[] abilityone = abilities[0].split("\\s+"), abilitytwo, abilitythree;
-						String [] energyType = new String[3], energyCount = new String[3], line = new String[3];
-						if(abilityone.length == 4)
+						
+						ArrayList<String> abilityInfo = new ArrayList<String>();
+						
+						String ability1, ability2; 
+						int index = indexOf("\\d\\s+\\d", ability);
+						
+						ability1 = ability.substring(8, index+1);
+						//Debug.message(ability1);
+						
+						String[] abilityone = ability1.split(",");
+						String[] substring11 = abilityone[0].split("\\s+");
+						switch(abilityone.length)
 						{
-							abilityone = (abilities[0] + " " + abilities[1]).split("\\s+");
-							count=1;
-							energyType[0] = abilityone[2];
-							energyType[1] = abilityone[5];
-							energyCount[0] = abilityone[3];
-							energyCount[0] = abilityone[6];
-							line[0] = abilityone[7];
+							case 1:
+								abilityInfo.add((substring11[1]+" "+substring11[2]+" "+ abilityR[Integer.parseInt(substring11[3])-1]));
+								break;
+							case 2:
+								String[] substring12 = abilityone[1].split("\\s+");
+								abilityInfo.add((substring11[1]+" "+substring11[2]+" "+substring12[1]+" "+substring12[2]+" "+abilityR[Integer.parseInt(substring12[3])-1]));
+								break;
 						}
-						else //if (abilityone.length == 5)
+						
+						if(ability.length() >= index+2)
 						{
-							switch (abilities.length) 
+							ability2 = ability.substring(index+2);
+							//Debug.message(ability2);
+						
+							String[] abilitytwo = ability2.split(",");
+							String[] substring21 = abilitytwo[0].split("\\s+");
+							switch(abilitytwo.length)
 							{
 								case 1:
-									count=1;
-									energyType[0] = abilityone[2];
-									energyCount[0] = abilityone[3];
-									line[0] = abilityone[4];
+//									Debug.message(substring21[3]);
+//									Debug.message(abilityR[Integer.parseInt(substring21[3])-1]);
+									abilityInfo.add((substring21[1]+" "+substring21[2]+" "+ abilityR[Integer.parseInt(substring21[3])-1]));
 									break;
 								case 2:
-									abilitytwo = abilities[1].split("\\s+");
-									count=2;
-									energyType[0] = abilityone[2];
-									energyType[1] = abilitytwo[1];
-									energyCount[0] = abilityone[3];
-									energyCount[0] = abilitytwo[2];
-									line[0] = abilityone[4];
-									line[1] = abilitytwo[3];
-									break;
-								case 3:
-									abilitytwo = abilities[1].split("\\s+");
-									if(abilitytwo.length == 3)
-									{
-										abilitytwo = (abilitytwo.toString() + " " + abilities[2]).split("//s+");
-										count=2;
-										energyType[0] = abilityone[2];
-										//energyType[1] = abilitytwo[1];
-										//energyType[2] = abilitytwo[4];
-										energyCount[0] = abilityone[3];
-										//energyCount[1] = abilitytwo[2];
-										//energyCount[2] = abilitytwo[5];
-										line[0] = abilityone[4];
-										//line[1] = abilitytwo[6];
-									}
-									else
-									{
-										//not needed yet (case not found)
-										abilitythree = abilities[2].split("\\s+");
-										count=3;
-										energyType[0] = abilityone[2];
-										energyType[1] = abilitytwo[1];
-										energyType[2] = abilitythree[1];
-										energyCount[0] = abilityone[3];
-										energyCount[1] = abilitytwo[2];
-										energyCount[2] = abilitythree[2];
-										line[0] = abilityone[4];
-										line[1] = abilitytwo[3];
-										line[2] = abilitythree[3];
-									}
+									String[] substring22 = abilitytwo[1].split("\\s+");
+									abilityInfo.add((substring21[1]+" "+substring21[2]+" "+substring22[1]+" "+substring22[2]+" "+abilityR[Integer.parseInt(substring11[3])-1]));
 									break;
 							}
 						}
-						Debug.message(count);
-						Debug.message(ability);
+//						for(String ab: abilityInfo)
+//						{
+//							Debug.message(ab);
+//						}
+						//Pokemon pk = new Pokemon();
 						break;
 					
 					case "trainer":
+						
 						break;
 						
 					case "energy":
 						break;      
 				}
-				
+				//switch()
 			}
+			
 
 		} catch (IOException e) {
 
@@ -216,5 +186,42 @@ public class DeckFileReader {
 	public static void main(String[] arg){
 		DeckFileReader deck = new DeckFileReader(1);
 		deck.getDeck();
+	}
+	
+	public static int indexOf(String pattern, String s) {
+		Pattern patternString = Pattern.compile(pattern);
+	    Matcher matcher = patternString.matcher(s);
+	    return matcher.find() ? matcher.end() : -1;
+	}
+	
+	public void getAbilityItem(String a)
+	{
+		Debug.message(a);
+		switch(a)
+		{
+			case "dam":
+				break;
+			case "cond":
+				break;
+			case "swap":
+				break;
+			case "draw":
+				break;
+			case "deck":
+				break;
+			case "search":
+				break;
+			case "redamage":
+				break;
+			case "reenergize":
+				break;
+			case "applystat":
+				break;
+			case "heal":
+				break;
+			case "add":
+				break;
+				
+		}
 	}
 }
