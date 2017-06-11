@@ -525,6 +525,7 @@ public class GameController {
 	
 	public void knockout(){
 		Player player = Turn.getInstance().getOpponent();
+		if(player!=null){
 		if(player instanceof UserPlayer){
 			PokemonCard card = (PokemonCard) userActivePokemon.getChildren().remove(0);
 			user.getDiscardPile().addCard(card.getCard());
@@ -562,6 +563,7 @@ public class GameController {
 			else{
 				winOrLoss();
 			}
+		}
 		}
 	}
 	
