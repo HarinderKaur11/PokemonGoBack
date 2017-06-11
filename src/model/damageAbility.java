@@ -17,7 +17,7 @@ public class damageAbility extends ability {
 	
 	public void useAbility(){
 		//Debug.message("Attacking Opponent pokemon "+Turn.getInstance().getOpponent().getActivePokemon().getName());
-		Pokemon pk = this.getTargetObject().getTarget();
+		Pokemon pk = (Pokemon) this.getTargetObject().getTarget();
 		if(pk!=null){
 			pk.addDamage(this.damageValue);
 		}

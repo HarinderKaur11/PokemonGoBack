@@ -5,39 +5,49 @@ import controller.GameController;
 public enum target {
 	
 	youractive{
-			public Pokemon getTarget(){
+			public Object getTarget(){
 				return Turn.getInstance().getCurrentPlayer().getActivePokemon();
 			}
 		},
 	opponentactive{
-			public Pokemon getTarget(){
+			public Object getTarget(){
 				return Turn.getInstance().getOpponent().getActivePokemon();
 				}
 		},
-	opponent{
-			public Pokemon getTarget(){
+	choiceopponent{
+			public Object getTarget(){
 				return GameController.getInstance().getHandandBenchPokemonsDialog(Turn.getInstance().getOpponent());
 		}
 	},
-	your{
-		public Pokemon getTarget(){
+	choiceyour{
+		public Object getTarget(){
 			return GameController.getInstance().getHandandBenchPokemonsDialog(Turn.getInstance().getCurrentPlayer());
 		}
 	},
 	opponentbench{
-		public Pokemon getTarget(){
+		public Object getTarget(){
 			return GameController.getInstance().getBenchPokemonDialog(Turn.getInstance().getOpponent());
 		}
 	},
 	yourbench{
-		public Pokemon getTarget(){
+		public Object getTarget(){
 			return GameController.getInstance().getBenchPokemonDialog(Turn.getInstance().getCurrentPlayer());
+		}
+	},
+	you{
+		public Object getTarget() {
+			return Turn.getInstance().getCurrentPlayer();
+		}
+	},
+	opponent{
+		public Object getTarget() {
+			return Turn.getInstance().getOpponent();
 		}
 	};
 	
 	target(){}
 	
-	public abstract Pokemon getTarget();
+	public abstract Object getTarget();
 		
 	public static target getTargetObject(String name){
 		for(target t : target.values()){
