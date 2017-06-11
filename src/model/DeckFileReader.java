@@ -78,7 +78,7 @@ public class DeckFileReader {
 			for(String ablty: abilityR)
 			{
 				String abilityElement = ablty.replace(":", " ").substring(ablty.indexOf(":")+1);
-				String sub[] = abilityElement.split(",");
+				String sub[] = abilityElement.split(","), brackets;
 //				Debug.message(abilityElement);
 				if(abilityElement.indexOf("(") > 0)
 				{
@@ -90,6 +90,8 @@ public class DeckFileReader {
 					{
 						sub = abilityElement.substring(0, abilityElement.indexOf("(")).concat(abilityElement.substring(abilityElement.indexOf(")") + 1)).split(",");
 					}
+					brackets = abilityElement.substring(abilityElement.indexOf("(") + 1 , abilityElement.indexOf(")"));
+					Debug.message(brackets);
 				}
 				for(String a: sub)
 				{
