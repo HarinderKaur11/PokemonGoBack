@@ -12,7 +12,7 @@ public class DeckFileReader {
 	private String deck2file = "resources/deck2.txt";
 	private String cardsfile = "resources/cards.txt";
 	private String abilityfile = "resources/abilities.txt";
-	private String abilityName, target, damage, drawCards;
+	private String abilityName, target, damage, destination, drawCards;
 	
 	ArrayList<String[]> deck = new ArrayList<String[]>();
 	
@@ -78,7 +78,7 @@ public class DeckFileReader {
 				abilityName = ablty.substring(0, ablty.indexOf(":"));
 				String abilityElement = ablty.replace(":", " ").substring(ablty.indexOf(":")+1);
 				String sub[] = abilityElement.split(","), brackets;
-//				Debug.message(abilityElement);
+				//Debug.message(abilityElement);
 				if(abilityElement.indexOf("(") > 0)
 				{
 					if(abilityElement.indexOf(")") < 0)
@@ -241,10 +241,19 @@ public class DeckFileReader {
 				{
 					drawCards = a[1];
 				}
+				//Debug.message(drawCards);
 				break;
 			case "deck":
 				for(String ab: a)
-					Debug.message(ab);
+				{
+					//Debug.message(ab);
+					if(ab.contains("target"))
+						target = ab.substring(ab.indexOf("target"+6), ab.indexOf(" ", ab.indexOf("target"+6)));
+					if(ab.contains("destination"))
+						destination = ab.substring(ab.indexOf("destination"+11), ab.indexOf(" ", ab.indexOf("destination"+11)));
+					drawCards= String.valueOf(indexOf("\\d", ab));
+					Debug.message("deck"+drawCards);
+				}
 				break;
 			case "search":
 				break;
