@@ -173,8 +173,8 @@ public class DeckFileReader {
 									break;
 							}
 						}
-						Debug.message(count);
-						Debug.message(ability);
+					//	Debug.message(count);
+						//Debug.message(ability);
 						break;
 					
 					case "trainer":
