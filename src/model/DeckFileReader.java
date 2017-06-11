@@ -77,29 +77,43 @@ public class DeckFileReader {
 			{
 				abilityName = ablty.substring(0, ablty.indexOf(":"));
 				String abilityElement = ablty.replace(":", " ").substring(ablty.indexOf(":")+1);
-				String sub[] = abilityElement.split(","), brackets;
-				//Debug.message(abilityElement);
-				if(abilityElement.indexOf("(") > 0)
+				ArrayList<String> sub = new ArrayList<String>();
+				for (String a: abilityElement.split(","))
 				{
-					if(abilityElement.indexOf(")") < 0)
-					{
-						sub = abilityElement.substring(0, abilityElement.indexOf("(")).split(",");
-					}
-					else
-					{
-						sub = abilityElement.substring(0, abilityElement.indexOf("(")).concat(abilityElement.substring(abilityElement.indexOf(")") + 1)).split(",");
-					}
-					brackets = abilityElement.substring(abilityElement.indexOf("(") + 1 , abilityElement.indexOf(")"));
-					//implement brackets functionality
-					//Debug.message(brackets);
+					sub.add(a);
+//					Debug.message(a);
 				}
+				//abilityElement.split(",");
+				//Debug.message(abilityElement);
+//				if(abilityElement.indexOf("(") > 0)
+//				{
+//					if(abilityElement.indexOf(")") < 0)
+//					{
+//						sub = abilityElement.substring(0, abilityElement.indexOf("(")).split(",");
+//					}
+//					else
+//					{
+//						sub = abilityElement.substring(0, abilityElement.indexOf("(")).concat(abilityElement.substring(abilityElement.indexOf(")") + 1)).split(",");
+//					}
+//					brackets = abilityElement.substring(abilityElement.indexOf("(") + 1 , abilityElement.indexOf(")"));
+//					//implement brackets functionality
+//					//Debug.message(brackets);
+//				}
+				int l = 0;
 				for(String a: sub)
 				{
+					if(a.contains("(") && !a.contains(")"))
+					{
+						sub.set(l, sub.get(l).concat("," + sub.get(l+1)));
+						sub.remove(l+1);
+					}
 					String array[] = a.split(" ");
-					
+					//Debug.message(sub.get(l));
+//					Debug.message(a);
 //					int index = abilityElement.indexOf(",");
 //					getAbilityItem(a.substring(index+1, abilityElement.indexOf(" ")));
 					getAbilityItem(array);
+					l++;
 				}
 				
 			}
@@ -117,10 +131,10 @@ public class DeckFileReader {
 						ArrayList<String> abilityInfo = new ArrayList<String>();
 						
 						String ability1, ability2; 
-						int index = indexOf("\\d\\s+\\d", ability);
-						
-						ability1 = ability.substring(8, index+1);
-						//Debug.message(ability1);
+						int index = indexOf("\\d\\s+\\d+", ability);
+						//Debug.message(index);
+						ability1 = ability.substring(8, index);
+						Debug.message(ability1);
 						
 						String[] abilityone = ability1.split(",");
 						String[] substring11 = abilityone[0].split("\\s+");
@@ -151,7 +165,7 @@ public class DeckFileReader {
 									break;
 								case 2:
 									String[] substring22 = abilitytwo[1].split("\\s+");
-									abilityInfo.add((substring21[1]+" "+substring21[2]+" "+substring22[1]+" "+substring22[2]+" "+abilityR[Integer.parseInt(substring11[3])-1]));
+									abilityInfo.add((substring21[1]+" "+substring21[2]+" "+substring22[1]+" "+substring22[2]+" "+ abilityR[Integer.parseInt(substring22[3])-1]));
 									break;
 							}
 						}
@@ -248,16 +262,15 @@ public class DeckFileReader {
 				for(String ab: a)
 				{
 					//Debug.message(ab);
-					if(ab.contains("target"))
+					if(ab.contains("target") && a[i+1].matches("[a-z]+"))
 					{
-						//Debug.message(ab);
-						//Debug.message(ab.indexOf(" ", ab.indexOf("target"+6)));
-						//Debug.message(ab.indexOf("target"+6));
-						target = a[i+1];
-						Debug.message(target);
+						target = a[i+1];  //remove hyphen in opponent-active
 					}
 					if(ab.contains("destination"))
+					{
 						destination = a[i+1];
+						//Debug.message(target);
+					}
 					drawCards= String.valueOf(indexOf("\\d", ab));
 					//Debug.message("deck"+drawCards);
 					i++;
