@@ -12,6 +12,7 @@ public class DeckFileReader {
 	private String deck2file = "resources/deck2.txt";
 	private String cardsfile = "resources/cards.txt";
 	private String abilityfile = "resources/abilities.txt";
+	private String abilityName, target, damage, drawCards;
 	
 	ArrayList<String[]> deck = new ArrayList<String[]>();
 	
@@ -71,12 +72,10 @@ public class DeckFileReader {
 				j++;
 			}
 
-			//parse abilities.txt
-			
-			//abilityName = ablty.substring(0, ablty.indexOf(":"))
-			
+			//parse abilities.txt			
 			for(String ablty: abilityR)
 			{
+				abilityName = ablty.substring(0, ablty.indexOf(":"));
 				String abilityElement = ablty.replace(":", " ").substring(ablty.indexOf(":")+1);
 				String sub[] = abilityElement.split(","), brackets;
 //				Debug.message(abilityElement);
@@ -91,18 +90,16 @@ public class DeckFileReader {
 						sub = abilityElement.substring(0, abilityElement.indexOf("(")).concat(abilityElement.substring(abilityElement.indexOf(")") + 1)).split(",");
 					}
 					brackets = abilityElement.substring(abilityElement.indexOf("(") + 1 , abilityElement.indexOf(")"));
-					Debug.message(brackets);
+					//implement brackets functionality
+					//Debug.message(brackets);
 				}
 				for(String a: sub)
 				{
 					String array[] = a.split(" ");
 					
-					// if(bracket)
-					
-					
 //					int index = abilityElement.indexOf(",");
 //					getAbilityItem(a.substring(index+1, abilityElement.indexOf(" ")));
-					getAbilityItem(array[0]);
+					getAbilityItem(array);
 				}
 				
 			}
@@ -214,20 +211,40 @@ public class DeckFileReader {
 	    return matcher.find() ? matcher.end() : -1;
 	}
 	
-	public void getAbilityItem(String a)
+	public void getAbilityItem(String[] a)
 	{
-		Debug.message(a);
-		switch(a)
+		switch(a[0])
 		{
 			case "dam":
+//				for(String ab: a)
+//					Debug.message(ab);
+				target = a[2];
+				damage = a[3];
 				break;
 			case "cond":
+//				for(String ab: a)
+//					Debug.message(ab);
 				break;
 			case "swap":
+//				for(String ab: a)
+//					Debug.message(ab);
 				break;
 			case "draw":
+//				for(String ab: a)
+//					Debug.message(ab);
+				if(a.length == 3)
+				{
+					target=a[1];
+					drawCards = a[2];
+				}
+				else
+				{
+					drawCards = a[1];
+				}
 				break;
 			case "deck":
+				for(String ab: a)
+					Debug.message(ab);
 				break;
 			case "search":
 				break;
