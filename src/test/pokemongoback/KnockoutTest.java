@@ -14,28 +14,24 @@ public class KnockoutTest {
 
 	@Test
 	public void testKnockout() {
-	//	String expected="knockedOut";
 	
-		int damage=0;
+	
+		int damage;
 		int hitpoints=60;
-		String actual = null;
 		
-		pokemonStage newPokemon2Stage = new basicPokemon();
-		ArrayList<ability> newAbilities = new ArrayList<ability>();
-		Pokemon pikachu = new Pokemon(1,"Pikachu",newPokemon2Stage, 60, newAbilities); 
+		String expected= "knockedOut";
 		
-		System.out.println(pikachu.getDamage());
-		pikachu.addDamage(70);
-		
-		
-		System.out.println(pikachu.getDamage());
-		
-	if(damage==hitpoints ||damage>=hitpoints)
-		 actual = pikachu.getState();
-		
-		System.out.println(actual);
-		//System.out.println(expected);
-		assertEquals("knockedOut", actual);
 
+		
+		ArrayList<ability> newAbilities=new ArrayList<ability>();
+		pokemonStage basic=new basicPokemon();
+		Pokemon pk = new Pokemon(2, "Pikachu", basic, 80, newAbilities);
+		System.out.println(pk.getDamage());
+		System.out.println(pk.getState());
+		pk.addDamage(90);
+		System.out.println(pk.getDamage());
+		System.out.println(pk.getState());
+		String actual=pk.getState();
+		assertEquals(expected, actual);
 }
 }
