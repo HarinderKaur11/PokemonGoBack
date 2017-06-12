@@ -77,38 +77,32 @@ public class DeckFileReader {
 			{
 				abilityName = ablty.substring(0, ablty.indexOf(":"));
 				String abilityElement = ablty.replace(":", " ").substring(ablty.indexOf(":")+1);
+				abilityElement = abilityElement.replace("(", " (");
+
 				ArrayList<String> sub = new ArrayList<String>();
 				for (String a: abilityElement.split(","))
 				{
 					sub.add(a);
 //					Debug.message(a);
 				}
-				//abilityElement.split(",");
-				//Debug.message(abilityElement);
-//				if(abilityElement.indexOf("(") > 0)
-//				{
-//					if(abilityElement.indexOf(")") < 0)
-//					{
-//						sub = abilityElement.substring(0, abilityElement.indexOf("(")).split(",");
-//					}
-//					else
-//					{
-//						sub = abilityElement.substring(0, abilityElement.indexOf("(")).concat(abilityElement.substring(abilityElement.indexOf(")") + 1)).split(",");
-//					}
-//					brackets = abilityElement.substring(abilityElement.indexOf("(") + 1 , abilityElement.indexOf(")"));
-//					//implement brackets functionality
-//					//Debug.message(brackets);
-//				}
+				
 				int l = 0;
 				for(String a: sub)
 				{
 					if(a.contains("(") && !a.contains(")"))
 					{
-						sub.set(l, sub.get(l).concat("," + sub.get(l+1)));
-						sub.remove(l+1);
+						
+						a = sub.get(0) + "," + sub.get(1);
+						sub.remove(1);
+						//Debug.message(a);
+						//Debug.message(sub.get(1));
+//						do
+//						{
+//								sub.set(l, sub.get(l).concat("," + sub.get(l+1)));
+//								sub.remove(l+1);
+//						}while(!sub.get(l).contains(")"));
 					}
-					String array[] = a.split(" ");
-					//Debug.message(sub.get(l));
+					String array[] = a.split(":");
 //					Debug.message(a);
 //					int index = abilityElement.indexOf(",");
 //					getAbilityItem(a.substring(index+1, abilityElement.indexOf(" ")));
@@ -134,7 +128,7 @@ public class DeckFileReader {
 						int index = indexOf("\\d\\s+\\d+", ability);
 						//Debug.message(index);
 						ability1 = ability.substring(8, index);
-						Debug.message(ability1);
+						//Debug.message(ability1);
 						
 						String[] abilityone = ability1.split(",");
 						String[] substring11 = abilityone[0].split("\\s+");
@@ -229,6 +223,8 @@ public class DeckFileReader {
 	
 	public void getAbilityItem(String[] a)
 	{
+		for(String ab: a)
+			Debug.message(ab);
 		switch(a[0])
 		{
 			case "dam":
