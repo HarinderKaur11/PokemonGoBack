@@ -13,7 +13,7 @@ public class Pokemon implements cardItem{
 	private int damage = 0;
 	private String state = "deck";
 	private ArrayList<ability> abilities;
-	private String status;
+	private String status = "normal";
 	private ArrayList<cardItem> attachedCards;
 	private PokemonCard uiCard;
 	
