@@ -65,7 +65,9 @@ public class Deck extends CardsGroup{
 		int j=0;
 		for(;j<18;j++){
 				this.getGroupCards().add(new Pokemon(j, "Pikachu", new basicPokemon(), 20, newAbility));
+
 				this.getGroupCards().add(new Trainer(j+18, "Heal Trainer", "item", new healingAbility("Heal pokemon",30,"youractive")));
+
 				this.getGroupCards().add(new Energy("Fighting Energy",j+36));
 		}
 		for(;j<60;j++){
