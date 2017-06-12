@@ -2,6 +2,8 @@ package model;
 
 import java.util.ArrayList;
 
+import view.DialogBoxHandler;
+
 public class Search extends ability{
 	
 	private String targetSource;
@@ -48,8 +50,16 @@ public class Search extends ability{
 					e.printStackTrace();
 				}
 			}
+			for(int i=0; i<this.amount; i++){
+				DialogBoxHandler dbox = new DialogBoxHandler();
+				dbox.setOptionList(cards);
+				int id = Integer.parseInt(dbox.getDialog());
+				CardsGroup hand = (CardsGroup) ((Player) target.getTargetObject(abilitytarget).getTarget()).getInhand();
+				hand.addCard(source.getCard(id));
+			}
 		}
 		//Rest of the code here
+		
 	}
 	
 	public boolean equals(Object o) {

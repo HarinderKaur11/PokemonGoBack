@@ -166,11 +166,9 @@ public class GameController {
     	}
     	else{
     		DialogBoxHandler dialog = new DialogBoxHandler();
-        	Optional<String> result = dialog.getDialog(optionsList);
-    		String selected = "cancelled.";
+    		String selected = dialog.getDialog(optionsList);
         		
-        	if (result.isPresent()) {
-        		selected = result.get();
+        	if (selected!=null) {
         		switch(selected){
         			case "Make active":
         				pokemonCard.setLayoutX(0);
@@ -321,7 +319,6 @@ public class GameController {
     	return newCard;
     }
     
-    @SuppressWarnings("unchecked")
 	private void EnergyOptions(GeneralCard newcard){
 		Pokemon benchC = this.getHandandBenchPokemonsDialog(user);
 		userHand.getChildren().remove(newcard);
@@ -443,11 +440,9 @@ public class GameController {
 		}
 		if(!optionsList.isEmpty()){
 			DialogBoxHandler dialog = new DialogBoxHandler();
-			Optional<String> result = dialog.getDialog(optionsList);
-			String selected = "cancelled.";
+			String selected = dialog.getDialog(optionsList);
 		
-			if (result.isPresent()) {
-				selected = result.get();
+			if (selected!=null) {
 				for(PokemonCard tempCard : basicpokemons){
 					if(tempCard.getCard().getID()==(Integer.parseInt(selected))){
 						return tempCard;
@@ -470,11 +465,9 @@ public class GameController {
 					optionsList.add(Integer.toString(pCard.getID()));
 				}
 				DialogBoxHandler dialog = new DialogBoxHandler();
-				Optional<String> result = dialog.getDialog(optionsList);
-				String selected = "cancelled.";
+				String selected = dialog.getDialog(optionsList);
 			
-				if (result.isPresent()) {
-					selected = result.get();
+				if (selected!=null) {
 					for(Node nodeCard : userBench.getChildren()){
 						if(((PokemonCard) nodeCard).getCard().getID() == Integer.parseInt(selected)){
 							((PokemonCard) nodeCard).setLocation(userActivePokemon);
@@ -534,7 +527,7 @@ public class GameController {
 		double maxWidth = screenBounds.getWidth();
 		double handHeight = maxHeight/8;
 		double boardAreaHeight = maxHeight-(2*handHeight);
-		double boardWidth = maxWidth - 200.0;
+		//double boardWidth = maxWidth - 200.0;
 		
 		gameStage.setPrefHeight(maxHeight);
 		gameStage.setPrefWidth(maxWidth);
@@ -577,26 +570,16 @@ public class GameController {
     		optionsList.add("BenchPokemon");
     	}
     	if(!optionsList.isEmpty()){
-    		List<String> dialogData = Arrays.asList(optionsList.toArray(new String[optionsList.size()]));
-
-    		@SuppressWarnings({ "rawtypes" })
-    		Dialog dialog = new ChoiceDialog(dialogData.get(0), dialogData);
-    		dialog.setTitle("Select pokemon");
-    		dialog.setHeaderText("Select your choice");
-
-    		Optional<String> result = dialog.showAndWait();
-    		String selected = "cancelled.";
+    		DialogBoxHandler dBox = new DialogBoxHandler();
+    		String selected = dBox.getDialog(optionsList);
     		
-    		Pokemon benchC = null;
-    		
-    		if (result.isPresent()) {
-    		    selected = result.get();
+    		if (selected!=null) {
     		    if(selected=="ActivePokemon"){
-			    	return benchC = player.getActivePokemon();
+			    	return player.getActivePokemon();
 			    }
 			    else if(selected=="BenchPokemon")
 			    {
-			    	return benchC = this.getBenchPokemonDialog(player);
+			    	return this.getBenchPokemonDialog(player);
 			    }
     		}
     	}
@@ -619,19 +602,12 @@ public class GameController {
 			//Debug.message(id);
 			benchCards.add(String.valueOf(id));
     	}
-    	List<String> benchData = Arrays.asList(benchCards.toArray(new String[benchCards.size()]));
-    	
-		@SuppressWarnings({ "rawtypes" })
-		Dialog benchDialog = new ChoiceDialog(benchData.get(0), benchData);
-		benchDialog.setTitle("Select pokemon");
-		benchDialog.setHeaderText("Select your choice");
-		Optional<String> benchOp = benchDialog.showAndWait();
-		String select = "cancelled.";
+    	DialogBoxHandler dBox = new DialogBoxHandler();
+		String select = dBox.getDialog(benchCards);
 
 		Pokemon benchC = null;
-		if(benchOp.isPresent())
+		if(select!=null)
 		{
-			select = benchOp.get();
 			//Debug.message(select);
 			for(cardItem pokemon: player.getBench().getCard())
 			{
