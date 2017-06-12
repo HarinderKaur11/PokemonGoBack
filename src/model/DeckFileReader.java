@@ -12,7 +12,7 @@ public class DeckFileReader {
 	private String deck2file = "resources/deck2.txt";
 	private String cardsfile = "resources/cards.txt";
 	private String abilityfile = "resources/abilities.txt";
-	private String abilityName, target, destination, drawCards;
+	private String abilityName, target, destination, drawCards, status;
 	private int damage;
 	
 	String abilityR[] = new String[74];
@@ -99,7 +99,8 @@ public class DeckFileReader {
 						switch(abilityone.length)
 						{
 							case 1:
-								abilityInfo.add((substring11[1]+" "+substring11[2]+" "+ abilityR[Integer.parseInt(substring11[3])-1]));
+								abilityInfo.add((substring11[1]+" "+substring11[2]));//+" "+ abilityR[Integer.parseInt(substring11[3])-1]));
+								parseAbilities(abilityR[Integer.parseInt(substring11[3])-1]);
 								break;
 							case 2:
 								String[] substring12 = abilityone[1].split("\\s+");
@@ -185,11 +186,11 @@ public class DeckFileReader {
 	    return matcher.find() ? matcher.end() : -1;
 	}
 	
-	public void parseAbilities(String abilityLine)
+	public void parseAbilities(String ablty)
 	{
 		//parse abilities.txt			
-		for(String ablty: abilityR)
-		{
+//		for(String ablty: abilityR)
+//		{
 			abilityName = ablty.substring(0, ablty.indexOf(":"));
 			String abilityElement = ablty.replace(":", " ").substring(ablty.indexOf(":")+1);
 			abilityElement = abilityElement.replace("(", " (");
@@ -198,7 +199,7 @@ public class DeckFileReader {
 			for (String a: abilityElement.split(","))
 			{
 				sub.add(a);
-	//			Debug.message(a);
+					//Debug.message(a);
 			}
 			
 			for(String a: sub)
@@ -212,7 +213,7 @@ public class DeckFileReader {
 				
 				String array[] = a.split(" ");
 				getAbility(array);
-			}
+			//}
 			
 		}
 	}
@@ -226,8 +227,11 @@ public class DeckFileReader {
 			case "dam":
 //				for(String ab: a)
 //					Debug.message(ab);
-				target = a[2];
-				damage = Integer.parseInt(a[3]);
+				target = a[2].replace("-", "");
+				Debug.message(target);
+				//Do regex on a[3]
+				//Debug.message(String.join(" ", a));
+				//damage = Integer.valueOf(a[3]);
 				
 //				damageAbility dam = new damageAbility( , damage, , target);
 				break;
@@ -287,6 +291,11 @@ public class DeckFileReader {
 			case "reenergize":
 				break;
 			case "applystat":
+//				for(String ab: a)
+//					Debug.message(ab);
+				status = a[2];
+				target = a[3].replace("-", "");
+				Debug.message(target);
 				break;
 			case "heal":
 				break;
