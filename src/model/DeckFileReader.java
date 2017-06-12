@@ -94,18 +94,9 @@ public class DeckFileReader {
 						
 						a = sub.get(0) + "," + sub.get(1);
 						sub.remove(1);
-						//Debug.message(a);
-						//Debug.message(sub.get(1));
-//						do
-//						{
-//								sub.set(l, sub.get(l).concat("," + sub.get(l+1)));
-//								sub.remove(l+1);
-//						}while(!sub.get(l).contains(")"));
 					}
-					String array[] = a.split(":");
-//					Debug.message(a);
-//					int index = abilityElement.indexOf(",");
-//					getAbilityItem(a.substring(index+1, abilityElement.indexOf(" ")));
+					
+					String array[] = a.split(" ");
 					getAbilityItem(array);
 					l++;
 				}
@@ -223,8 +214,8 @@ public class DeckFileReader {
 	
 	public void getAbilityItem(String[] a)
 	{
-		for(String ab: a)
-			Debug.message(ab);
+//		for(String ab: a)
+//			Debug.message(ab);
 		switch(a[0])
 		{
 			case "dam":
@@ -236,6 +227,12 @@ public class DeckFileReader {
 			case "cond":
 //				for(String ab: a)
 //					Debug.message(ab);
+//				Debug.message(" ");
+				if(a[1].equalsIgnoreCase("flip"))
+				{
+					getAbilityItem(a.toString().substring(indexOf("flip", a.toString())+4).split(" "));
+					Debug.message(String.join(" ",a).substring(String.join(" ", a).indexOf("flip")+5));
+				}
 				break;
 			case "swap":
 //				for(String ab: a)
