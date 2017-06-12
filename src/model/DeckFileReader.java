@@ -228,7 +228,7 @@ public class DeckFileReader {
 //				for(String ab: a)
 //					Debug.message(ab);
 				target = a[2].replace("-", "");
-				Debug.message(target);
+				//Debug.message(target);
 				//Do regex on a[3]
 				//Debug.message(String.join(" ", a));
 				//damage = Integer.valueOf(a[3]);
@@ -295,11 +295,14 @@ public class DeckFileReader {
 //					Debug.message(ab);
 				status = a[2];
 				target = a[3].replace("-", "");
-				Debug.message(target);
+				//Debug.message(target);
 				break;
 			case "heal":
 				break;
 			case "add":
+				break;
+			case "shuffle":
+				target = a[2];
 				break;
 				
 		}

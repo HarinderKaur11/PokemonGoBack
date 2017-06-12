@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Deck extends CardsGroup{
 	
@@ -81,7 +82,7 @@ public class Deck extends CardsGroup{
 	}
 	
 	public void shufflecards(){
-		//Collections.shuffle(this.getGroupCards());
+		Collections.shuffle(this.getGroupCards());
 		//Debug.showCard(this.getGroupCards().toArray(new cardItem[this.getGroupCards().size()]));
 	}
 	
