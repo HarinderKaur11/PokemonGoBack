@@ -12,8 +12,11 @@ public class DeckFileReader {
 	private String deck2file = "resources/deck2.txt";
 	private String cardsfile = "resources/cards.txt";
 	private String abilityfile = "resources/abilities.txt";
-	private String abilityName, target, damage, destination, drawCards;
+	private String abilityName, target, destination, drawCards;
+	private int damage;
 	
+	String abilityR[] = new String[74];
+
 	ArrayList<String[]> deck = new ArrayList<String[]>();
 	
 	public DeckFileReader (int i){
@@ -43,7 +46,6 @@ public class DeckFileReader {
 			ar = new BufferedReader(new FileReader(abilityfile));
 			
 			String cards[] = new String[100];   //change size
-			String abilityR[] = new String[74];
 //			br.readLine();
 			String Deck1[] = new String[60];
 			//String type = new String();
@@ -72,39 +74,10 @@ public class DeckFileReader {
 				j++;
 			}
 
-			//parse abilities.txt			
-			for(String ablty: abilityR)
-			{
-				abilityName = ablty.substring(0, ablty.indexOf(":"));
-				String abilityElement = ablty.replace(":", " ").substring(ablty.indexOf(":")+1);
-				abilityElement = abilityElement.replace("(", " (");
-
-				ArrayList<String> sub = new ArrayList<String>();
-				for (String a: abilityElement.split(","))
-				{
-					sub.add(a);
-//					Debug.message(a);
-				}
-				
-				int l = 0;
-				for(String a: sub)
-				{
-					if(a.contains("(") && !a.contains(")"))
-					{
-						
-						a = sub.get(0) + "," + sub.get(1);
-						sub.remove(1);
-					}
-					
-					String array[] = a.split(" ");
-					getAbilityItem(array);
-					l++;
-				}
-				
-			}
 			
 			for(String [] card:deck)
 			{
+				String PokemonName = card[0];
 				//parse cards.txt
 				switch(card[1])
 				{	
@@ -212,7 +185,39 @@ public class DeckFileReader {
 	    return matcher.find() ? matcher.end() : -1;
 	}
 	
-	public void getAbilityItem(String[] a)
+	public void parseAbilities(String abilityLine)
+	{
+		//parse abilities.txt			
+		for(String ablty: abilityR)
+		{
+			abilityName = ablty.substring(0, ablty.indexOf(":"));
+			String abilityElement = ablty.replace(":", " ").substring(ablty.indexOf(":")+1);
+			abilityElement = abilityElement.replace("(", " (");
+	
+			ArrayList<String> sub = new ArrayList<String>();
+			for (String a: abilityElement.split(","))
+			{
+				sub.add(a);
+	//			Debug.message(a);
+			}
+			
+			for(String a: sub)
+			{
+				if(a.contains("(") && !a.contains(")"))
+				{
+					
+					a = sub.get(0) + "," + sub.get(1);
+					sub.remove(1);
+				}
+				
+				String array[] = a.split(" ");
+				getAbility(array);
+			}
+			
+		}
+	}
+	
+	public void getAbility(String[] a)
 	{
 //		for(String ab: a)
 //			Debug.message(ab);
@@ -222,7 +227,9 @@ public class DeckFileReader {
 //				for(String ab: a)
 //					Debug.message(ab);
 				target = a[2];
-				damage = a[3];
+				damage = Integer.parseInt(a[3]);
+				
+//				damageAbility dam = new damageAbility( , damage, , target);
 				break;
 			case "cond":
 //				for(String ab: a)
@@ -230,8 +237,10 @@ public class DeckFileReader {
 //				Debug.message(" ");
 				if(a[1].equalsIgnoreCase("flip"))
 				{
-					getAbilityItem(a.toString().substring(indexOf("flip", a.toString())+4).split(" "));
-					Debug.message(String.join(" ",a).substring(String.join(" ", a).indexOf("flip")+5));
+					getAbility(a.toString().substring(indexOf("flip", a.toString())+4).split(" "));
+					//Debug.message(String.join(" ",a).substring(String.join(" ", a).indexOf("flip")+5));
+					
+					//DO cond healed, ability, count, (applystat, choice
 				}
 				break;
 			case "swap":
