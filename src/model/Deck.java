@@ -44,7 +44,7 @@ public class Deck extends CardsGroup{
 						}
 						break;
 					case "trainer":
-						this.getGroupCards().add(new Trainer(cards[0],x, new healingAbility("Heal pokemon",30,"youractive")));
+						this.getGroupCards().add(new Trainer(x, cards[0], "item", new healingAbility("Heal pokemon",30,"youractive")));
 						break;
 					case "energy":
 						this.getGroupCards().add(new Energy(cards[0],x));
@@ -65,7 +65,7 @@ public class Deck extends CardsGroup{
 		int j=0;
 		for(;j<18;j++){
 				this.getGroupCards().add(new Pokemon(j, "Pikachu", new basicPokemon(), 20, newAbility));
-				this.getGroupCards().add(new Trainer("Heal Trainer",j+18, new healingAbility("Heal pokemon",30,"youractive")));
+				this.getGroupCards().add(new Trainer(j+18, "Heal Trainer", "item", new healingAbility("Heal pokemon",30,"youractive")));
 				this.getGroupCards().add(new Energy("Fighting Energy",j+36));
 		}
 		for(;j<60;j++){
