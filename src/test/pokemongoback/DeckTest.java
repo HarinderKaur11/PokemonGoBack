@@ -10,7 +10,7 @@ public class DeckTest {
 	public void test() {
 		
 		Deck deck= new Deck();
-		deck.buildDeck(1);
+		deck.buildDeck();
 		int actual=deck.getGroupCards().size();
 		int expected=60;
 		

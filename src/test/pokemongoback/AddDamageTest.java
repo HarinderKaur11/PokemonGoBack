@@ -37,19 +37,34 @@ public class AddDamageTest {
 		
 		// KnockedOut conditions
 		
-		// tests if hitpoints=60, damage =60, result shuold be knocked out conditions.
+		// tests if hitpoints=60, damage =10, result should be knocked out conditions.
+		
+		String expected2="deck";
+		up.setActivePokemon(pk);
+		//System.out.println(pk.getDamage());
+		pk.addDamage(10);
+		//System.out.println(pk.getDamage());
+		//System.out.println(pk.getState());
+		String actual2=pk.getState();
+		assertEquals(expected2, actual2);
+		
+		// tests if hitpoints=60, damage =60, result should be knocked out conditions.
 		
 		String expected1="knockedOut";
-		up.setActivePokemon(pk);
-		
 		//System.out.println(pk.getDamage());
-		pk.addDamage(80);
+		pk.addDamage(60);
 		//System.out.println(pk.getDamage());
 		//System.out.println(pk.getState());
 		String actual1=pk.getState();
 		assertEquals(expected1, actual1);
 		
-		
+		// tests if hitpoints=60, damage =80, result should be knocked out conditions.
+		//System.out.println(pk.getDamage());
+		pk.addDamage(80);
+		//System.out.println(pk.getDamage());
+		//System.out.println(pk.getState());
+		String actual3=pk.getState();
+		assertEquals(expected1, actual3);
 		
 		
 	}

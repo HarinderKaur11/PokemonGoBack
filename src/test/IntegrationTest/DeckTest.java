@@ -18,7 +18,7 @@ public class DeckTest {
 	public void integrationDeckTest(){
 	
 		Deck deck = new Deck();
-		deck.buildDeck(1);
+		deck.buildDeck();
 		ArrayList<cardItem> deckCards = deck.getGroupCards();
 		
 		String[] expectedDeck = {"Doduo GEN 55","1 Dodrio GEN 56","1 Meowth AOR 61","1 Meowth GEN 53","1 Persian GEN 54"
