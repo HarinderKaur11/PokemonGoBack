@@ -22,7 +22,7 @@ public class Deck extends CardsGroup{
 		pokemonStage stage = new basicPokemon();
 		ArrayList<ability> newAbility = new ArrayList<ability>();
 		Energy[] EnergyInfo = {new Energy("Fighting")};
-		newAbility.add(new damageAbility("Attack", 10, EnergyInfo, "opponent"));
+		newAbility.add(new damageAbility("Attack", 10, EnergyInfo, "choiceopponent"));
 		
 		int x = 1;
 		for(String[] cards : cardsList){

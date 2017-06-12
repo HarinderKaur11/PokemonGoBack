@@ -13,7 +13,7 @@ public class healingAbility extends ability {
 	@Override
 	public void useAbility() {
 		//Debug.message(Turn.getInstance().getCurrentPlayer().name);
-		Pokemon pokemon = this.getTargetObject().getTarget();
+		Pokemon pokemon = (Pokemon) this.getTargetObject().getTarget();
 		if(pokemon!=null){
 			pokemon.removeDamage(healingValue);
 		}
