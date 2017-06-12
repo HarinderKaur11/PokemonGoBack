@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 
+import controller.GameController;
 import view.DialogBoxHandler;
 
 public class Search extends ability{
@@ -50,13 +51,16 @@ public class Search extends ability{
 					e.printStackTrace();
 				}
 			}
-			for(int i=0; i<this.amount; i++){
-				DialogBoxHandler dbox = new DialogBoxHandler();
-				dbox.setOptionList(cards);
-				int id = Integer.parseInt(dbox.getDialog());
-				CardsGroup hand = (CardsGroup) ((Player) target.getTargetObject(abilitytarget).getTarget()).getInhand();
-				hand.addCard(source.getCard(id));
-			}
+		}
+
+		for(int i=0; i<this.amount; i++){
+			DialogBoxHandler dbox = new DialogBoxHandler();
+			dbox.setOptionList(cards);
+			int id = Integer.parseInt(dbox.getDialog());
+			CardsGroup hand = (CardsGroup) ((Player) target.getTargetObject(abilitytarget).getTarget()).getInhand();
+			hand.addCard(source.getCard(id));
+			GameController.getInstance().addCardToPanel(source.getCard(id), GameController.getInstance().getHand((Player) target.getTargetObject(abilitytarget).getTarget()));
+			source.removeCard(source.getCard(id));
 		}
 		//Rest of the code here
 		

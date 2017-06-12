@@ -22,7 +22,7 @@ public class Deck extends CardsGroup{
 		pokemonStage stage = new basicPokemon();
 		ArrayList<ability> newAbility = new ArrayList<ability>();
 		Energy[] EnergyInfo = {new Energy("Fighting")};
-		newAbility.add(new damageAbility("Attack", 10, EnergyInfo, "choiceopponent"));
+		newAbility.add(new damageAbility("Attack", 10, EnergyInfo, "opponentactive"));
 		
 		int x = 1;
 		for(String[] cards : cardsList){
@@ -44,7 +44,7 @@ public class Deck extends CardsGroup{
 						}
 						break;
 					case "trainer":
-						this.getGroupCards().add(new Trainer(x, cards[0], "item", new healingAbility("Heal pokemon",30,"youractive")));
+						this.getGroupCards().add(new Trainer(x, cards[0], "item", new Search("Search pokemon", "you", "deck","pokemon","basic",2)));
 						break;
 					case "energy":
 						this.getGroupCards().add(new Energy(cards[0],x));

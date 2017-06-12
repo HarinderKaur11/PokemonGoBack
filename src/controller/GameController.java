@@ -30,6 +30,7 @@ import model.Debug;
 import model.Energy;
 import model.Player;
 import model.Pokemon;
+import model.Trainer;
 import model.Turn;
 import model.UserPlayer;
 import model.ability;
@@ -140,7 +141,7 @@ public class GameController {
     	HBox tempLoc = pokemonCard.getLocation();
     	
     	if(tempLoc==userHand){
-    		if(pokemonCard.getCard().getStage()=="Basic"){
+    		if(pokemonCard.getCard().getStage()=="basic"){
     			if(userActivePokemon.getChildren().isEmpty()){
     				optionsList.add("Make active");
     			}
@@ -303,7 +304,7 @@ public class GameController {
 	private GeneralCard createCard(cardItem card, HBox panel){
     	GeneralCard newCard = new GeneralCard(card);
     	
-    	if(panel == userHand || panel == userBench)
+    	if(panel == userHand)
     	{
     		newCard.addOptionsActionListener(new EventHandler<ActionEvent>() {
     			@Override 
@@ -311,14 +312,30 @@ public class GameController {
     				if(card instanceof Energy){
     					EnergyOptions(newCard);
     				}
-    				//trainerOptions(button, optionsList);
+    				else if(card instanceof Trainer){
+    					trainerOptions(newCard);
+    				}
     			}
-    	
     		});
     	}   	
     	return newCard;
     }
-    
+   
+
+	private void trainerOptions(GeneralCard newCard) {
+		ButtonType UseCard = new ButtonType("Use Card", ButtonBar.ButtonData.YES);
+        ButtonType Cancel = new ButtonType("Cancel", ButtonBar.ButtonData.NO);
+        Alert ts = new Alert(Alert.AlertType.INFORMATION,"Card Description",UseCard,Cancel);
+        ts.initStyle(StageStyle.UNDECORATED);
+        ts.setHeaderText(null);
+        ts.setX(475);
+        ts.setY(270);
+        Optional<ButtonType> result1 = ts.showAndWait();
+        if (result1.get().getButtonData() == ButtonBar.ButtonData.YES){
+        	((Trainer) newCard.getCard()).getAbility().useAbility();
+        }
+	}
+	
 	private void EnergyOptions(GeneralCard newcard){
 		Pokemon benchC = this.getHandandBenchPokemonsDialog(user);
 		userHand.getChildren().remove(newcard);
@@ -326,17 +343,21 @@ public class GameController {
 		benchC.attachCard(newcard.getCard());
     }
         
-    public HBox getUserBench(){
-    	return this.userBench;
+    public HBox getBench(Player player){
+    	if(player instanceof UserPlayer){
+    		return this.userBench;
+    	}
+    	else{
+    		return this.AIBench;
+    	}
     }
-    public HBox getAIBench(){
-    	return this.AIBench;
-    }
-    public HBox getUserHand(){
-    	return this.userHand;
-    }
-    public HBox getAIHand(){
-    	return this.AIHand;
+    public HBox getHand(Player player){
+    	if(player instanceof UserPlayer){
+        	return this.userHand;
+    	}
+    	else{
+    		return this.AIHand;
+    	}
     }
 
 	public void refreshCards(Player player) {
@@ -420,7 +441,7 @@ public class GameController {
 		ArrayList<PokemonCard> basicpokemons = new ArrayList<PokemonCard>();
 		if(!userActivePokemon.getChildren().isEmpty()){
 			PokemonCard tempCard = (PokemonCard) userActivePokemon.getChildren().get(0);
-			if(tempCard.getCard().getStage().equals("Basic")){
+			if(tempCard.getCard().getStage().equals("basic")){
 				if(tempCard.getCard().getName().equals(basicPname)){
 //					tempCard.evolve(card.getCard());
 					basicpokemons.add(tempCard);
@@ -429,7 +450,7 @@ public class GameController {
 		}
 		for(Node tempNode : userBench.getChildren()){
 			PokemonCard tempCard = (PokemonCard) tempNode;
-			if(tempCard.getCard().getStage().equals("Basic") && tempCard.getCard().getName().equals(basicPname)){
+			if(tempCard.getCard().getStage().equals("basic") && tempCard.getCard().getName().equals(basicPname)){
 				basicpokemons.add(tempCard);
 			}
 		}

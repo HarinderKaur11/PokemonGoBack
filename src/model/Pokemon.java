@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 
 import controller.GameController;
+import view.PokemonCard;
 
 public class Pokemon implements cardItem{
 	private int id;
@@ -14,6 +15,7 @@ public class Pokemon implements cardItem{
 	private ArrayList<ability> abilities;
 	private String status;
 	private ArrayList<cardItem> attachedCards;
+	private PokemonCard uiCard;
 	
 	public Pokemon(int newId, String name, pokemonStage newPokemonStage, int newHp, ArrayList<ability> newAbilities){
 		this.id = newId;
@@ -161,5 +163,9 @@ public class Pokemon implements cardItem{
 		for(cardItem card: cards){
 			this.attachCard(card);
 		}		
+	}
+	
+	public void addObserver(PokemonCard newCard){
+		this.uiCard = newCard;
 	}
 }
