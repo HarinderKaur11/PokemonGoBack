@@ -600,7 +600,7 @@ public class GameController {
 			    }
 			    else if(selected=="BenchPokemon")
 			    {
-			    	return this.getBenchPokemonDialog(player);
+			    	return this.getPanelPokemonDialog(player,"bench");
 			    }
     		}
     	}
@@ -608,13 +608,23 @@ public class GameController {
 	}
 	
 	
-	public Pokemon getBenchPokemonDialog(Player player){
+	public Pokemon getPanelPokemonDialog(Player player,String panelOpt){
 		HBox panel = null;
 		if(player instanceof UserPlayer){
-			panel = userBench;
+			if(panelOpt.equals("bench")){
+				panel = userBench;
+			}
+			else{
+				panel = userHand;
+			}
 		}
 		else{
-			panel = AIBench;
+			if(panelOpt.equals("hand")){
+				panel = AIBench;
+			}
+			else{
+				panel = AIHand;
+			}
 		}
 		ArrayList<String> benchCards = new ArrayList<String>();
     	for(Node card : panel.getChildren()){
