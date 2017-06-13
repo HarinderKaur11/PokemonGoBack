@@ -22,7 +22,7 @@ public class Deck extends CardsGroup{
 		pokemonStage stage = new basicPokemon();
 		ArrayList<ability> newAbility = new ArrayList<ability>();
 		Energy[] EnergyInfo = {new Energy("Fighting")};
-		newAbility.add(new damageAbility("Attack", 10, EnergyInfo,"Pokemon"));
+		newAbility.add(new damageAbility("Attack", 10, EnergyInfo, "choiceopponent"));
 		
 		int x = 1;
 		for(String[] cards : cardsList){
@@ -44,7 +44,7 @@ public class Deck extends CardsGroup{
 						}
 						break;
 					case "trainer":
-						this.getGroupCards().add(new Trainer(cards[0],x, new healingAbility("Heal pokemon",30)));
+						this.getGroupCards().add(new Trainer(cards[0],x, new healingAbility("Heal pokemon",30,"youractive")));
 						break;
 					case "energy":
 						this.getGroupCards().add(new Energy(cards[0],x));
@@ -61,11 +61,11 @@ public class Deck extends CardsGroup{
 	public void buildDeckTest(){
 		ArrayList<ability> newAbility = new ArrayList<ability>();
 		Energy[] EnergyInfo = {new Energy("Fighting")};
-		newAbility.add(new damageAbility("Attack", 10, EnergyInfo,"Pokemon"));
+		newAbility.add(new damageAbility("Attack", 10, EnergyInfo,"opponentactive"));
 		int j=0;
 		for(;j<18;j++){
 				this.getGroupCards().add(new Pokemon(j, "Pikachu", new basicPokemon(), 20, newAbility));
-				this.getGroupCards().add(new Trainer("Heal Trainer",j+18, new healingAbility("Heal pokemon",30)));
+				this.getGroupCards().add(new Trainer("Heal Trainer",j+18, new healingAbility("Heal pokemon",30,"youractive")));
 				this.getGroupCards().add(new Energy("Fighting Energy",j+36));
 		}
 		for(;j<60;j++){
