@@ -62,7 +62,6 @@ public class Search extends ability{
 			GameController.getInstance().addCardToPanel(source.getCard(id), GameController.getInstance().getHand((Player) target.getTargetObject(abilitytarget).getTarget()));
 			source.removeCard(source.getCard(id));
 		}
-		//Rest of the code here
 		
 	}
 	
