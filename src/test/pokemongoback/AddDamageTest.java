@@ -18,9 +18,7 @@ public class AddDamageTest {
 	ArrayList<ability> newAbilities=new ArrayList<ability>();
 	pokemonStage basic=new basicPokemon();
 	Pokemon pk = new Pokemon(2, "Pikachu", basic, 60, newAbilities);
-			
-			
-			UserPlayer up= new UserPlayer("john");
+	UserPlayer up= new UserPlayer("john");
 			
 	
 	@Test
@@ -37,7 +35,7 @@ public class AddDamageTest {
 		
 		// KnockedOut conditions
 		
-		// tests if hitpoints=60, damage =10, result should be knocked out conditions.
+		// tests if hitpoints=60, damage =10, state should be deck.
 		
 		String expected2="deck";
 		up.setActivePokemon(pk);
@@ -48,7 +46,7 @@ public class AddDamageTest {
 		String actual2=pk.getState();
 		assertEquals(expected2, actual2);
 		
-		// tests if hitpoints=60, damage =60, result should be knocked out conditions.
+		// tests if hitpoints=60, damage =60, state should be knockedOut.
 		
 		String expected1="knockedOut";
 		//System.out.println(pk.getDamage());
@@ -58,14 +56,13 @@ public class AddDamageTest {
 		String actual1=pk.getState();
 		assertEquals(expected1, actual1);
 		
-		// tests if hitpoints=60, damage =80, result should be knocked out conditions.
+		// tests if hitpoints=60, damage =80, state should be knockedOut.
 		//System.out.println(pk.getDamage());
 		pk.addDamage(80);
 		//System.out.println(pk.getDamage());
 		//System.out.println(pk.getState());
 		String actual3=pk.getState();
 		assertEquals(expected1, actual3);
-		
 		
 	}
 
