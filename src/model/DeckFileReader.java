@@ -12,7 +12,7 @@ public class DeckFileReader {
 	private String deck2file = "resources/deck2.txt";
 	private String cardsfile = "resources/cards.txt";
 	private String abilityfile = "resources/abilities.txt";
-	private String abilityName, target, destination, drawCards, status;
+	private String abilityName, target, destination, drawCards, status, trigger, triggerCond, addAbility;
 	private int damage;
 	
 	String abilityR[] = new String[74];
@@ -300,6 +300,11 @@ public class DeckFileReader {
 			case "heal":
 				break;
 			case "add":
+				target = a[2];
+				trigger = a[4];
+				triggerCond = a[5];
+				String a_join = String.join(" ", a);
+				addAbility = a_join.substring(a_join.indexOf("(")+1, a_join.indexOf(")"));
 				break;
 			case "shuffle":
 				target = a[2];
