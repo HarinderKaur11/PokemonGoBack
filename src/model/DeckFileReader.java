@@ -12,8 +12,7 @@ public class DeckFileReader {
 	private String deck2file = "resources/deck2.txt";
 	private String cardsfile = "resources/cards.txt";
 	private String abilityfile = "resources/abilities.txt";
-	private String abilityName, target, destination, drawCards, status, trigger, triggerCond, addAbility;
-	private int damage;
+	private String abilityName, target, destination, drawCards, status, trigger, triggerCond, addAbility, damage;
 	
 	String abilityR[] = new String[74];
 
@@ -220,20 +219,34 @@ public class DeckFileReader {
 	
 	public void getAbility(String[] a)
 	{
+		String a_join = String.join(" ", a);
 //		for(String ab: a)
 //			Debug.message(ab);
 		switch(a[0])
 		{
 			case "dam":
-//				for(String ab: a)
-//					Debug.message(ab);
-				target = a[2].replace("-", "");
-				//Debug.message(target);
-				//Do regex on a[3]
-				//Debug.message(String.join(" ", a));
-				//damage = Integer.valueOf(a[3]);
-				
-//				damageAbility dam = new damageAbility( , damage, , target);
+				//for(String ab: a)
+					//Debug.message(ab);
+				if(! a_join.contains("choice"))
+				{
+					if(! a_join.contains("else"))
+					{
+						target = a_join.substring(indexOf("target ", a_join), a_join.indexOf(" ", indexOf("target ", a_join)));
+						target = target.replace("-", "");
+						damage = a_join.substring(indexOf("\\d+", a_join)-2);
+//						Debug.message(target);
+					}
+					else
+					{
+						//implement contains else condition (choice)
+						target = a_join.substring(indexOf("\\d+", a_join)-2, a_join.indexOf("else"));
+					}
+					
+				}
+				else
+				{
+					//contains choice
+				}
 				break;
 			case "cond":
 //				for(String ab: a)
@@ -241,7 +254,7 @@ public class DeckFileReader {
 //				Debug.message(" ");
 				if(a[1].equalsIgnoreCase("flip"))
 				{
-					getAbility(a.toString().substring(indexOf("flip", a.toString())+4).split(" "));
+					getAbility(String.join(" ", a).substring(String.join(" ", a).indexOf("flip")+5).split(" "));
 					//Debug.message(String.join(" ",a).substring(String.join(" ", a).indexOf("flip")+5));
 					
 					//DO cond healed, ability, count, (applystat, choice
@@ -303,7 +316,6 @@ public class DeckFileReader {
 				target = a[2];
 				trigger = a[4];
 				triggerCond = a[5];
-				String a_join = String.join(" ", a);
 				addAbility = a_join.substring(a_join.indexOf("(")+1, a_join.indexOf(")"));
 				break;
 			case "shuffle":
