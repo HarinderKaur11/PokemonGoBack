@@ -19,13 +19,21 @@ public class condAbility extends ability{
 		cond:choice:shuffle:target:opponent
 		cond:flip:heal:target:your-active:10
 	 */
+	private String name;
+	private String condition;
+	
 	public condAbility(String name, String condition)
 	{
+		this.name = name;
+		this.condition = condition;
 		
 	}
 	
 	public void useAbility() {
-		
+		if(condition.equals("flip"))
+		{
+			
+		}
 	}
 	
 	public boolean equals(Object o) {

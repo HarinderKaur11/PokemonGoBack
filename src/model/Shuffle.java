@@ -1,7 +1,5 @@
 package model;
 
-import java.util.Collections;
-
 public class Shuffle extends ability{
 	
 	private String name;

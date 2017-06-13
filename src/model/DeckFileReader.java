@@ -252,7 +252,7 @@ public class DeckFileReader {
 //				for(String ab: a)
 //					Debug.message(ab);
 //				Debug.message(" ");
-				if(a[1].equalsIgnoreCase("flip"))
+				if(a[1].contains("flip"))
 				{
 					getAbility(String.join(" ", a).substring(String.join(" ", a).indexOf("flip")+5).split(" "));
 					//Debug.message(String.join(" ",a).substring(String.join(" ", a).indexOf("flip")+5));
