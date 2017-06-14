@@ -2,9 +2,7 @@ package model;
 
 public class applystatAbility extends ability{
 
-	private String name;
-	private String targetPokemon;
-	private String status;
+	private String name, targetPokemon, status;
 	
 	public applystatAbility(String name, String target, String status)
 	{
