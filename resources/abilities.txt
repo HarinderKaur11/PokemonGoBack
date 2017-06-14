@@ -4,8 +4,8 @@ Quick Attack:dam:target:opponent-active:10,cond:flip:dam:target:opponent-active:
 Flying Elekick:dam:target:opponent-active:50
 Nuzzle:cond:flip:applystat:status:paralyzed:opponent-active
 Quick Attack:dam:target:opponent-active:20,cond:flip:dam:target:opponent-active:10
-Circle Circuit:dam:target:opponent-active:20,dam:target:opponent-active:20*count[target:your-bench]
-Thunderbolt:dam:target:opponent-active:100,deenergize:target:your-active:count[target:your-active:energy]
+Circle Circuit:dam:target:opponent-active:20,dam:target:opponent-active:20*count(target:your-bench)
+Thunderbolt:dam:target:opponent-active:100,deenergize:target:your-active:count(target:your-active:energy)
 Rain Splash:dam:target:opponent-active:20
 Soaking Horn:dam:target:opponent-active:10,cond:healed:target:your-active:dam:target:opponent-active:80
 Reckless Charge:dam:target:opponent-active:40,dam:target:your-active:10
@@ -70,5 +70,5 @@ Shauna:deck:destination:deck:count(your:hand),shuffle:target:you,draw:5
 Pokémon Fan Club:search:target:you:source:deck:filter:pokemon:cat:basic:2,shuffle:target:you
 Switch:swap:your-active:your:choice:bench
 Energy Switch:reenergize:target:your:choice:target:your:choice
-Red Card:deck:target:opponent:destination:deck:count(opponent:hand),shuffle:target:you,draw:opponent:4
+Red Card:deck:target:opponent:destination:deck:count(opponent:hand),shuffle:target:opponent,draw:opponent:4
 Wally:search:target:your:choice:filter:pokemon:cat:basic:source:deck:filter:evolves-from:target:last:1,shuffle:target:you
