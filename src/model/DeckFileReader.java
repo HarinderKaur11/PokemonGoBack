@@ -12,8 +12,7 @@ public class DeckFileReader {
 	private String deck2file = "resources/deck2.txt";
 	private String cardsfile = "resources/cards.txt";
 	private String abilityfile = "resources/abilities.txt";
-	private String abilityName, target, destination, drawCards, status;
-	private int damage;
+	private String abilityName, target, destination, drawCards, status, trigger, triggerCond, addAbility, damage, condition, condAbility;
 	
 	String abilityR[] = new String[74];
 
@@ -189,8 +188,7 @@ public class DeckFileReader {
 	public void parseAbilities(String ablty)
 	{
 		//parse abilities.txt			
-//		for(String ablty: abilityR)
-//		{
+
 			abilityName = ablty.substring(0, ablty.indexOf(":"));
 			String abilityElement = ablty.replace(":", " ").substring(ablty.indexOf(":")+1);
 			abilityElement = abilityElement.replace("(", " (");
@@ -213,39 +211,48 @@ public class DeckFileReader {
 				
 				String array[] = a.split(" ");
 				getAbility(array);
-			//}
 			
 		}
 	}
 	
 	public void getAbility(String[] a)
 	{
+		String a_join = String.join(" ", a);
 //		for(String ab: a)
 //			Debug.message(ab);
 		switch(a[0])
 		{
 			case "dam":
-//				for(String ab: a)
-//					Debug.message(ab);
-				target = a[2].replace("-", "");
-				Debug.message(target);
-				//Do regex on a[3]
-				//Debug.message(String.join(" ", a));
-				//damage = Integer.valueOf(a[3]);
-				
-//				damageAbility dam = new damageAbility( , damage, , target);
+				//for(String ab: a)
+//					Debug.message(String.join(" ", a));
+				if(! a_join.contains("choice"))
+				{
+					if(! a_join.contains("else"))
+					{
+						target = a_join.substring(indexOf("target ", a_join), a_join.indexOf(" ", indexOf("target ", a_join)));
+						target = target.replace("-", "");
+						damage = a_join.substring(indexOf("\\d+", a_join)-2);
+//						Debug.message(target);
+					}
+					else
+					{
+						//implement contains else condition (choice)
+						target = a_join.substring(indexOf("\\d+", a_join)-2, a_join.indexOf("else"));
+					}
+					
+				}
+				else
+				{
+					//contains choice
+				}
 				break;
 			case "cond":
-//				for(String ab: a)
-//					Debug.message(ab);
+				//for(String ab: a)
+//					Debug.message(String.join(" ", a));
 //				Debug.message(" ");
-				if(a[1].equalsIgnoreCase("flip"))
-				{
-					getAbility(a.toString().substring(indexOf("flip", a.toString())+4).split(" "));
-					//Debug.message(String.join(" ",a).substring(String.join(" ", a).indexOf("flip")+5));
-					
-					//DO cond healed, ability, count, (applystat, choice
-				}
+				condition = a[1];
+				condAbility = a_join.substring(a_join.indexOf(a[1]));
+//				Debug.message(condAbility);
 				break;
 			case "swap":
 //				for(String ab: a)
@@ -295,11 +302,18 @@ public class DeckFileReader {
 //					Debug.message(ab);
 				status = a[2];
 				target = a[3].replace("-", "");
-				Debug.message(target);
+				//Debug.message(target);
 				break;
 			case "heal":
 				break;
 			case "add":
+				target = a[2];
+				trigger = a[4];
+				triggerCond = a[5];
+				addAbility = a_join.substring(a_join.indexOf("(")+1, a_join.indexOf(")"));
+				break;
+			case "shuffle":
+				target = a[2];
 				break;
 				
 		}
