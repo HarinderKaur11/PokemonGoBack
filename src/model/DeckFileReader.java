@@ -13,7 +13,7 @@ public class DeckFileReader {
 	private String cardsfile = "resources/cards.txt";
 	private String abilityfile = "resources/abilities.txt";
 	private String abilityName, target, destination, drawCards, status, energyinfo, abilityparse ;
-	private String damage,condition,condAbility, trigger, triggerCond,addAbility;
+	private String damage, condition, condAbility, trigger, triggerCond, addAbility, source, filter, filterCat, count;
 	ArrayList<Energy> EnergyInfo = new ArrayList<Energy>();
 	String abilityR[] = new String[74];
 
@@ -99,6 +99,7 @@ public class DeckFileReader {
 						String[] substring11 = abilityone[0].split("\\s+");
 						switch(abilityone.length)
 						{
+						//create objects of separate abilities and pass to a new class composite ability
 							case 1:
 								//parseAbilities((substring11[1]+" "+substring11[2]+" "+ abilityR[Integer.parseInt(substring11[3])-1]));
 								parseAbilities(abilityR[Integer.parseInt(substring11[3])-1]);
@@ -266,48 +267,24 @@ public class DeckFileReader {
 		switch(a[0])
 		{
 			case "dam":
-				//for(String ab: a)
-				Debug.message(String.join(" ", a));
-				damage = a_join.substring(indexOf("\\d+", a_join)-2);
-				if(! a_join.contains("choice"))
+				damage = a_join.substring(indexOf("\\d", a_join)-1);
+				target = a_join.contains("choice") ? "choiceopponent" : a_join.substring(indexOf("target ", a_join), a_join.indexOf(" ", indexOf("target ", a_join)));
+				count = null;
+				if(a_join.contains("count"))
 				{
-					if(! a_join.contains("else"))
-					{
-						target = a_join.substring(indexOf("target ", a_join), a_join.indexOf(" ", indexOf("target ", a_join)));
-						target = target.replace("-", "");
-					
-//						Debug.message(target);
-					}
-					else
-					{
-						//implement contains else condition (choice)
-						target = a_join.substring(indexOf("\\d+", a_join)-2, a_join.indexOf("else"));
-					}
-
-					
+					count = a_join.substring(indexOf("\\(target ", a_join), a_join.indexOf(" ", indexOf("\\(target ", a_join)));
 				}
-				else
-				{
-					//contains choice
-				}
-				abilities.add(new damageAbility(name, Integer.valueOf(damage), energyinfo, target));
+				abilities.add(new damageAbility(name, Integer.valueOf(damage), energyinfo, target, count));
 				break;
 			case "cond":
-				//for(String ab: a)
-//					Debug.message(String.join(" ", a));
-//				Debug.message(" ");
 				condition = a[1];
 				condAbility = a_join.substring(a_join.indexOf(a[1]));
 //				Debug.message(condAbility);
 				break;
 			case "swap":
-//				for(String ab: a)
-//					Debug.message(ab);
 				abilities.add(new swapAbility(name,a[1],(a[2]+a[4])));
 				break;
 			case "draw":
-//				for(String ab: a)
-//					Debug.message(ab);
 				if(a.length == 3)
 				{
 					target=a[1];
@@ -318,11 +295,15 @@ public class DeckFileReader {
 					drawCards = a[1];
 					target = null;
 				}
-				//Debug.message(drawCards);
 				abilities.add(new drawAbility(name,Integer.valueOf(a[1]),target));
 				break;
 			case "deck":
-				//Debug.message(a_join);
+				//deck:destination:discard:target:choice:you:1:(search:target:you:source:deck:filter:top:8:1,shuffle:target:you)
+				//deck:target:opponent:destination:deck:count(opponent:hand)
+				//deck:destination:deck:count(your:hand),shuffle:target:you,draw:5
+				//deck:target:them:destination:deck:bottom:choice:target:1
+//				Debug.message(a_join);
+//				target = a_join.substring(indexOf("target ", a_join), a_join.indexOf(" ", indexOf("target ", a_join)));
 				int i = 0;
 				for(String ab: a)
 				{
@@ -342,35 +323,63 @@ public class DeckFileReader {
 				}
 				break;
 			case "search":
-				//Debug.message(a_join);
+				target = a_join.substring(indexOf("target ", a_join), a_join.indexOf(" ", indexOf("target ", a_join)));	
+				source = a_join.substring(indexOf("source ", a_join), a_join.indexOf(" ", indexOf("source ", a_join)));	
+				drawCards = a[a.length -1];
+				filter = null;
+				filterCat = null;
+				if(a_join.contains("filter"))
+				{
+					filter = a_join.substring(indexOf("filter ", a_join), a_join.indexOf(" ", indexOf("filter ", a_join)));
+					if(a_join.contains("type"))
+					{
+						filterCat = a_join.substring(indexOf("type ", a_join), a_join.indexOf(" ", indexOf("type ", a_join)));
+					}
+					else if(a_join.contains("top"))
+					{
+						filterCat = a_join.substring(indexOf("top ", a_join), a_join.indexOf(" ", indexOf("top ", a_join)));
+					}
+					else if(a_join.contains("cat"))
+					{
+						filter = null;
+						filterCat = a_join.substring(indexOf("cat ", a_join), a_join.indexOf(" ", indexOf("cat ", a_join)));
+					}
+					if(a_join.contains("evolvesfrom"))
+					{
+						target = "yourbasic";
+						filter = "null";
+						filterCat="evolvesfrom";
+					}
+				}
+				abilities.add(new Search(name, target, source, filter, filterCat, Integer.valueOf(drawCards)));
 				break;
 			case "redamage":
 //				Debug.message(a_join);
 				break;
 			case "reenergize":
 				break;
+			case "deenergize":
+				break;
 			case "applystat":
-//				for(String ab: a)
-//					Debug.message(ab);
 				status = a[2];
 				target = a[3];
-
-				//Debug.message(target);
+				abilities.add(new applystatAbility(name, target, status));
+				break;
+			case "destat":
 				break;
 			case "heal":
-				//Debug.message(a_join);
+				abilities.add(new healingAbility(name, Integer.valueOf(a[3]), a[2]));
 				break;
 			case "add":
 				target = a[2];
 				trigger = a[4];
 				triggerCond = a[5];
 				addAbility = a_join.substring(a_join.indexOf("(")+1, a_join.indexOf(")"));
+				abilities.add(new Add(name, target, trigger, triggerCond, addAbility));
 				break;
 			case "shuffle":
-				//target = a[2];
 				abilities.add(new Shuffle(name,a[2]));
 				break;
-				
 		}
 	}
 }

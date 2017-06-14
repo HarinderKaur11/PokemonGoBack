@@ -4,13 +4,15 @@ import java.util.ArrayList;
 
 public class damageAbility extends ability {
 	private int damageValue;
+	private String count;
 	private ArrayList<Energy> energyRequired;
 	
-	public damageAbility(String newName, int newDamage, ArrayList<Energy> newEnergyInfo,String newtarget){
+	public damageAbility(String newName, int newDamage, ArrayList<Energy> newEnergyInfo, String newtarget, String count){
 		this.name = newName;
 		this.damageValue = newDamage;
 		this.energyRequired = newEnergyInfo;
 		this.abilitytarget = newtarget;
+		this.count = count;
 	}
 	
 	public void setDamage(int newDamage){

@@ -22,7 +22,7 @@ public class condAbility extends ability{
 		cond:flip:heal:target:your-active:10
 	 */
 	private UserPlayer user;
-	private String name, condition, ability;
+	private String condition, ability;
 	private ArrayList<Energy> EnergyInfo;
 	
 	public condAbility(String name, String condition, String ability, ArrayList<Energy> EnergyInfo)
