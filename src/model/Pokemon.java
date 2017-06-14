@@ -16,7 +16,7 @@ public class Pokemon implements cardItem{
 	private String status = "normal";
 	private ArrayList<cardItem> attachedCards;
 	private ArrayList<ability> activeAbilities;
-	private ArrayList<ability> addAbilities; //trigger abilities
+	private static ArrayList<ability> addAbilities; //trigger abilities
 	private PokemonCard uiCard;
 	
 	public Pokemon(int newId, String name, pokemonStage newPokemonStage, int newHp, ArrayList<ability> newAbilities){
@@ -193,11 +193,13 @@ public class Pokemon implements cardItem{
 		}
 		return null;
 	}
-//	
+	
 //	public static void getTurnEndAbilities(Player player)
 //	{
 //		for( ability a: player.getActivePokemon().getActiveAbilities())
+//		{
 //			addAbilities.add(a);
-//		
+//			if()
+//		}
 //	}
 }

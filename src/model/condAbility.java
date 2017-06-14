@@ -19,18 +19,44 @@ public class condAbility extends ability{
 		cond:choice:shuffle:target:opponent
 		cond:flip:heal:target:your-active:10
 	 */
-	private String name;
-	private String condition;
+	private UserPlayer user;
+	private String name, condition, ability;
 	
-	public condAbility(String name, String condition)
+	public condAbility(String name, String condition, String ability)
 	{
 		this.name = name;
 		this.condition = condition;
-		
+		this.ability = ability;
 	}
 	
 	public void useAbility() {
+		DeckFileReader db;
+		if(Turn.getInstance().getCurrentPlayer() == user)
+		{
+			db = new DeckFileReader(2);
+		}
+		else
+		{
+			db = new DeckFileReader(1);
+		}
+		
 		if(condition.equals("flip"))
+		{
+			db.getAbility(ability.split(" "));
+		}
+		else if(condition.equals("choice"))
+		{
+			
+		}
+		else if(condition.equals("ability"))
+		{
+			
+		}
+		else if(condition.equals("count"))
+		{
+			
+		}
+		else if(condition.equals("healed"))
 		{
 			
 		}

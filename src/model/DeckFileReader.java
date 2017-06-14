@@ -12,7 +12,7 @@ public class DeckFileReader {
 	private String deck2file = "resources/deck2.txt";
 	private String cardsfile = "resources/cards.txt";
 	private String abilityfile = "resources/abilities.txt";
-	private String abilityName, target, destination, drawCards, status, trigger, triggerCond, addAbility, damage;
+	private String abilityName, target, destination, drawCards, status, trigger, triggerCond, addAbility, damage, condition, condAbility;
 	
 	String abilityR[] = new String[74];
 
@@ -188,8 +188,7 @@ public class DeckFileReader {
 	public void parseAbilities(String ablty)
 	{
 		//parse abilities.txt			
-//		for(String ablty: abilityR)
-//		{
+
 			abilityName = ablty.substring(0, ablty.indexOf(":"));
 			String abilityElement = ablty.replace(":", " ").substring(ablty.indexOf(":")+1);
 			abilityElement = abilityElement.replace("(", " (");
@@ -212,7 +211,6 @@ public class DeckFileReader {
 				
 				String array[] = a.split(" ");
 				getAbility(array);
-			//}
 			
 		}
 	}
@@ -226,7 +224,7 @@ public class DeckFileReader {
 		{
 			case "dam":
 				//for(String ab: a)
-					//Debug.message(ab);
+//					Debug.message(String.join(" ", a));
 				if(! a_join.contains("choice"))
 				{
 					if(! a_join.contains("else"))
@@ -249,16 +247,12 @@ public class DeckFileReader {
 				}
 				break;
 			case "cond":
-//				for(String ab: a)
-//					Debug.message(ab);
+				//for(String ab: a)
+//					Debug.message(String.join(" ", a));
 //				Debug.message(" ");
-				if(a[1].contains("flip"))
-				{
-					getAbility(String.join(" ", a).substring(String.join(" ", a).indexOf("flip")+5).split(" "));
-					//Debug.message(String.join(" ",a).substring(String.join(" ", a).indexOf("flip")+5));
-					
-					//DO cond healed, ability, count, (applystat, choice
-				}
+				condition = a[1];
+				condAbility = a_join.substring(a_join.indexOf(a[1]));
+//				Debug.message(condAbility);
 				break;
 			case "swap":
 //				for(String ab: a)
