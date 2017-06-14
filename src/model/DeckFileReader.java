@@ -272,7 +272,7 @@ public class DeckFileReader {
 				count = null;
 				if(a_join.contains("count"))
 				{
-					count = a_join.substring(indexOf("(target ", a_join), a_join.indexOf(" ", indexOf("(target ", a_join)));
+					count = a_join.substring(indexOf("\\(target ", a_join), a_join.indexOf(" ", indexOf("\\(target ", a_join)));
 				}
 				abilities.add(new damageAbility(name, Integer.valueOf(damage), energyinfo, target, count));
 				break;
