@@ -116,7 +116,7 @@ public class Pokemon implements cardItem{
 	public int totalEnergyRequired(){
 		int totalEnergy = 0;
 		for(ability ablt : this.getAbilities()){
-			int temp = ((damageAbility) ablt).getEnergyInfo().length;
+			int temp = ((damageAbility) ablt).getEnergyInfo().size();
 			if(temp>totalEnergy){
 				totalEnergy = temp;
 			}

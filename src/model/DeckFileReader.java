@@ -18,6 +18,7 @@ public class DeckFileReader {
 	String abilityR[] = new String[74];
 
 	ArrayList<String[]> deck = new ArrayList<String[]>();
+	ArrayList<ability> abilities = new ArrayList<ability>();
 	
 	public DeckFileReader (int i){
 		switch(i){
@@ -250,7 +251,7 @@ public class DeckFileReader {
 	
 	public void getEnergy(String energytype, String energynumber){
 		for(int e =0; e < Integer.valueOf(energynumber);e++){
-			Debug.message(energytype);
+			//Debug.message(energytype);
 			EnergyInfo.add(new Energy(energytype));
 		}
 	}
@@ -258,6 +259,7 @@ public class DeckFileReader {
 	public void getAbility(String name,String[] a, ArrayList<Energy> energyinfo)
 	{
 		String a_join = String.join(" ", a);
+		//Debug.message(a_join);
 //		for(String ab: a)
 //			Debug.message(ab);
 		//String[] energyvalues = energyinfo.split("//s+");
@@ -265,14 +267,15 @@ public class DeckFileReader {
 		{
 			case "dam":
 				//for(String ab: a)
-//					Debug.message(String.join(" ", a));
+				Debug.message(String.join(" ", a));
+				damage = a_join.substring(indexOf("\\d+", a_join)-2);
 				if(! a_join.contains("choice"))
 				{
 					if(! a_join.contains("else"))
 					{
 						target = a_join.substring(indexOf("target ", a_join), a_join.indexOf(" ", indexOf("target ", a_join)));
 						target = target.replace("-", "");
-						damage = a_join.substring(indexOf("\\d+", a_join)-2);
+					
 //						Debug.message(target);
 					}
 					else
@@ -287,6 +290,7 @@ public class DeckFileReader {
 				{
 					//contains choice
 				}
+				abilities.add(new damageAbility(name, Integer.valueOf(damage), energyinfo, target));
 				break;
 			case "cond":
 				//for(String ab: a)
@@ -299,6 +303,7 @@ public class DeckFileReader {
 			case "swap":
 //				for(String ab: a)
 //					Debug.message(ab);
+				abilities.add(new swapAbility(name,a[1],(a[2]+a[4])));
 				break;
 			case "draw":
 //				for(String ab: a)
@@ -311,14 +316,17 @@ public class DeckFileReader {
 				else
 				{
 					drawCards = a[1];
+					target = null;
 				}
 				//Debug.message(drawCards);
+				abilities.add(new drawAbility(name,Integer.valueOf(a[1]),target));
 				break;
 			case "deck":
+				//Debug.message(a_join);
 				int i = 0;
 				for(String ab: a)
 				{
-					//Debug.message(ab);
+					//Debug.message(a_join);
 					if(ab.contains("target") && a[i+1].matches("[a-z]+"))
 					{
 						target = a[i+1];  //remove hyphen in opponent-active
@@ -334,8 +342,10 @@ public class DeckFileReader {
 				}
 				break;
 			case "search":
+				//Debug.message(a_join);
 				break;
 			case "redamage":
+//				Debug.message(a_join);
 				break;
 			case "reenergize":
 				break;
@@ -348,6 +358,7 @@ public class DeckFileReader {
 				//Debug.message(target);
 				break;
 			case "heal":
+				//Debug.message(a_join);
 				break;
 			case "add":
 				target = a[2];
@@ -356,7 +367,8 @@ public class DeckFileReader {
 				addAbility = a_join.substring(a_join.indexOf("(")+1, a_join.indexOf(")"));
 				break;
 			case "shuffle":
-				target = a[2];
+				//target = a[2];
+				abilities.add(new Shuffle(name,a[2]));
 				break;
 				
 		}
