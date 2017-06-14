@@ -1,5 +1,7 @@
 package model;
 
+import java.util.ArrayList;
+
 public class condAbility extends ability{
 
 	/*cond:flip:dam:target:opponent-active:30
@@ -21,12 +23,14 @@ public class condAbility extends ability{
 	 */
 	private UserPlayer user;
 	private String name, condition, ability;
+	private ArrayList<Energy> EnergyInfo;
 	
-	public condAbility(String name, String condition, String ability)
+	public condAbility(String name, String condition, String ability, ArrayList<Energy> EnergyInfo)
 	{
 		this.name = name;
 		this.condition = condition;
 		this.ability = ability;
+		this.EnergyInfo = EnergyInfo;
 	}
 	
 	public void useAbility() {
@@ -42,7 +46,7 @@ public class condAbility extends ability{
 		
 		if(condition.equals("flip"))
 		{
-			db.getAbility(ability.split(" "));
+			db.getAbility(name, ability.split(" "), EnergyInfo);
 		}
 		else if(condition.equals("choice"))
 		{
