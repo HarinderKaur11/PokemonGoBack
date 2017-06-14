@@ -12,9 +12,9 @@ public class DeckFileReader {
 	private String deck2file = "resources/deck2.txt";
 	private String cardsfile = "resources/cards.txt";
 	private String abilityfile = "resources/abilities.txt";
-	private String abilityName, target, destination, drawCards, status;
+	private String abilityName, target, destination, drawCards, status, energyinfo, abilityparse ;
 	private int damage;
-	
+	ArrayList<Energy> EnergyInfo = new ArrayList<Energy>();
 	String abilityR[] = new String[74];
 
 	ArrayList<String[]> deck = new ArrayList<String[]>();
@@ -77,16 +77,16 @@ public class DeckFileReader {
 			
 			for(String [] card:deck)
 			{
-				String PokemonName = card[0];
+				//String PokemonName = card[0];
 				//parse cards.txt
 				switch(card[1])
 				{	
 					case "pokemon":
+						EnergyInfo.clear();
 						String carditem = String.join(" ", card);
 						//String retreat = carditem.substring(carditem.indexOf("retreat cat"), carditem.indexOf("attack"));
 						String ability = carditem.substring(carditem.indexOf("attack"));
 						
-						ArrayList<String> abilityInfo = new ArrayList<String>();
 						
 						String ability1, ability2; 
 						int index = indexOf("\\d\\s+\\d+", ability);
@@ -99,12 +99,17 @@ public class DeckFileReader {
 						switch(abilityone.length)
 						{
 							case 1:
-								abilityInfo.add((substring11[1]+" "+substring11[2]));//+" "+ abilityR[Integer.parseInt(substring11[3])-1]));
+								//parseAbilities((substring11[1]+" "+substring11[2]+" "+ abilityR[Integer.parseInt(substring11[3])-1]));
 								parseAbilities(abilityR[Integer.parseInt(substring11[3])-1]);
+								getEnergy(substring11[1], substring11[2]);
+								
 								break;
 							case 2:
 								String[] substring12 = abilityone[1].split("\\s+");
-								abilityInfo.add((substring11[1]+" "+substring11[2]+" "+substring12[1]+" "+substring12[2]+" "+abilityR[Integer.parseInt(substring12[3])-1]));
+								//parseAbilities((substring11[1]+" "+substring11[2]+" "+substring12[1]+" "+substring12[2]+" "+abilityR[Integer.parseInt(substring12[3])-1]));
+								parseAbilities(abilityR[Integer.parseInt(substring12[3])-1]);
+								getEnergy(substring11[1], substring11[2]);
+								getEnergy(substring12[1],substring12[2]);
 								break;
 						}
 						
@@ -120,11 +125,16 @@ public class DeckFileReader {
 								case 1:
 //									Debug.message(substring21[3]);
 //									Debug.message(abilityR[Integer.parseInt(substring21[3])-1]);
-									abilityInfo.add((substring21[1]+" "+substring21[2]+" "+ abilityR[Integer.parseInt(substring21[3])-1]));
+									//parseAbilities((substring21[1]+" "+substring21[2]+" "+ abilityR[Integer.parseInt(substring21[3])-1]));
+									parseAbilities(abilityR[Integer.parseInt(substring21[3])-1]);
+									getEnergy(substring21[1], substring21[2]);
 									break;
 								case 2:
 									String[] substring22 = abilitytwo[1].split("\\s+");
-									abilityInfo.add((substring21[1]+" "+substring21[2]+" "+substring22[1]+" "+substring22[2]+" "+ abilityR[Integer.parseInt(substring22[3])-1]));
+									//parseAbilities((substring21[1]+" "+substring21[2]+" "+substring22[1]+" "+substring22[2]+" "+ abilityR[Integer.parseInt(substring22[3])-1]));
+									parseAbilities(abilityR[Integer.parseInt(substring22[3])-1]);
+									getEnergy(substring21[1], substring21[2]);
+									getEnergy(substring22[1],substring22[2]);
 									break;
 							}
 						}
@@ -191,6 +201,22 @@ public class DeckFileReader {
 		//parse abilities.txt			
 //		for(String ablty: abilityR)
 //		{
+//		String[] abilityvar = ablty.split("\\s+");
+//		switch(abilityvar.length){
+//		case 1:
+//			energyinfo = null;
+//			abilityparse = abilityvar[0];
+//		case 3:
+//			 energyinfo = abilityvar[0] + " " + abilityvar[1];
+//			 abilityparse = abilityvar[2];
+//			 break;
+//		case 5:
+//			energyinfo = abilityvar[0] + " " + abilityvar[1] + " " + abilityvar[2] + " " + abilityvar[3];
+//			 abilityparse = abilityvar[4];
+//			 break;
+//		}
+//			abilityName = abilityparse.substring(0, abilityparse.indexOf(":"));
+//			String abilityElement = abilityparse.replace(":", " ").substring(abilityparse.indexOf(":")+1);
 			abilityName = ablty.substring(0, ablty.indexOf(":"));
 			String abilityElement = ablty.replace(":", " ").substring(ablty.indexOf(":")+1);
 			abilityElement = abilityElement.replace("(", " (");
@@ -211,24 +237,32 @@ public class DeckFileReader {
 					sub.remove(1);
 				}
 				
-				String array[] = a.split(" ");
-				getAbility(array);
+				String array[] = a.replace("-", "").split(" ");
+				getAbility(abilityName, array,EnergyInfo);
 			//}
 			
 		}
 	}
 	
-	public void getAbility(String[] a)
+	public void getEnergy(String energytype, String energynumber){
+		for(int e =0; e < Integer.valueOf(energynumber);e++){
+			Debug.message(energytype);
+			EnergyInfo.add(new Energy(energytype));
+		}
+	}
+	
+	public void getAbility(String name,String[] a, ArrayList<Energy> energyinfo)
 	{
 //		for(String ab: a)
 //			Debug.message(ab);
+		//String[] energyvalues = energyinfo.split("//s+");
 		switch(a[0])
 		{
 			case "dam":
 //				for(String ab: a)
 //					Debug.message(ab);
-				target = a[2].replace("-", "");
-				Debug.message(target);
+				target = a[2];
+				//Debug.message(target);
 				//Do regex on a[3]
 				//Debug.message(String.join(" ", a));
 				//damage = Integer.valueOf(a[3]);
@@ -241,7 +275,7 @@ public class DeckFileReader {
 //				Debug.message(" ");
 				if(a[1].equalsIgnoreCase("flip"))
 				{
-					getAbility(a.toString().substring(indexOf("flip", a.toString())+4).split(" "));
+					getAbility(name, a.toString().substring(indexOf("flip", a.toString())+4).split(" "), energyinfo);
 					//Debug.message(String.join(" ",a).substring(String.join(" ", a).indexOf("flip")+5));
 					
 					//DO cond healed, ability, count, (applystat, choice
@@ -294,8 +328,8 @@ public class DeckFileReader {
 //				for(String ab: a)
 //					Debug.message(ab);
 				status = a[2];
-				target = a[3].replace("-", "");
-				Debug.message(target);
+				target = a[3];
+				//Debug.message(target);
 				break;
 			case "heal":
 				break;
