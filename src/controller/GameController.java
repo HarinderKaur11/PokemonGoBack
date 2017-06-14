@@ -350,7 +350,16 @@ public class GameController {
     	else{
     		return this.AIBench;
     	}
+    	
     }
+    public HBox getactivepokemon(Player player){
+    	if(player instanceof UserPlayer){
+    		return this.userActivePokemon;
+    	}
+    	else{
+    		return this.aiActivePokemon;
+    	}
+    	}
     public HBox getHand(Player player){
     	if(player instanceof UserPlayer){
         	return this.userHand;
