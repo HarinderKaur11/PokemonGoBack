@@ -1,16 +1,9 @@
 package test.pokemongoback;
 
 import static org.junit.Assert.*;
-
 import org.junit.Test;
 
-import model.Deenergize;
-import model.Player;
-import model.Pokemon;
-import model.Search;
-import model.healingAbility;
-import model.swapAbility;
-	
+import test.stubs.*;
 	
 public class GetAbilityIndexTest {
 	String expected;
@@ -22,7 +15,7 @@ public class GetAbilityIndexTest {
 		healingAbility h1=new healingAbility("healing", 0, null);
 		swapAbility s1=new swapAbility("swap", null, null);
 		Search s2=new Search("search", null, null, null, null, 0);
-		Deenergize d1=new Deenergize("deenergize", null, 0);
+		Deenergize d1=new Deenergize("deenergize", null, null);
 		
 		p1.addActiveAbility(h1);
 		p1.addActiveAbility(s1);
