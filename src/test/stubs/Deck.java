@@ -47,11 +47,11 @@ public class Deck extends CardsGroup{
 						
 						if(cards[3].equals("basic")){
 							//Debug.message(cards[15] + cards[0]);
-							this.getGroupCards().add(new Pokemon(x, cards[0], stage, Integer.parseInt(cards[6]), newAbility));
+			//				this.getGroupCards().add(new Pokemon(x, cards[0], stage, Integer.parseInt(cards[6]), newAbility));
 						}
 						else if(cards[3].equals("stage-one")){
 							//Debug.message(cards[0] + " evolves from " + cards[4]);
-							this.getGroupCards().add(new Pokemon(x, cards[0], new stageOnePokemon(cards[4]), Integer.parseInt(cards[7]), newAbility));
+			//				this.getGroupCards().add(new Pokemon(x, cards[0], new stageOnePokemon(cards[4]), Integer.parseInt(cards[7]), newAbility));
 						}
 						else{
 							Debug.message("Not Running " + cards[3]);
@@ -69,7 +69,7 @@ public class Deck extends CardsGroup{
 			//}
 			//Debug.message(this.getGroupCards().size());
 		}
-		//this.shufflecards();
+		
 	}
 	/* Method for testing purpose only */
 	public void buildDeckTest(){
@@ -79,16 +79,16 @@ public class Deck extends CardsGroup{
 		newAbility.add(new damageAbility("Attack", 10, EnergyInfo,"opponentactive", null));
 		int j=0;
 		for(;j<18;j++){
-				this.getGroupCards().add(new Pokemon(j, "Pikachu", new basicPokemon(), 20, newAbility));
+		//		this.getGroupCards().add(new Pokemon(j, "Pikachu", new basicPokemon(), 20, newAbility));
 
 				this.getGroupCards().add(new Trainer(j+18, "Heal Trainer", "item", new healingAbility("Heal pokemon",30,"youractive")));
 
 				this.getGroupCards().add(new Energy("Fighting Energy",j+36));
 		}
 		for(;j<60;j++){
-			this.getGroupCards().add(new Pokemon(j,"Raichu", new stageOnePokemon("Pikachu"), 30, newAbility));
+		//	this.getGroupCards().add(new Pokemon(j,"Raichu", new stageOnePokemon("Pikachu"), 30, newAbility));
 		}
-		//this.shufflecards();
+		
 	}
 	
 	public void display(){
