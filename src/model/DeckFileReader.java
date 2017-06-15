@@ -260,10 +260,7 @@ public class DeckFileReader {
 	public void getAbility(String name,String[] a, ArrayList<Energy> energyinfo)
 	{
 		String a_join = String.join(" ", a);
-		//Debug.message(a_join);
-//		for(String ab: a)
-//			Debug.message(ab);
-		//String[] energyvalues = energyinfo.split("//s+");
+
 		switch(a[0])
 		{
 			case "dam":
@@ -282,7 +279,7 @@ public class DeckFileReader {
 //				Debug.message(condAbility);
 				break;
 			case "swap":
-				abilities.add(new swapAbility(name,a[1],(a[2]+a[4])));
+				abilities.add(new swapAbility(name, a[2], a[5]));
 				break;
 			case "draw":
 				if(a.length == 3)
@@ -300,7 +297,7 @@ public class DeckFileReader {
 			case "deck":
 				//deck:destination:discard:target:choice:you:1:(search:target:you:source:deck:filter:top:8:1,shuffle:target:you)
 				//deck:target:opponent:destination:deck:count(opponent:hand)
-				//deck:destination:deck:count(your:hand),shuffle:target:you,draw:5
+				//deck:target:your:destination:deck:count(your-hand),shuffle:target:you,draw:5
 				//deck:target:them:destination:deck:bottom:choice:target:1
 //				Debug.message(a_join);
 //				target = a_join.substring(indexOf("target ", a_join), a_join.indexOf(" ", indexOf("target ", a_join)));
@@ -355,6 +352,10 @@ public class DeckFileReader {
 				break;
 			case "redamage":
 //				Debug.message(a_join);
+				//redamage:source:choice:opponent:destination:opponent:count(target:last:source:damage)
+				source = a_join.substring(indexOf("target ", a_join), a_join.indexOf(" ", indexOf("target ", a_join)));
+				destination = a_join.substring(a_join.indexOf("target ", a_join.indexOf(source)), a_join.indexOf(" ", indexOf(source+" target ", a_join)));
+				count = a_join.contains("count") ? "1": a_join.substring(indexOf("\\d", a_join)-1);
 				break;
 			case "reenergize":
 				break;
