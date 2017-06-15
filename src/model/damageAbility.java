@@ -12,7 +12,8 @@ public class damageAbility extends ability {
 		this.damageValue = newDamage;
 		this.energyRequired = newEnergyInfo;
 		this.abilitytarget = newtarget;
-		this.count = count;
+		this.count = count; //damageValue = count*damageValue {count = opp active energy}
+		//dam:target:opponent-active:count(target:opponent-active:energy)*10 
 	}
 	
 	public void setDamage(int newDamage){
