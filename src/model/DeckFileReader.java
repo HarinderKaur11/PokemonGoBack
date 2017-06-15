@@ -31,8 +31,8 @@ public class DeckFileReader {
 		}
 	}
 	
-	public void readDeck(String filename){
-		
+	public void readDeck(String filename)
+	{	
 		BufferedReader br = null;
 		BufferedReader cr = null;
 		BufferedReader ar = null;
@@ -250,8 +250,7 @@ public class DeckFileReader {
 					}
 					else{
 						String array[] = a.replace("-", "").split(" ");
-						abilities.add(getAbility(abilityName, array,EnergyInfo));
-						
+						abilities.add(getAbility(abilityName, array, EnergyInfo));
 					}
 					
 				}
