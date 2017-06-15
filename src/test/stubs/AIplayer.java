@@ -111,7 +111,7 @@ public class AIplayer extends Player {
 			for(cardItem card : bench.getGroupCards()){
 				Pokemon pokemon = (Pokemon) card;
 				if(pokemon.getAttachedCards().length<pokemon.totalEnergyRequired()){
-					pokemon.attachCard(energyCards.get(0));
+				//	pokemon.attachCard(energyCards.get(0));
 					((CardsGroup) this.inhand).removeCard(energyCards.get(0));
 					Debug.message("Energy card added to "+pokemon.getName());
 					return true;
@@ -134,7 +134,7 @@ public class AIplayer extends Player {
 				updateGUI();
 			}
 			else{
-				//declare Mulligan
+				
 			}
 		}
 	}

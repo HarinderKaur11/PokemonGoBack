@@ -5,13 +5,11 @@ import java.util.ArrayList;
 import controller.GameController;
 import model.Turn;
 import model.ability;
-import model.cardItem;
-import model.damageAbility;
 import model.pokemonStage;
 import model.stageOnePokemon;
 import view.PokemonCard;
 
-public class Pokemon{
+public class Pokemon implements cardItem{
 	private int id;
 	private String cardName;
 	private int hitpoints;
@@ -21,7 +19,7 @@ public class Pokemon{
 	private ArrayList<ability> abilities;
 	private String status = "normal";
 	private ArrayList<cardItem> attachedCards;
-	private static ArrayList<ability> activeAbilities;
+	private ArrayList<ability> activeAbilities;
 	private static ArrayList<ability> addAbilities; //trigger abilities
 	private PokemonCard uiCard;
 	
@@ -131,7 +129,9 @@ public class Pokemon{
 	}
 	
 	public void evolve(Pokemon basicCard){
-		
+		//this.pStage.evolve(basicCard);
+		for(ability a:basicCard.getActiveAbilities())
+			this.addActiveAbility(a);
 	}
 	
 	public boolean equals(Object o){
@@ -166,17 +166,17 @@ public class Pokemon{
 		this.activeAbilities.remove(newAbility);
 	}
 	
-	public static void addActiveAbility(ability newAbility){
-		activeAbilities.add(newAbility);
+	public void addActiveAbility(ability newAbility){
+		this.activeAbilities.add(newAbility);
 	}
 	
 	public ability[] getActiveAbilities(){
 		return this.activeAbilities.toArray(new ability[this.activeAbilities.size()]);
 	}
 	
-	public static String getAbilityIndex(ability newAbility){
-		for(int i=0;i<activeAbilities.size();i++){
-			if(activeAbilities.get(i) == newAbility){
+	public String getAbilityIndex(ability newAbility){
+		for(int i=0;i<this.activeAbilities.size();i++){
+			if(this.activeAbilities.get(i) == newAbility){
 				return Integer.toString(i);
 			}
 		}
