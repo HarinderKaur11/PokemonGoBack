@@ -150,7 +150,8 @@ public class DeckFileReader {
 						break;
 					
 					case "trainer":
-						
+						//Debug.message(card[4]);
+						parseAbilities(abilityR[Integer.parseInt(card[4])-1]);
 						break;
 						
 					case "energy":
@@ -318,7 +319,7 @@ public class DeckFileReader {
 					target = null;
 				}
 				//Debug.message(drawCards);
-				abilityo = (new drawAbility(name,Integer.valueOf(a[1]),target));
+				abilityo = (new drawAbility(name,Integer.valueOf(drawCards),target));
 				break;
 			case "deck":
 				//deck:destination:discard:target:choice:you:1:(search:target:you:source:deck:filter:top:8:1,shuffle:target:you)
@@ -376,7 +377,7 @@ public class DeckFileReader {
 				abilityo = (new Search(name, target, source, filter, filterCat, Integer.valueOf(drawCards)));
 				break;
 			case "redamage":
-				Debug.message(a_join);
+				//Debug.message(a_join);
 				//redamage:source:choice:opponent:destination:opponent:count(target:last:source:damage)
 				source = "choiceopponent";
 				destination = a_join.substring(a_join.indexOf("destination "), a_join.indexOf(" ", a_join.indexOf("destination ")));
@@ -388,6 +389,7 @@ public class DeckFileReader {
 				//reenergize:target:choice:your:1:target:choice:your:1
 				source = "choiceyour";
 				destination = "choiceyour";
+				count = "0";
 				//amount left
 				abilityo = (new Reenergize(name, source, destination, Integer.valueOf(count)));
 				break;
