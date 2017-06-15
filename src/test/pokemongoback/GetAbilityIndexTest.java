@@ -1,16 +1,9 @@
 package test.pokemongoback;
 
 import static org.junit.Assert.*;
-
 import org.junit.Test;
 
-import model.Deenergize;
-import model.Player;
-import model.Pokemon;
-import model.Search;
-import model.healingAbility;
-import model.swapAbility;
-	
+import test.stubs.*;
 	
 public class GetAbilityIndexTest {
 	String expected;

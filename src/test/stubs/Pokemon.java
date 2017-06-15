@@ -21,7 +21,7 @@ public class Pokemon{
 	private ArrayList<ability> abilities;
 	private String status = "normal";
 	private ArrayList<cardItem> attachedCards;
-	private ArrayList<ability> activeAbilities;
+	private static ArrayList<ability> activeAbilities;
 	private static ArrayList<ability> addAbilities; //trigger abilities
 	private PokemonCard uiCard;
 	
@@ -143,21 +143,6 @@ public class Pokemon{
 		}
 		return false;
 	}
-	
-//	public static void main(String[] arg){
-//		pokemonStage newPokemonStage = new stageOnePokemon("Pikachu");
-//		pokemonStage newPokemon2Stage = new basicPokemon();
-//		ArrayList<ability> newAbilities = new ArrayList<ability>();
-//		Energy[] energyRequired = {new Energy("Lighting",6)};
-//		newAbilities.add(new damageAbility("Thunder Bolt", 20, energyRequired, "Pokemon"));
-//		Pokemon pikachu = new Pokemon(2, "Raichu", newPokemonStage, 80, newAbilities);
-//		ability[] ability = pikachu.getAbilities();
-//		
-//		System.out.println(pikachu.getStage() +" "+ pikachu.getName() + " " + pikachu.getDamage() +" "+ ability[0].getClass().getName());
-//		
-//		Pokemon meow = new Pokemon(1, "Meow", newPokemon2Stage, 80, newAbilities); 
-//		System.out.print(meow.getStage());
-//	}
 
 	public int getHP() {
 		return this.hitpoints;
@@ -181,17 +166,17 @@ public class Pokemon{
 		this.activeAbilities.remove(newAbility);
 	}
 	
-	public void addActiveAbility(ability newAbility){
-		this.activeAbilities.add(newAbility);
+	public static void addActiveAbility(ability newAbility){
+		activeAbilities.add(newAbility);
 	}
 	
 	public ability[] getActiveAbilities(){
 		return this.activeAbilities.toArray(new ability[this.activeAbilities.size()]);
 	}
 	
-	public String getAbilityIndex(ability newAbility){
-		for(int i=0;i<this.activeAbilities.size();i++){
-			if(this.activeAbilities.get(i) == newAbility){
+	public static String getAbilityIndex(ability newAbility){
+		for(int i=0;i<activeAbilities.size();i++){
+			if(activeAbilities.get(i) == newAbility){
 				return Integer.toString(i);
 			}
 		}
