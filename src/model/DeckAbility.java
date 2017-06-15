@@ -19,8 +19,12 @@ public class DeckAbility extends ability {
 	public void useAbility() {
 		if(choice){
 			for(int i=0;i<amount;i++){
-				GameController.getInstance().getPanelPokemonDialog((Player) target.getTargetObject(this.abilitytarget).getTarget(), "hand");
+				cardItem nCard = GameController.getInstance().getPanelPokemonDialog((Player) target.getTargetObject(this.abilitytarget).getTarget(), "hand");
+				((CardsGroup) this.getTargetLocation(this.targetDestination,this.abilitytarget)).addCard(nCard);
 			}
+		}
+		else{
+			
 		}
 	}
 	
