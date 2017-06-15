@@ -91,7 +91,7 @@ public class AIplayer extends Player {
 		}
 	}
 	
-	private boolean checkAndPlayEnergy(ArrayList<Energy> energyCards){
+	public boolean checkAndPlayEnergy(ArrayList<Energy> energyCards){
 		Debug.message(this.activePokemon.getAttachedCards().length);
 		if(this.activePokemon.getAttachedCards().length<this.activePokemon.totalEnergyRequired()){
 			this.activePokemon.attachCard(energyCards.get(0));
