@@ -225,29 +225,51 @@ public class DeckFileReader {
 			abilityElement = abilityElement.replace("(", " (");
 	
 			ArrayList<String> sub = new ArrayList<String>();
-			for (String a: abilityElement.split(","))
-			{
-				sub.add(a);
+			String [] abilitytest = abilityElement.split(",");
+			if(abilitytest.length>1){
+				for (String a: abilitytest)
+				{
+					sub.add(a);
+				//composite ability do here
 					//Debug.message(a);
+				}
+			
+				for(String a: sub)
+				{
+					if(a.contains("(") && !a.contains(")"))
+					{
+					
+						a = sub.get(0) + "," + sub.get(1);
+						sub.remove(1);
+					}
+					if(sub.size()>1){
+					String array[] = a.replace("-", "").split(" ");
+					getAbility(abilityName, array,EnergyInfo);
+					// add composite ability here and then add composite ability to abilities arraylist.
+					}
+					else{
+						String array[] = a.replace("-", "").split(" ");
+						abilities.add(getAbility(abilityName, array,EnergyInfo));
+						
+					}
+					
+				}
+			}
+				
+			else{
+				//String[] a = abilitytest;
+					String array[] = abilityElement.replace("-", "").split(" ");
+					abilities.add(getAbility(abilityName, array,EnergyInfo));
+					//change type void to ability of get ability and return ability.
+					//add the return object to the ability arraylist.
+				}
+
+			
 			}
 			
-			for(String a: sub)
-			{
-				if(a.contains("(") && !a.contains(")"))
-				{
-					
-					a = sub.get(0) + "," + sub.get(1);
-					sub.remove(1);
-				}
-				
-
-				String array[] = a.replace("-", "").split(" ");
-				getAbility(abilityName, array,EnergyInfo);
 			//}
 
-			
-		}
-	}
+
 	
 	public void getEnergy(String energytype, String energynumber){
 		for(int e =0; e < Integer.valueOf(energynumber);e++){
@@ -256,13 +278,14 @@ public class DeckFileReader {
 		}
 	}
 	
-	public void getAbility(String name,String[] a, ArrayList<Energy> energyinfo)
+	public ability getAbility(String name,String[] a, ArrayList<Energy> energyinfo)
 	{
 		String a_join = String.join(" ", a);
 		//Debug.message(a_join);
 //		for(String ab: a)
 //			Debug.message(ab);
 		//String[] energyvalues = energyinfo.split("//s+");
+		ability abilityo = null;
 		switch(a[0])
 		{
 			case "dam":
@@ -290,7 +313,7 @@ public class DeckFileReader {
 				{
 					//contains choice
 				}
-				abilities.add(new damageAbility(name, Integer.valueOf(damage), energyinfo, target));
+				abilityo = (new damageAbility(name, Integer.valueOf(damage), energyinfo, target));
 				break;
 			case "cond":
 				//for(String ab: a)
@@ -303,7 +326,7 @@ public class DeckFileReader {
 			case "swap":
 //				for(String ab: a)
 //					Debug.message(ab);
-				abilities.add(new swapAbility(name,a[1],(a[2]+a[4])));
+				abilityo = (new swapAbility(name,a[1],(a[2]+a[4])));
 				break;
 			case "draw":
 //				for(String ab: a)
@@ -319,7 +342,7 @@ public class DeckFileReader {
 					target = null;
 				}
 				//Debug.message(drawCards);
-				abilities.add(new drawAbility(name,Integer.valueOf(a[1]),target));
+				abilityo = (new drawAbility(name,Integer.valueOf(a[1]),target));
 				break;
 			case "deck":
 				//Debug.message(a_join);
@@ -368,9 +391,10 @@ public class DeckFileReader {
 				break;
 			case "shuffle":
 				//target = a[2];
-				abilities.add(new Shuffle(name,a[2]));
+				abilityo = (new Shuffle(name,a[2]));
 				break;
 				
 		}
+		return abilityo;
 	}
 }
