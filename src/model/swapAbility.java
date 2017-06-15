@@ -5,9 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.HBox;
 
 public class swapAbility extends ability{
-	private String name;
-	private String activepokemon;
-	private String benchpokemon;
+	private String activepokemon, benchpokemon;
 	private UserPlayer user;
 	
 	public swapAbility(String name,String activepokemon, String benchpokemon){

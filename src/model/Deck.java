@@ -24,7 +24,7 @@ public class Deck extends CardsGroup{
 		ArrayList<ability> newAbility = new ArrayList<ability>();
 		ArrayList<Energy> EnergyInfo = new ArrayList<Energy>();
 		EnergyInfo.add(new Energy("Fighting"));
-		newAbility.add(new damageAbility("Attack", 10, EnergyInfo, "opponentactive"));
+		newAbility.add(new damageAbility("Attack", 10, EnergyInfo, "opponentactive", null));
 		
 		int x = 1;
 		for(String[] cards : cardsList){
@@ -64,7 +64,7 @@ public class Deck extends CardsGroup{
 		ArrayList<ability> newAbility = new ArrayList<ability>();
 		ArrayList<Energy> EnergyInfo = new ArrayList<Energy>();
 		EnergyInfo.add(new Energy("Fighting"));
-		newAbility.add(new damageAbility("Attack", 10, EnergyInfo,"opponentactive"));
+		newAbility.add(new damageAbility("Attack", 10, EnergyInfo,"opponentactive", null));
 		int j=0;
 		for(;j<18;j++){
 				this.getGroupCards().add(new Pokemon(j, "Pikachu", new basicPokemon(), 20, newAbility));
