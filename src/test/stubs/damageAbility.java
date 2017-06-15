@@ -1,6 +1,10 @@
-package model;
+package test.stubs;
 
 import java.util.ArrayList;
+
+import model.Energy;
+import model.Turn;
+import model.ability;
 
 public class damageAbility extends ability {
 	private int damageValue;

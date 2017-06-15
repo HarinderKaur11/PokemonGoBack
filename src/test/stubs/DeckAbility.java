@@ -1,6 +1,8 @@
-package model;
+package test.stubs;
 
 import controller.GameController;
+import model.ability;
+import model.target;
 
 public class DeckAbility extends ability {
 
@@ -19,7 +21,7 @@ public class DeckAbility extends ability {
 	public void useAbility() {
 		if(choice){
 			for(int i=0;i<amount;i++){
-				GameController.getInstance().getPanelPokemonDialog((Player) target.getTargetObject(this.abilitytarget).getTarget(), "hand");
+			//	GameController.getInstance().getPanelPokemonDialog((Player) target.getTargetObject(this.abilitytarget).getTarget(), "hand");
 			}
 		}
 	}

@@ -1,4 +1,8 @@
-package model;
+package test.stubs;
+
+import model.Pokemon;
+import model.ability;
+import model.target;
 
 public class Add extends ability{
 
