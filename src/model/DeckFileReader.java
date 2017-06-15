@@ -150,7 +150,8 @@ public class DeckFileReader {
 						break;
 					
 					case "trainer":
-						
+						//Debug.message(card[4]);
+						parseAbilities(abilityR[Integer.parseInt(card[4])-1]);
 						break;
 						
 					case "energy":
@@ -264,8 +265,6 @@ public class DeckFileReader {
 					//change type void to ability of get ability and return ability.
 					//add the return object to the ability arraylist.
 				}
-
-			
 			}
 			
 			//}
@@ -289,19 +288,16 @@ public class DeckFileReader {
 		{
 			case "dam":
 				damage = a_join.substring(indexOf("\\d", a_join)-1);
-				target = a_join.contains("choice") ? "choiceopponent" : a_join.substring(indexOf("target ", a_join), a_join.indexOf(" ", indexOf("target ", a_join)));
+				target = a_join.contains("choice") ? "opponentbench" : a_join.substring(indexOf("target ", a_join), a_join.indexOf(" ", indexOf("target ", a_join)));
 				count = null;
 				if(a_join.contains("count"))
 				{
 					count = a_join.substring(indexOf("\\(target ", a_join), a_join.indexOf(" ", indexOf("\\(target ", a_join)));
 				}
-
-				else
-				{
-					//contains choice
-				}
+					//dam:target:opponent-active:count(target:opponent-active:energy)*10 
+					//dam:target:choice:opponent-bench:30
+				
 				abilityo = (new damageAbility(name, Integer.valueOf(damage), energyinfo, target, count));
-
 				break;
 			case "cond":
 				condition = a[1];
@@ -323,15 +319,13 @@ public class DeckFileReader {
 					target = null;
 				}
 				//Debug.message(drawCards);
-				abilityo = (new drawAbility(name,Integer.valueOf(a[1]),target));
+				abilityo = (new drawAbility(name,Integer.valueOf(drawCards),target));
 				break;
 			case "deck":
 				//deck:destination:discard:target:choice:you:1:(search:target:you:source:deck:filter:top:8:1,shuffle:target:you)
 				//deck:target:opponent:destination:deck:count(opponent:hand)
 				//deck:target:your:destination:deck:count(your-hand),shuffle:target:you,draw:5
 				//deck:target:them:destination:deck:bottom:choice:target:1
-//				Debug.message(a_join);
-//				target = a_join.substring(indexOf("target ", a_join), a_join.indexOf(" ", indexOf("target ", a_join)));
 				int i = 0;
 				for(String ab: a)
 				{
@@ -349,6 +343,7 @@ public class DeckFileReader {
 					//Debug.message("deck"+drawCards);
 					i++;
 				}
+				abilityo = new DeckAbility(name, target, destination, true, Integer.valueOf(drawCards));
 				break;
 			case "search":
 				target = a_join.substring(indexOf("target ", a_join), a_join.indexOf(" ", indexOf("target ", a_join)));	
@@ -379,41 +374,66 @@ public class DeckFileReader {
 						filterCat="evolvesfrom";
 					}
 				}
-				abilities.add(new Search(name, target, source, filter, filterCat, Integer.valueOf(drawCards)));
+				abilityo = (new Search(name, target, source, filter, filterCat, Integer.valueOf(drawCards)));
 				break;
 			case "redamage":
-//				Debug.message(a_join);
+				//Debug.message(a_join);
 				//redamage:source:choice:opponent:destination:opponent:count(target:last:source:damage)
-				source = a_join.substring(indexOf("target ", a_join), a_join.indexOf(" ", indexOf("target ", a_join)));
-				destination = a_join.substring(a_join.indexOf("target ", a_join.indexOf(source)), a_join.indexOf(" ", indexOf(source+" target ", a_join)));
-				count = a_join.contains("count") ? "1": a_join.substring(indexOf("\\d", a_join)-1);
+				source = "choiceopponent";
+				destination = a_join.substring(a_join.indexOf("destination "), a_join.indexOf(" ", a_join.indexOf("destination ")));
+				count = a_join.contains("count") ? "sourcedamage": a_join.substring(indexOf("\\d", a_join)-1);
+				//amount left
+				abilityo = (new Redamage(name, source, destination, count));
 				break;
 			case "reenergize":
+				//reenergize:target:choice:your:1:target:choice:your:1
+				source = "choiceyour";
+				destination = "choiceyour";
+				count = "0";
+				//amount left
+				abilityo = (new Reenergize(name, source, destination, Integer.valueOf(count)));
 				break;
 			case "deenergize":
+				//deenergize:target:your-active:count(target:your-active:energy)
+				//deenergize:target:opponent-active:1
+				//deenergize:target:opponent-active:1
+				//deenergize:target:your-active:1:(search:target:your:source:discard:filter:cat:item:1)
+				target = a_join.substring(indexOf("target ", a_join), a_join.indexOf(" ", indexOf("target ", a_join)));
+				if(a_join.contains("count"))
+				{
+					count = "youractiveenergy"; //edit this
+				}
+				else
+				{
+					count= String.valueOf(a_join.charAt(indexOf("\\d", a_join)));
+				}
+				if(a_join.contains("search"))
+				{
+					//implement search option
+				}
+				abilityo = (new Deenergize(name, target, count));
 				break;
 			case "applystat":
 				status = a[2];
 				target = a[3];
-				abilities.add(new applystatAbility(name, target, status));
+				abilityo = (new applystatAbility(name, target, status));
 				break;
 			case "destat":
+				target = "choiceyour";
+				abilityo = new destatAbility(name, target);
 				break;
 			case "heal":
-				abilities.add(new healingAbility(name, Integer.valueOf(a[3]), a[2]));
+				abilityo = (new healingAbility(name, Integer.valueOf(a[3]), a[2]));
 				break;
 			case "add":
 				target = a[2];
 				trigger = a[4];
 				triggerCond = a[5];
 				addAbility = a_join.substring(a_join.indexOf("(")+1, a_join.indexOf(")"));
-				abilities.add(new Add(name, target, trigger, triggerCond, addAbility));
+				abilityo = (new Add(name, target, trigger, triggerCond, addAbility));
 				break;
 			case "shuffle":
-
-				//target = a[2];
 				abilityo = (new Shuffle(name,a[2]));
-
 				break;
 		}
 		return abilityo;

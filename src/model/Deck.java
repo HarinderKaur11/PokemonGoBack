@@ -46,7 +46,7 @@ public class Deck extends CardsGroup{
 						}
 						break;
 					case "trainer":
-						this.getGroupCards().add(new Trainer(x, cards[0], "item", new Search("Search pokemon", "you", "deck","pokemon","basic",2)));
+						this.getGroupCards().add(new Trainer(x, cards[0], cards[3], new Search("Search pokemon", "you", "deck","pokemon","basic",2)));
 						break;
 					case "energy":
 						this.getGroupCards().add(new Energy(cards[0],x));
