@@ -6,8 +6,7 @@ import java.util.regex.Pattern;
 
 public class AbilityParser {
 	private String abilityName, target, destination, drawCards, status, energyinfo, abilityparse ;
-	private String damage, condition, condAbility, trigger, triggerCond, source, filter, filterCat, count;
-	private boolean choice;
+	private String damage, condition, condAbility, trigger, triggerCond, source, filter, filterCat, count, choice;
 	ability addAbility = null;
 	ArrayList<Energy> EnergyInfo = new ArrayList<Energy>();
 	ArrayList<ability> abilities = new ArrayList<ability>();
@@ -143,9 +142,8 @@ public class AbilityParser {
 				destination = a_join.substring(a_join.indexOf("destination "), a_join.indexOf(" ", a_join.indexOf("destination ")));
 				drawCards = String.valueOf(indexOf("\\d", a_join));
 				// drawCards empty in 1st 2 cases
-				choice = a_join.contains("choice") ? true : false;
-				count = a_join.contains("count") ? a_join.substring(a_join.indexOf("count ("), a_join.indexOf(" ", a_join.indexOf("count ("))).replace(" ", "").replace("-",  "") : "null";
-				abilityo = new DeckAbility(name, target, destination, choice , Integer.valueOf(drawCards), count);
+				choice = a_join.contains("count") ? a_join.substring(a_join.indexOf("count ("), a_join.indexOf(" ", a_join.indexOf("count ("))).replace(" ", "").replace("-",  "") : "null";
+				abilityo = new DeckAbility(name, target, destination,Integer.valueOf(drawCards), choice);
 				break;
 			case "search":
 				target = a_join.substring(indexOf("target ", a_join), a_join.indexOf(" ", indexOf("target ", a_join)));	
