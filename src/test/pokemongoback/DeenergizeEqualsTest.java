@@ -4,9 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import model.CardsGroup;
-import model.DeckAbility;
-import model.Deenergize;
+import test.stubs.*;
 
 public class DeenergizeEqualsTest {
 
