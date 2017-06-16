@@ -1,10 +1,20 @@
 
-	
-/*
-
 import model.healingAbility;
 import model.pokemonStage;
+import model.swapAbility;
+
+import java.util.ArrayList;
+
+import org.junit.Test;
+
+import model.AIplayer;
 import model.Deenergize;
+import model.Energy;
+import model.Pokemon;
+import model.Turn;
+import model.UserPlayer;
+import model.ability;
+import model.basicPokemon;
 import model.damageAbility;
 
 
@@ -17,8 +27,9 @@ public class UseAbilityTest {
 		// it will check for damage 
 
 		
-		
+		UserPlayer player= new UserPlayer("john");
 		player.setActivePokemon(pk);
+		  ArrayList<ability> newAbilities=new ArrayList<ability>();
 		Pokemon rh = new Pokemon(1, "Raichu", basic, 60, newAbilities);
 		//UserPlayer opposite= new UserPlayer("Sam");
 		
@@ -40,6 +51,7 @@ public class UseAbilityTest {
 	
 	
 	  @Test
+	  public void test5() {
 
 		UserPlayer player= new UserPlayer("john");
 	    player.setTurn(true);
@@ -65,7 +77,7 @@ public class UseAbilityTest {
 
 	
 	
-	/*  @Test
+	  @Test
 
 	
 	public void test2() {
@@ -92,7 +104,7 @@ public class UseAbilityTest {
 
 	}
 
-	}
+	
 
 
 	  @Test

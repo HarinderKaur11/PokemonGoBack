@@ -13,7 +13,7 @@ public class GetAbilityIndexTest {
 	public void test() {
 		Pokemon p1=new Pokemon(0, null, null, 0, null);
 		healingAbility h1=new healingAbility("healing", 0, null);
-		swapAbility s1=new swapAbility();
+		swapAbility s1=new swapAbility(actual, actual, actual);
 		Search s2=new Search("search", null, null, null, null, 0);
 
 		//Deenergize d1=new Deenergize("deenergize", null, 0);
