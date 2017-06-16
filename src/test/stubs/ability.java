@@ -1,4 +1,7 @@
-package model;
+package test.stubs;
+
+import model.Player;
+import model.target;
 
 public abstract class ability {
 	

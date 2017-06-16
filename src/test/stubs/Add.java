@@ -11,13 +11,13 @@ public class Add extends ability{
 	private String trigger, triggerCondition;
 	ability addAbility;
 	
-	public Add(String name, String target, String trigger, String triggerCondition, String addAbility)
+	public Add(String name, String target, String trigger, String triggerCondition, ability addAbility)
 	{
 		this.name = name;
 		this.abilitytarget = target;
 		this.trigger = trigger;
 		this.triggerCondition = triggerCondition;
-		//this.addAbility = addAbility;
+		this.addAbility = addAbility;
 	}
 	
 	public String getTriggerCondition()
