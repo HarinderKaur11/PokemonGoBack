@@ -1,5 +1,8 @@
 package test.stubs;
 
+import test.stubs.cardItem;
+import test.stubs.ability;
+
 public class Trainer implements cardItem{
 
 	private String cardName;
