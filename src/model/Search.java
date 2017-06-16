@@ -58,9 +58,11 @@ public class Search extends ability{
 			dbox.setOptionList(cards);
 			int id = Integer.parseInt(dbox.getDialog());
 			CardsGroup hand = (CardsGroup) ((Player) target.getTargetObject(abilitytarget).getTarget()).getInhand();
-			hand.addCard(source.getCard(id));
+			cardItem tempcard = source.getCard(id);
+			hand.addCard(tempcard);
 			GameController.getInstance().addCardToPanel(source.getCard(id), GameController.getInstance().getHand((Player) target.getTargetObject(abilitytarget).getTarget()));
-			source.removeCard(source.getCard(id));
+			source.removeCard(tempcard);
+			cards.remove(tempcard);
 		}
 		
 	}
