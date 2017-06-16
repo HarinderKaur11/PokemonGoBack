@@ -14,6 +14,7 @@ public class DeckFileReader {
 	private String abilityfile = "resources/abilities.txt";
 	private String abilityName, target, destination, drawCards, status, energyinfo, abilityparse ;
 	private String damage, condition, condAbility, trigger, triggerCond, addAbility, source, filter, filterCat, count;
+	private boolean choice;
 	ArrayList<Energy> EnergyInfo = new ArrayList<Energy>();
 	String abilityR[] = new String[74];
 
@@ -31,8 +32,8 @@ public class DeckFileReader {
 		}
 	}
 	
-	public void readDeck(String filename){
-		
+	public void readDeck(String filename)
+	{	
 		BufferedReader br = null;
 		BufferedReader cr = null;
 		BufferedReader ar = null;
@@ -251,8 +252,7 @@ public class DeckFileReader {
 					}
 					else{
 						String array[] = a.replace("-", "").split(" ");
-						abilities.add(getAbility(abilityName, array,EnergyInfo));
-						
+						abilities.add(getAbility(abilityName, array, EnergyInfo));
 					}
 					
 				}
@@ -292,17 +292,14 @@ public class DeckFileReader {
 				count = null;
 				if(a_join.contains("count"))
 				{
-					count = a_join.substring(indexOf("\\(target ", a_join), a_join.indexOf(" ", indexOf("\\(target ", a_join)));
+					count = a_join.substring(indexOf("\\(target ", a_join), a_join.indexOf(")", indexOf("\\(target ", a_join)));
 				}
-					//dam:target:opponent-active:count(target:opponent-active:energy)*10 
-					//dam:target:choice:opponent-bench:30
-				
-				abilityo = (new damageAbility(name, Integer.valueOf(damage), energyinfo, target, count));
+				abilityo = new damageAbility(name, Integer.valueOf(damage), energyinfo, target, count);
 				break;
 			case "cond":
 				condition = a[1];
 				condAbility = a_join.substring(a_join.indexOf(a[1]));
-//				Debug.message(condAbility);
+				//Debug.message(condAbility);
 				break;
 			case "swap":
 				abilityo = (new swapAbility(name, a[2], a[5]));
@@ -318,32 +315,19 @@ public class DeckFileReader {
 					drawCards = a[1];
 					target = null;
 				}
-				//Debug.message(drawCards);
-				abilityo = (new drawAbility(name,Integer.valueOf(drawCards),target));
+				abilityo = new drawAbility(name,Integer.valueOf(drawCards),target);
 				break;
 			case "deck":
-				//deck:destination:discard:target:choice:you:1:(search:target:you:source:deck:filter:top:8:1,shuffle:target:you)
 				//deck:target:opponent:destination:deck:count(opponent:hand)
-				//deck:target:your:destination:deck:count(your-hand),shuffle:target:you,draw:5
+				//deck:target:your:destination:deck:count(your-hand)
 				//deck:target:them:destination:deck:bottom:choice:target:1
-				int i = 0;
-				for(String ab: a)
-				{
-					//Debug.message(a_join);
-					if(ab.contains("target") && a[i+1].matches("[a-z]+"))
-					{
-						target = a[i+1];  //remove hyphen in opponent-active
-					}
-					if(ab.contains("destination"))
-					{
-						destination = a[i+1];
-						//Debug.message(target);
-					}
-					drawCards= String.valueOf(indexOf("\\d", ab));
-					//Debug.message("deck"+drawCards);
-					i++;
-				}
-				abilityo = new DeckAbility(name, target, destination, true, Integer.valueOf(drawCards));
+				target = a_join.substring(indexOf("target ", a_join), a_join.indexOf(" ", indexOf("target ", a_join)));	
+				destination = a_join.substring(a_join.indexOf("destination "), a_join.indexOf(" ", a_join.indexOf("destination ")));
+				drawCards = String.valueOf(indexOf("\\d", a_join));
+				// drawCards empty in 1st 2 cases
+				choice = a_join.contains("choice") ? true : false;
+				count = a_join.contains("count") ? a_join.substring(a_join.indexOf("count ("), a_join.indexOf(" ", a_join.indexOf("count ("))).replace(" ", "").replace("-",  "") : "null";
+				abilityo = new DeckAbility(name, target, destination, choice , Integer.valueOf(drawCards), count);
 				break;
 			case "search":
 				target = a_join.substring(indexOf("target ", a_join), a_join.indexOf(" ", indexOf("target ", a_join)));	
@@ -370,70 +354,51 @@ public class DeckFileReader {
 					if(a_join.contains("evolvesfrom"))
 					{
 						target = "yourbasic";
-						filter = "null";
+						filter = null;
 						filterCat="evolvesfrom";
 					}
 				}
-				abilityo = (new Search(name, target, source, filter, filterCat, Integer.valueOf(drawCards)));
+				abilityo = new Search(name, target, source, filter, filterCat, Integer.valueOf(drawCards));
 				break;
 			case "redamage":
-				//Debug.message(a_join);
-				//redamage:source:choice:opponent:destination:opponent:count(target:last:source:damage)
 				source = "choiceopponent";
 				destination = a_join.substring(a_join.indexOf("destination "), a_join.indexOf(" ", a_join.indexOf("destination ")));
-				count = a_join.contains("count") ? "sourcedamage": a_join.substring(indexOf("\\d", a_join)-1);
-				//amount left
-				abilityo = (new Redamage(name, source, destination, count));
+				count = a_join.contains("count") ? "opponentdamage": a_join.substring(indexOf("\\d", a_join)-1);
+				abilityo = new Redamage(name, source, destination, count);
 				break;
 			case "reenergize":
-				//reenergize:target:choice:your:1:target:choice:your:1
 				source = "choiceyour";
 				destination = "choiceyour";
-				count = "0";
-				//amount left
-				abilityo = (new Reenergize(name, source, destination, Integer.valueOf(count)));
+				count = "1";
+				abilityo = new Reenergize(name, source, destination, Integer.valueOf(count));
 				break;
 			case "deenergize":
 				//deenergize:target:your-active:count(target:your-active:energy)
-				//deenergize:target:opponent-active:1
-				//deenergize:target:opponent-active:1
-				//deenergize:target:your-active:1:(search:target:your:source:discard:filter:cat:item:1)
 				target = a_join.substring(indexOf("target ", a_join), a_join.indexOf(" ", indexOf("target ", a_join)));
-				if(a_join.contains("count"))
-				{
-					count = "youractiveenergy"; //edit this
-				}
-				else
-				{
-					count= String.valueOf(a_join.charAt(indexOf("\\d", a_join)));
-				}
-				if(a_join.contains("search"))
-				{
-					//implement search option
-				}
-				abilityo = (new Deenergize(name, target, count));
+				count = a_join.contains("count") ? "youractive energy" : String.valueOf(a_join.charAt(indexOf("\\d", a_join)));
+				abilityo = new Deenergize(name, target, count);
 				break;
 			case "applystat":
 				status = a[2];
 				target = a[3];
-				abilityo = (new applystatAbility(name, target, status));
+				abilityo = new applystatAbility(name, target, status);
 				break;
 			case "destat":
 				target = "choiceyour";
 				abilityo = new destatAbility(name, target);
 				break;
 			case "heal":
-				abilityo = (new healingAbility(name, Integer.valueOf(a[3]), a[2]));
+				abilityo = new healingAbility(name, Integer.valueOf(a[3]), a[2]);
 				break;
 			case "add":
 				target = a[2];
 				trigger = a[4];
 				triggerCond = a[5];
 				addAbility = a_join.substring(a_join.indexOf("(")+1, a_join.indexOf(")"));
-				abilityo = (new Add(name, target, trigger, triggerCond, addAbility));
+				abilityo = new Add(name, target, trigger, triggerCond, addAbility);
 				break;
 			case "shuffle":
-				abilityo = (new Shuffle(name,a[2]));
+				abilityo = new Shuffle(name,a[2]);
 				break;
 		}
 		return abilityo;
