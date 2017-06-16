@@ -4,16 +4,17 @@ import controller.GameController;
 
 public class DeckAbility extends ability {
 
-	private String targetDestination;
+	private String targetDestination, count;
 	private int amount;
 	private boolean choice;
 	
-	public DeckAbility(String newName, String newTarget, String newTargetDestination, boolean newChoice, int newAmount){
+	public DeckAbility(String newName, String newTarget, String newTargetDestination, boolean newChoice, int newAmount, String count){
 		this.name = newName;
 		this.abilitytarget = newTarget;
 		this.targetDestination = newTargetDestination;
 		this.amount = newAmount;
 		this.choice = newChoice;
+		this.count = count; //count = yourhand, opponenthand
 	}
 	
 	public void useAbility() {
