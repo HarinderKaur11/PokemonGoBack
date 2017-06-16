@@ -16,7 +16,7 @@ public class Pokemon implements cardItem{
 	private String status = "normal";
 	private ArrayList<cardItem> attachedCards;
 	private ArrayList<ability> activeAbilities;
-	private static ArrayList<ability> addAbilities; //trigger abilities
+	private static ArrayList<ability> turnendAbilities; //trigger abilities
 	private PokemonCard uiCard;
 	
 	public Pokemon(int newId, String name, pokemonStage newPokemonStage, int newHp, ArrayList<ability> newAbilities){
@@ -126,8 +126,11 @@ public class Pokemon implements cardItem{
 	
 	public void evolve(Pokemon basicCard){
 		this.pStage.evolve(basicCard);
-		for(ability a:basicCard.getActiveAbilities())
-			this.addActiveAbility(a);
+		if(basicCard.getActiveAbilities()!=null){
+			for(ability a:basicCard.getActiveAbilities()){
+				this.addActiveAbility(a);
+			}
+		}
 	}
 	
 	public boolean equals(Object o){
@@ -194,12 +197,13 @@ public class Pokemon implements cardItem{
 		return null;
 	}
 	
-//	public static void getTurnEndAbilities(Player player)
-//	{
-//		for( ability a: player.getActivePokemon().getActiveAbilities())
-//		{
-//			addAbilities.add(a);
-//			if()
-//		}
-//	}
+	public static void getTurnEndAbilities(Player player)
+	{
+		for( ability a: player.getActivePokemon().getActiveAbilities())
+		{
+			//if ability id turnend then
+			turnendAbilities.add(a);
+			
+		}
+	}
 }

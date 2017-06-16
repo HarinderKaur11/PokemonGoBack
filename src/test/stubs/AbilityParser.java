@@ -19,9 +19,8 @@ public class AbilityParser {
 	    return matcher.find() ? matcher.end() : -1;
 	}
 	
-	public void parseAbilities(String ablty, ArrayList<Energy> EnergyInfo)
+	public void parseAbilities(String ablty)
 	{
-		this.EnergyInfo = EnergyInfo;
 		//parse abilities.txt			
 
 //		for(String ablty: abilityR)
