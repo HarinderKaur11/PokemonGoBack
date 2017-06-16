@@ -7,9 +7,7 @@ import java.util.regex.Pattern;
 public class AbilityParser {
 
 	private String abilityName, target, destination, drawCards, status, energyinfo, abilityparse, amount ;
-
 	private String damage, condition, condAbility, trigger, triggerCond, source, filter, filterCat, count, choice;
-
 
 	ability addAbility = null;
 	ArrayList<Energy> EnergyInfo = new ArrayList<Energy>();
@@ -21,9 +19,8 @@ public class AbilityParser {
 	    return matcher.find() ? matcher.end() : -1;
 	}
 	
-	public void parseAbilities(String ablty, ArrayList<Energy> EnergyInfo)
+	public void parseAbilities(String ablty)
 	{
-		this.EnergyInfo = EnergyInfo;
 		//parse abilities.txt			
 
 //		for(String ablty: abilityR)
