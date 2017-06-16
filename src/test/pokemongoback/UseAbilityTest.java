@@ -15,6 +15,11 @@ import model.Turn;
 import model.UserPlayer;
 import model.ability;
 import model.basicPokemon;
+import model.cardItem;
+import model.healingAbility;
+import model.pokemonStage;
+import model.swapAbility;
+import model.Deenergize;
 import model.damageAbility;
 
 
@@ -84,23 +89,34 @@ public class UseAbilityTest {
 		
 		// it will check for swap 
 		
-		player.setActivePokemon(pk);
-		Pokemon rh = new Pokemon(1, "Raichu", basic, 60, newAbilities);
-		//UserPlayer opposite= new UserPlayer("Sam");
+		   UserPlayer player= new UserPlayer("john");
+		   // player.setTurn(true);
+		   // Turn.getInstance().setPlayer(new AIplayer("Me"), player);
+		    ArrayList<ability> newAbilities=new ArrayList<ability>();
+			pokemonStage basic=new basicPokemon();
+			Pokemon pk1 = new Pokemon(2, "Pikachu", basic, 80, newAbilities);			
+			player.setActivePokemon(pk1);
+			//Pokemon pk2 = new Pokemon(3, "Raichu", basic, 60, newAbilities);
+		//	cardItem pk2= new Pokemon(3, "Raichu", basic, 60, newAbilities);
+			player.getBench().addCard(new Pokemon(3, "Raichu", basic, 60, newAbilities));;
+			
+			System.out.println("333"+player.getActivePokemon().getName());
+			for(cardItem card: player.getBench().getCard()){
+				System.out.println("a" + card.getName());
+				
+			}
+			//System.out.println("444"+player.getBench().getName());
+			ability ablt3 = new swapAbility("Swap","youractive" , "yourbench");
+			ablt3.useAbility();
+			System.out.println("111"+player.getActivePokemon().getName());
 		
-		String activepk = "Pikachu";
-		String target="Raichu";
-		
-		
-		System.out.println(pk.getBasePokemonName());
-		ability ablt = new swapAbility("john", target, activepk);
-		pk.useAbility(ablt);
-		//rh.addDamage(10);
-		
-		System.out.println(pk.getBasePokemonName());
+		System.out.println("222"+player.getBench().getBasicPokemonCard().getName());
+			
+	  }
 
 
 		
+
 
 	}
 
