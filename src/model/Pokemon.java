@@ -126,8 +126,11 @@ public class Pokemon implements cardItem{
 	
 	public void evolve(Pokemon basicCard){
 		this.pStage.evolve(basicCard);
-		for(ability a:basicCard.getActiveAbilities())
-			this.addActiveAbility(a);
+		if(basicCard.getActiveAbilities()!=null){
+			for(ability a:basicCard.getActiveAbilities()){
+				this.addActiveAbility(a);
+			}
+		}
 	}
 	
 	public boolean equals(Object o){
