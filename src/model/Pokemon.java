@@ -198,7 +198,7 @@ public class Pokemon implements cardItem{
 	{
 		for( ability a: player.getActivePokemon().getActiveAbilities())
 		{
-			
+			//if ability id turnend then
 			turnendAbilities.add(a);
 			
 		}
