@@ -1,4 +1,7 @@
-package model;
+package test.stubs;
+
+import model.Deck;
+import model.Player;
 
 public class UserPlayer extends Player {
 		
