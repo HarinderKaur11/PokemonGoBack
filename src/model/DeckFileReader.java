@@ -13,11 +13,11 @@ public class DeckFileReader {
 	private String cardsfile = "resources/cards.txt";
 	private String abilityfile = "resources/abilities.txt";
 	private String abilityName, target, destination, drawCards, status, energyinfo, abilityparse ;
-	private String damage, condition, condAbility, trigger, triggerCond, addAbility, source, filter, filterCat, count;
+	private String damage, condition, condAbility, trigger, triggerCond, source, filter, filterCat, count;
 	private boolean choice;
 	ArrayList<Energy> EnergyInfo = new ArrayList<Energy>();
 	String abilityR[] = new String[74];
-
+	ability addAbility = null;
 	ArrayList<String[]> deck = new ArrayList<String[]>();
 	ArrayList<ability> abilities = new ArrayList<ability>();
 	
@@ -394,7 +394,8 @@ public class DeckFileReader {
 				target = a[2];
 				trigger = a[4];
 				triggerCond = a[5];
-				addAbility = a_join.substring(a_join.indexOf("(")+1, a_join.indexOf(")"));
+				//add:target:your:trigger:opponent:turn-end:(heal:target:self:20)
+				addAbility = getAbility(name, a[6].replace("(", "").concat(" " + a[7]).concat(" " + a[8]).concat(" "+ a[9]).split(" "), EnergyInfo);
 				abilityo = new Add(name, target, trigger, triggerCond, addAbility);
 				break;
 			case "shuffle":
