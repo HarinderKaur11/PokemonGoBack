@@ -338,9 +338,11 @@ public class GameController {
 	
 	private void EnergyOptions(GeneralCard newcard){
 		Pokemon benchC = this.getHandandBenchPokemonsDialog(user);
-		userHand.getChildren().remove(newcard);
-		((CardsGroup) user.getInhand()).removeCard(newcard.getCard());
-		benchC.attachCard(newcard.getCard());
+		if(benchC!=null){
+			userHand.getChildren().remove(newcard);
+			((CardsGroup) user.getInhand()).removeCard(newcard.getCard());
+			benchC.attachCard(newcard.getCard());
+		}
     }
         
     public HBox getBench(Player player){
