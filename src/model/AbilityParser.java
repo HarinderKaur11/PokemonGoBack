@@ -18,15 +18,9 @@ public class AbilityParser {
 	    Matcher matcher = patternString.matcher(s);
 	    return matcher.find() ? matcher.end() : -1;
 	}
-	
-<<<<<<< HEAD
-	
+
 	public ability parseAbilities(String ablty)
-=======
-	public void parseAbilities(String ablty, ArrayList<Energy> EnergyInfo)
->>>>>>> 4da1c6069fee25cc5f0afa63e68c2d1e6617bfc8
 	{
-		this.EnergyInfo = EnergyInfo;
 		//parse abilities.txt			
 
 //		for(String ablty: abilityR)

@@ -14,7 +14,6 @@ public class drawAbility extends ability {
 	public void useAbility() {
 		if(this.abilitytarget == null){
 			this.abilitytarget="you";
-			Debug.message("Target changed to "+this.abilitytarget);
 		}
 		Player player = (Player) target.getTargetObject(this.abilitytarget).getTarget();
 		Debug.message(player.getName());
