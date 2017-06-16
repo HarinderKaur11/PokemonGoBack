@@ -1,7 +1,6 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -11,7 +10,8 @@ public class AbilityParser {
 	private String damage, condition, condAbility, trigger, triggerCond, source, filter, filterCat, count, choice;
 
 	ability addAbility = null;
-	ArrayList<Energy> EnergyInfo = new ArrayList<Energy>();;
+	ArrayList<Energy> EnergyInfo = new ArrayList<Energy>();
+	ArrayList<ability> abilities = new ArrayList<ability>();
 
 	public int indexOf(String pattern, String s) {
 		Pattern patternString = Pattern.compile(pattern);
@@ -19,14 +19,8 @@ public class AbilityParser {
 	    return matcher.find() ? matcher.end() : -1;
 	}
 	
-<<<<<<< HEAD
-	
-	public ability parseAbilities(String ablty)
-=======
-	public void parseAbilities(String ablty, ArrayList<Energy> EnergyInfo)
->>>>>>> 4da1c6069fee25cc5f0afa63e68c2d1e6617bfc8
+	public void parseAbilities(String ablty)
 	{
-		this.EnergyInfo = EnergyInfo;
 		//parse abilities.txt			
 
 //		for(String ablty: abilityR)
@@ -47,63 +41,50 @@ public class AbilityParser {
 //		}
 //			abilityName = abilityparse.substring(0, abilityparse.indexOf(":"));
 //			String abilityElement = abilityparse.replace(":", " ").substring(abilityparse.indexOf(":")+1);
-			ability ability = null;
+
 			abilityName = ablty.substring(0, ablty.indexOf(":"));
 			String abilityElement = ablty.replace(":", " ").substring(ablty.indexOf(":")+1);
 			abilityElement = abilityElement.replace("(", " (");
 	
 			ArrayList<String> sub = new ArrayList<String>();
-			Debug.message(abilityElement);
 			String [] abilitytest = abilityElement.split(",");
 			if(abilitytest.length>1){
-				for (String b: abilitytest)
+				for (String a: abilitytest)
 				{
-					sub.add(b);
+					sub.add(a);
 				//composite ability do here
 					//Debug.message(a);
 				}
-				ability compositeAbility = new CompositeAbility();
-				for(int i=0; i<sub.size();i++)
+			
+				for(String a: sub)
 				{
-					String a = sub.get(i);
 					if(a.contains("(") && !a.contains(")"))
 					{
 					
-						a = sub.get(i) + "," + sub.get(i+1);
-						sub.remove(i+1);
+						a = sub.get(0) + "," + sub.get(1);
+						sub.remove(1);
 					}
 					if(sub.size()>1){
-						String array[] = a.replace("-", "").split(" ");
-						((CompositeAbility) compositeAbility).add(getAbility(abilityName, array,EnergyInfo));
+					String array[] = a.replace("-", "").split(" ");
+					getAbility(abilityName, array,EnergyInfo);
 					// add composite ability here and then add composite ability to abilities arraylist.
 					}
 					else{
 						String array[] = a.replace("-", "").split(" ");
-						Debug.message("Normal ability: " +abilityName);
-						ability = (getAbility(abilityName, array, EnergyInfo));
+						abilities.add(getAbility(abilityName, array, EnergyInfo));
 					}
 					
 				}
-				if(((CompositeAbility) compositeAbility).size()!=0){
-					int i = 0;
-					for(ability a: ((CompositeAbility) compositeAbility).get()){
-						Debug.message("Composite - "+i+" Ability "+ a.getName());
-						i++;
-					}
-					ability = compositeAbility;
-				}
-				
 			}
 				
 			else{
 				//String[] a = abilitytest;
 					String array[] = abilityElement.replace("-", "").split(" ");
-					ability = getAbility(abilityName, array,EnergyInfo);
+					abilities.add(getAbility(abilityName, array,EnergyInfo));
 					//change type void to ability of get ability and return ability.
 					//add the return object to the ability arraylist.
+				}
 			}
-			return ability;
-		}
 			
 			//}
 
@@ -138,7 +119,6 @@ public class AbilityParser {
 				condition = a[1];
 				condAbility = a_join.substring(a_join.indexOf(a[1]));
 				//Debug.message(condAbility);
-				abilityo = new Search("Search pokemon", "you", "deck","pokemon","basic",2);
 				break;
 			case "swap":
 				abilityo = (new swapAbility(name, a[2], a[5]));

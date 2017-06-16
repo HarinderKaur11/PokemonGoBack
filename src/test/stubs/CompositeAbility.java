@@ -1,4 +1,4 @@
-package model;
+package test.stubs;
 
 import java.util.ArrayList;
 
@@ -10,10 +10,6 @@ public class CompositeAbility extends ability{
 		this.abilities = newAbility;
 	}
 	
-	public CompositeAbility() {
-		this.abilities = new ArrayList<ability>();
-	}
-
 	public void add(ability newAbility){
 		this.abilities.add(newAbility);
 	}
@@ -22,28 +18,10 @@ public class CompositeAbility extends ability{
 		this.abilities.remove(newAbility);
 	}
 	
-	public  ArrayList<ability> get(){
-		return this.abilities;
-	}
-	
 	public void useAbility() {
 		for(ability a : this.abilities){
 			a.useAbility();
 		}
-	}
-	
-	public ArrayList<Energy> getEnergyInfo(){
-		ArrayList<Energy> energyRequired = new ArrayList<Energy>();
-		for(ability a: this.abilities){
-			if(a instanceof damageAbility){
-				energyRequired.addAll(((damageAbility) a).getEnergyInfo());
-			}
-		}
-		return energyRequired;
-	}
-	
-	public int size(){
-		return this.abilities.size();
 	}
 	
 	public boolean equals(Object o) {

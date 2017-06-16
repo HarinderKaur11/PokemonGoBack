@@ -103,7 +103,12 @@ public class Player {
 	
 	public static void main(String arg[]){
 		Player newPlayer = new Player("Flash");
-		Debug.showCard(newPlayer.dealCard());
+		Debug.showCard(newPlayer.dealMultipleCards(7));
+		Debug.message(((CardsGroup) newPlayer.getInhand()).getAllTrainerCards().get(0).getName());
+		for(ability a : ((CompositeAbility) ((CardsGroup) newPlayer.getInhand()).getAllTrainerCards().get(0).getAbility()).get()){
+			Debug.message(a.getName());
+		}
+		
 	}
 
 	public CardsGroup getBench(){
@@ -111,5 +116,9 @@ public class Player {
 	}	
 	public CardsGroup getDiscardPile(){
 		return this.userDiscardPile;
+	}
+
+	public String getName() {
+		return this.name;
 	}
 }
