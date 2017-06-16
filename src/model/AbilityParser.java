@@ -5,14 +5,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class AbilityParser {
-<<<<<<< HEAD
+
 	private String abilityName, target, destination, drawCards, status, energyinfo, abilityparse, amount ;
 	private String damage, condition, condAbility, trigger, triggerCond, source, filter, filterCat, count;
 	private boolean choice;
-=======
-	private String abilityName, target, destination, drawCards, status, energyinfo, abilityparse ;
-	private String damage, condition, condAbility, trigger, triggerCond, source, filter, filterCat, count, choice;
->>>>>>> 6ba3a7bac7ecb7931741ecdf7f68e23dc2c8e772
+
 	ability addAbility = null;
 	ArrayList<Energy> EnergyInfo = new ArrayList<Energy>();
 	ArrayList<ability> abilities = new ArrayList<ability>();
