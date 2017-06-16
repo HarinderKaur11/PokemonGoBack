@@ -29,6 +29,16 @@ public enum target {
 			return GameController.getInstance().getPanelPokemonDialog(Turn.getInstance().getOpponent(), "bench");
 		}
 	},
+	yourhand{
+		public Object getTarget(){
+			return Turn.getInstance().getCurrentPlayer().getInhand();
+		}
+	},
+	opponenthand{
+		public Object getTarget(){
+			return Turn.getInstance().getOpponent().getInhand();
+		}
+	},
 	yourbench{
 		public Object getTarget(){
 			return GameController.getInstance().getPanelPokemonDialog(Turn.getInstance().getCurrentPlayer(), "bench");

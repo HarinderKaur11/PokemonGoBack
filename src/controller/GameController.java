@@ -255,13 +255,15 @@ public class GameController {
             			for(ability a : user.getActivePokemon().getAbilities()){
             				FlowPane temppane = new FlowPane();
             				RadioButton rb = new RadioButton(a.getName());
-            				if(!(user.getActivePokemon().getAttachedCardsCount()>=((damageAbility) a).getEnergyInfo().size())){
+            				
+            				if(a instanceof damageAbility && !(user.getActivePokemon().getAttachedCardsCount()>=((damageAbility) a).getEnergyInfo().size())){
             					rb.setDisable(true);
             				}
             				rb.setUserData(a.getName());
             				rb.setToggleGroup(group);
             				temppane.getChildren().add(rb);
-            				temppane.getChildren().add(new Label(Integer.toString(((damageAbility) a).getDamage())));
+            				if(a instanceof damageAbility)
+            					temppane.getChildren().add(new Label(Integer.toString(((damageAbility) a).getDamage())));
             				grid.add(temppane, 0, 0);
             			}
             			abilitiesDialog.getDialogPane().setContent(grid);
@@ -338,9 +340,11 @@ public class GameController {
 	
 	private void EnergyOptions(GeneralCard newcard){
 		Pokemon benchC = this.getHandandBenchPokemonsDialog(user);
-		userHand.getChildren().remove(newcard);
-		((CardsGroup) user.getInhand()).removeCard(newcard.getCard());
-		benchC.attachCard(newcard.getCard());
+		if(benchC!=null){
+			userHand.getChildren().remove(newcard);
+			((CardsGroup) user.getInhand()).removeCard(newcard.getCard());
+			benchC.attachCard(newcard.getCard());
+		}
     }
         
     public HBox getBench(Player player){
