@@ -194,7 +194,7 @@ public class DeckFileReader {
 		deck.getDeck();
 	}
 	
-	public static int indexOf(String pattern, String s) {
+	public int indexOf(String pattern, String s) {
 		Pattern patternString = Pattern.compile(pattern);
 	    Matcher matcher = patternString.matcher(s);
 	    return matcher.find() ? matcher.end() : -1;
