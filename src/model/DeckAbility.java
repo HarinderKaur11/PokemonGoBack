@@ -18,10 +18,10 @@ public class DeckAbility extends ability {
 	
 	public void useAbility() {
 		if(choice!=null){
-				this.amount = ((CardsGroup) this.getTargetLocation("hand", this.choice)).getGroupCards().size();
+				this.amount = ((CardsGroup) target.getTargetObject(this.choice).getTarget()).getGroupCards().size();
 		}
 		for(int i=0;i<amount;i++){
-			cardItem nCard = ((CardsGroup) this.getTargetLocation("hand", this.abilitytarget)).getGroupCards().remove(0);
+			cardItem nCard = ((CardsGroup) target.getTargetObject(this.choice).getTarget()).removeFirstCard();
 			((CardsGroup) this.getTargetLocation(this.targetDestination,this.abilitytarget)).addCard(nCard);
 		}
 	}

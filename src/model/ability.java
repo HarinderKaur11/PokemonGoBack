@@ -17,9 +17,11 @@ public abstract class ability {
 		Player player = (Player) target.getTargetObject(newtarget).getTarget();
 		switch(source){
 			case "deck":
-				return player.deck;
+				return player.getDeck();
 			case "discard":
-				return player.userDiscardPile;
+				return player.getDiscardPile();
+			case "hand":
+				return player.getInhand();
 			default:
 				return null;
 		}
