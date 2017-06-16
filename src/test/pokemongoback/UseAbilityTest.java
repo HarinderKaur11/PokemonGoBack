@@ -3,6 +3,8 @@ import model.healingAbility;
 import model.pokemonStage;
 import model.swapAbility;
 
+import static org.junit.Assert.*;
+
 import java.util.ArrayList;
 
 import org.junit.Test;
@@ -11,6 +13,7 @@ import model.AIplayer;
 import model.Deenergize;
 import model.Energy;
 import model.Pokemon;
+import model.Reenergize;
 import model.Turn;
 import model.UserPlayer;
 import model.ability;
@@ -198,26 +201,26 @@ public class UseAbilityTest {
 			assertEquals(1, pk.totalEnergyRequired());
 		}
 
-}
 
-		    UserPlayer player= new UserPlayer("john");
+
+		    UserPlayer player1= new UserPlayer("john");
 		    player.setTurn(true);
 		    Turn.getInstance().setPlayer(new AIplayer("Me"), player);
-		    ArrayList<ability> newAbilities=new ArrayList<ability>();
-			pokemonStage basic=new basicPokemon();
-			Pokemon pk = new Pokemon(2, "Pikachu", basic, 80, newAbilities);			
-			player.setActivePokemon(pk);
+		    ArrayList<ability> newAbilities1=new ArrayList<ability>();
+			pokemonStage basic2=new basicPokemon();
+			Pokemon pk2 = new Pokemon(2, "Pikachu", basic2, 80, newAbilities);			
+			player.setActivePokemon(pk2);
 			String newEnergy = null;
 			cardItem card= new Energy(newEnergy);
 		
 			System.out.println(pk.getAttachedCardsCount());
 		    
 			pk.attachCard(card);
-			ability ablt = new Deenergize("Deenergize", "youractive","1");
-			ablt.useAbility();
+			ability ablty = new Deenergize("Deenergize", "youractive","1");
+			ablty.useAbility();
 			System.out.println(pk.getAttachedCardsCount());
 		}
 	  
 
 }
-*/
+
