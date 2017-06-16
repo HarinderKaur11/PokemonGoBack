@@ -12,6 +12,8 @@ public class Deck extends CardsGroup{
 	private boolean choice;
 	ArrayList<Energy> EnergyInfo = new ArrayList<Energy>();
 	AbilityParser ap = new AbilityParser();
+	ArrayList<ability> abilities = new ArrayList<ability>();
+
 
 	
 	public Deck(){}
@@ -28,10 +30,10 @@ public class Deck extends CardsGroup{
 	public void buildDeck(ArrayList<String[]> cardsList){
 		DeckFileReader db = new DeckFileReader(this.deckNumber);;
 		pokemonStage stage = new basicPokemon();
-		ArrayList<ability> newAbility = new ArrayList<ability>();
-		ArrayList<Energy> EnergyInfo = new ArrayList<Energy>();
-		EnergyInfo.add(new Energy("Fighting"));
-		newAbility.add(new damageAbility("Attack", 10, EnergyInfo, "opponentactive", null));
+//		ArrayList<ability> newAbility = new ArrayList<ability>();
+//		ArrayList<Energy> EnergyInfo = new ArrayList<Energy>();
+//		EnergyInfo.add(new Energy("Fighting"));
+//		newAbility.add(new damageAbility("Attack", 10, EnergyInfo, "opponentactive", null));
 		
 		int x = 1;
 		for(String[] card : cardsList){
@@ -40,6 +42,7 @@ public class Deck extends CardsGroup{
 					
 					case "pokemon":
 						EnergyInfo.clear();
+						abilities.clear();
 						String carditem = String.join(" ", card);
 						//String retreat = carditem.substring(carditem.indexOf("retreat cat"), carditem.indexOf("attack"));
 						String ability = carditem.substring(carditem.indexOf("attack"));
@@ -60,7 +63,7 @@ public class Deck extends CardsGroup{
 								//parseAbilities((substring11[1]+" "+substring11[2]+" "+ abilityR[Integer.parseInt(substring11[3])-1]));
 								ap.parseAbilities(db.abilityR[Integer.parseInt(substring11[3])-1]);
 								ap.getEnergy(substring11[1], substring11[2]);
-								
+								//Debug.message(db.abilityR[Integer.parseInt(substring11[3])-1]);
 								break;
 							case 2:
 								String[] substring12 = abilityone[1].split("\\s+");
@@ -99,18 +102,20 @@ public class Deck extends CardsGroup{
 
 						if(card[3].equals("basic")){
 							//Debug.message(cards[15] + cards[0]);
-							this.getGroupCards().add(new Pokemon(x, card[0], stage, Integer.parseInt(card[6]), newAbility));
+							this.getGroupCards().add(new Pokemon(x, card[0], stage, Integer.parseInt(card[6]), abilities));
 						}
 						else if(card[3].equals("stage-one")){
 							//Debug.message(cards[0] + " evolves from " + cards[4]);
-							this.getGroupCards().add(new Pokemon(x, card[0], new stageOnePokemon(card[4]), Integer.parseInt(card[7]), newAbility));
+							this.getGroupCards().add(new Pokemon(x, card[0], new stageOnePokemon(card[4]), Integer.parseInt(card[7]), abilities));
 						}
 						else{
 							Debug.message("Not Running " + card[3]);
 						}
 						break;
 					case "trainer":
+						abilities.clear();
 						ap.parseAbilities(db.abilityR[Integer.parseInt(card[4])-1]);
+						//Debug.message(abilities.get(0).toString());
 						this.getGroupCards().add(new Trainer(x, card[0], card[3], new Search("Search pokemon", "you", "deck","pokemon","basic",2)));
 						break;
 					case "energy":
