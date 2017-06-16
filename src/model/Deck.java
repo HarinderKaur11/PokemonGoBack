@@ -7,12 +7,9 @@ public class Deck extends CardsGroup{
 	
 	private String name;
 	private int deckNumber;
-	private String abilityName, target, destination, drawCards, status, energyinfo, abilityparse ;
-	private String damage, condition, condAbility, trigger, triggerCond, addAbility, source, filter, filterCat, count;
-	private boolean choice;
-	ArrayList<Energy> EnergyInfo = new ArrayList<Energy>();
-	AbilityParser ap = new AbilityParser();
-	ArrayList<ability> abilities = new ArrayList<ability>();
+	private ArrayList<Energy> EnergyInfo = new ArrayList<Energy>();
+	private AbilityParser ap = new AbilityParser();
+	private ArrayList<ability> abilities = new ArrayList<ability>();
 
 
 	
@@ -61,14 +58,14 @@ public class Deck extends CardsGroup{
 						//create objects of separate abilities and pass to a new class composite ability
 							case 1:
 								//parseAbilities((substring11[1]+" "+substring11[2]+" "+ abilityR[Integer.parseInt(substring11[3])-1]));
-								ap.parseAbilities(db.abilityR[Integer.parseInt(substring11[3])-1]);
+								ap.parseAbilities(db.getAbilityR(Integer.parseInt(substring11[3])-1), EnergyInfo);
 								ap.getEnergy(substring11[1], substring11[2]);
 								//Debug.message(db.abilityR[Integer.parseInt(substring11[3])-1]);
 								break;
 							case 2:
 								String[] substring12 = abilityone[1].split("\\s+");
 								//parseAbilities((substring11[1]+" "+substring11[2]+" "+substring12[1]+" "+substring12[2]+" "+abilityR[Integer.parseInt(substring12[3])-1]));
-								ap.parseAbilities(db.abilityR[Integer.parseInt(substring12[3])-1]);
+								ap.parseAbilities(db.getAbilityR(Integer.parseInt(substring12[3])-1), EnergyInfo);
 								ap.getEnergy(substring11[1], substring11[2]);
 								ap.getEnergy(substring12[1],substring12[2]);
 								break;
@@ -87,13 +84,13 @@ public class Deck extends CardsGroup{
 //									Debug.message(substring21[3]);
 //									Debug.message(abilityR[Integer.parseInt(substring21[3])-1]);
 									//parseAbilities((substring21[1]+" "+substring21[2]+" "+ abilityR[Integer.parseInt(substring21[3])-1]));
-									ap.parseAbilities(db.abilityR[Integer.parseInt(substring21[3])-1]);
+									ap.parseAbilities(db.getAbilityR(Integer.parseInt(substring21[3])-1), EnergyInfo);
 									ap.getEnergy(substring21[1], substring21[2]);
 									break;
 								case 2:
 									String[] substring22 = abilitytwo[1].split("\\s+");
 									//parseAbilities((substring21[1]+" "+substring21[2]+" "+substring22[1]+" "+substring22[2]+" "+ abilityR[Integer.parseInt(substring22[3])-1]));
-									ap.parseAbilities(db.abilityR[Integer.parseInt(substring22[3])-1]);
+									ap.parseAbilities(db.getAbilityR(Integer.parseInt(substring22[3])-1), EnergyInfo);
 									ap.getEnergy(substring21[1], substring21[2]);
 									ap.getEnergy(substring22[1],substring22[2]);
 									break;
@@ -114,7 +111,7 @@ public class Deck extends CardsGroup{
 						break;
 					case "trainer":
 						abilities.clear();
-						ap.parseAbilities(db.abilityR[Integer.parseInt(card[4])-1]);
+						ap.parseAbilities(db.getAbilityR(Integer.parseInt(card[4])-1), EnergyInfo);
 						if(abilities.isEmpty()){
 							abilities.add(new Search("Search pokemon", "you", "deck","pokemon","basic",2));
 						}

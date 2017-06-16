@@ -12,14 +12,8 @@ public class DeckFileReader {
 	private String deck2file = "resources/deck2.txt";
 	private String cardsfile = "resources/cards.txt";
 	private String abilityfile = "resources/abilities.txt";
-	private String abilityName, target, destination, drawCards, status, energyinfo, abilityparse ;
-	private String damage, condition, condAbility, trigger, triggerCond, source, filter, filterCat, count;
-	private boolean choice;
-	ArrayList<Energy> EnergyInfo = new ArrayList<Energy>();
-	String abilityR[] = new String[74];
-	ability addAbility = null;
-	ArrayList<String[]> deck = new ArrayList<String[]>();
-	ArrayList<ability> abilities = new ArrayList<ability>();
+	private String abilityR[] = new String[74];
+	private ArrayList<String[]> deck = new ArrayList<String[]>();
 	
 	public DeckFileReader (int i){
 		switch(i){
@@ -103,6 +97,11 @@ public class DeckFileReader {
 	
 	public ArrayList<String[]> getDeck(){
 		return this.deck;
+	}
+	
+	public String getAbilityR(int index)
+	{
+		return abilityR[index];
 	}
 	
 	public static void main(String[] arg){
