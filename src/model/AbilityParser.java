@@ -5,7 +5,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class AbilityParser {
-	private String abilityName, target, destination, drawCards, status, energyinfo, abilityparse ;
+	private String abilityName, target, destination, drawCards, status, energyinfo, abilityparse, amount ;
 	private String damage, condition, condAbility, trigger, triggerCond, source, filter, filterCat, count;
 	private boolean choice;
 	ability addAbility = null;
@@ -105,7 +105,7 @@ public class AbilityParser {
 		switch(a[0])
 		{
 			case "dam":
-				damage = a_join.substring(indexOf("\\d", a_join)-1);
+				damage = a_join.substring(indexOf("\\d", a_join)-1,indexOf("\\d+", a_join));
 				target = a_join.contains("choice") ? "opponentbench" : a_join.substring(indexOf("target ", a_join), a_join.indexOf(" ", indexOf("target ", a_join)));
 				count = null;
 				if(a_join.contains("count"))
@@ -206,7 +206,17 @@ public class AbilityParser {
 				abilityo = new destatAbility(name, target);
 				break;
 			case "heal":
-				abilityo = new healingAbility(name, Integer.valueOf(a[3]), a[2]);
+				if(a[2].equalsIgnoreCase("choice"))
+				{
+					amount = a[4];
+					target = a[2]+a[3];
+				}
+				else{
+					amount = a[3];
+					target = a[2];
+				}
+				Debug.message(a[3]);
+				abilityo = new healingAbility(name, Integer.valueOf(amount), target);
 				break;
 			case "add":
 				target = a[2];
