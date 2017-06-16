@@ -1,8 +1,5 @@
 package test.stubs;
 
-import model.ability;
-import model.cardItem;
-
 public class Trainer implements cardItem{
 
 	private String cardName;
