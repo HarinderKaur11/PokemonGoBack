@@ -115,8 +115,11 @@ public class Deck extends CardsGroup{
 					case "trainer":
 						abilities.clear();
 						ap.parseAbilities(db.abilityR[Integer.parseInt(card[4])-1]);
+						if(abilities.isEmpty()){
+							abilities.add(new Search("Search pokemon", "you", "deck","pokemon","basic",2));
+						}
 						//Debug.message(abilities.get(0).toString());
-						this.getGroupCards().add(new Trainer(x, card[0], card[3], new Search("Search pokemon", "you", "deck","pokemon","basic",2)));
+						this.getGroupCards().add(new Trainer(x, card[0], card[3], abilities.get(0)));
 						break;
 					case "energy":
 						this.getGroupCards().add(new Energy(card[0],x));
