@@ -34,19 +34,10 @@ public class condAbility extends ability{
 	}
 	
 	public void useAbility() {
-		DeckFileReader db;
-		if(Turn.getInstance().getCurrentPlayer() == user)
-		{
-			db = new DeckFileReader(2);
-		}
-		else
-		{
-			db = new DeckFileReader(1);
-		}
-		
+		AbilityParser ap = new AbilityParser();
 		if(condition.equals("flip"))
 		{
-			db.getAbility(name, ability.split(" "), EnergyInfo);
+			ap.getAbility(name, ability.split(" "), EnergyInfo);
 		}
 		else if(condition.equals("choice"))
 		{
