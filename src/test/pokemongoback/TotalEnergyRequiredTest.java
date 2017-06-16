@@ -23,21 +23,34 @@ public class TotalEnergyRequiredTest {
 	Pokemon pk = new Pokemon(2, "Pikachu", basic, 60, newAbilities);
 	Pokemon rk = new Pokemon(2, "raikachu", stageone, 60, newAbilities);
 	UserPlayer up= new UserPlayer("john");
+	
 	@Test
-	public void test() {
+	public void test1() {
+		// tests if energy required is 0
+		//System.out.println(pk.totalEnergyRequired());
+		assertTrue(pk.totalEnergyRequired()==0);
 		
-		System.out.println(pk.totalEnergyRequired());
+	}
+	
+	
 		
-	pk.attachCard(rk);
-	rk.getAbilities();
-		for(ability ablt : rk.getAbilities())
-		System.out.println(((damageAbility) ablt).getEnergyInfo().length);
-		
-		System.out.println(rk.totalEnergyRequired());
-		//pk.totalEnergyRequired();
-		
-		
+		@Test
+		public void test2() {
+			// tests if energy required is more than 0
+			
+			
+			pk.attachCard(rk);
+			rk.getAbilities();
+				for(ability ablt : rk.getAbilities())
+				System.out.println(((damageAbility) ablt).getEnergyInfo());
+				
+				System.out.println(rk.totalEnergyRequired());
+				//pk.totalEnergyRequired();
+				
+			
+			
+		}
 		
 	}
 
-}
+

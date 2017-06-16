@@ -14,13 +14,11 @@ import model.pokemonStage;
 
 public class AddDamageTest {
 	
-	
 	ArrayList<ability> newAbilities=new ArrayList<ability>();
 	pokemonStage basic=new basicPokemon();
 	Pokemon pk = new Pokemon(2, "Pikachu", basic, 60, newAbilities);
 	UserPlayer up= new UserPlayer("john");
-			
-	
+
 	@Test
 	public void test() {
 		
@@ -32,12 +30,16 @@ public class AddDamageTest {
 		//System.out.println(pk.getDamage());
 		assertEquals(expected, actual);
 		
-		
 		// KnockedOut conditions
+
 		
 		// tests if hitpoints=60, damage =10, state should be deck.
 		
 		String expected2="deck";
+
+		// tests if hitpoints=60, damage =60, result should be knocked out conditions.
+		String expected1="knockedOut";
+
 		up.setActivePokemon(pk);
 		//System.out.println(pk.getDamage());
 		pk.addDamage(10);
@@ -48,13 +50,14 @@ public class AddDamageTest {
 		
 		// tests if hitpoints=60, damage =60, state should be knockedOut.
 		
-		String expected1="knockedOut";
+		//String expected1="knockedOut";
 		//System.out.println(pk.getDamage());
 		pk.addDamage(60);
 		//System.out.println(pk.getDamage());
 		//System.out.println(pk.getState());
 		String actual1=pk.getState();
-		assertEquals(expected1, actual1);
+
+		//assertEquals(expected1, actual1);
 		
 		// tests if hitpoints=60, damage =80, state should be knockedOut.
 		//System.out.println(pk.getDamage());
@@ -64,6 +67,8 @@ public class AddDamageTest {
 		String actual3=pk.getState();
 		assertEquals(expected1, actual3);
 		
+
+		assertEquals(expected1, actual1);	
 	}
 
 }
