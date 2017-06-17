@@ -1,5 +1,6 @@
 package model;
 
+import java.awt.Composite;
 import java.util.ArrayList;
 
 import controller.GameController;
@@ -25,7 +26,8 @@ public class Pokemon implements cardItem{
 		this.hitpoints = newHp;
 		this.attachedCards = new ArrayList<cardItem>();
 		this.activeAbilities = new ArrayList<ability>();
-		this.abilities = newAbilities;
+		this.abilities = new ArrayList<ability>();
+		this.abilities.addAll(newAbilities);
 	}
 	
 	public void addDamage(int newDamage){
@@ -115,7 +117,13 @@ public class Pokemon implements cardItem{
 	public int totalEnergyRequired(){
 		int totalEnergy = 0;
 		for(ability ablt : this.getAbilities()){
-			int temp = ((damageAbility) ablt).getEnergyInfo().size();
+			int temp = 0;
+			if(ablt instanceof damageAbility){
+				temp = ((damageAbility) ablt).getEnergyInfo().size();
+			}
+			else if(ablt instanceof CompositeAbility){
+				temp = ((CompositeAbility) ablt).getEnergyInfo().size();
+			}
 			if(temp>totalEnergy){
 				totalEnergy = temp;
 			}
@@ -205,5 +213,15 @@ public class Pokemon implements cardItem{
 				a.useAbility();	
 			}
 		}
+	}
+
+	public int getAttachedCardsCount(Class<?> classtype) {
+		int i=0;
+		for(cardItem tempcard : this.attachedCards){
+			if(tempcard.getClass()==classtype){
+				i++;
+			}
+		}
+		return i;
 	}
 }
