@@ -38,7 +38,7 @@ public class Deck extends CardsGroup{
 		
 		int x = 1;
 		for(String[] card : cardsList){
-				Debug.message("Card no. "+ x + " Name: "+card[0]);
+				//Debug.message("Card no. "+ x + " Name: "+card[0]);
 				switch(card[1]){
 					
 					case "pokemon":

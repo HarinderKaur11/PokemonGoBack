@@ -47,7 +47,7 @@ public class AbilityParser {
 			abilityElement = abilityElement.replace("(", " (");
 	
 			ArrayList<String> sub = new ArrayList<String>();
-			Debug.message(abilityElement);
+			//Debug.message(abilityElement);
 			String [] abilitytest = abilityElement.split(",");
 			if(abilitytest.length>1){
 				for (String b: abilitytest)
@@ -73,7 +73,7 @@ public class AbilityParser {
 					}
 					else{
 						String array[] = a.replace("-", "").split(" ");
-						Debug.message("Normal ability: " +abilityName);
+						//Debug.message("Normal ability: " +abilityName);
 						ability = (getAbility(abilityName, array, EnergyInfo));
 					}
 					
@@ -81,7 +81,7 @@ public class AbilityParser {
 				if(((CompositeAbility) compositeAbility).size()!=0){
 					int i = 0;
 					for(ability a: ((CompositeAbility) compositeAbility).get()){
-						Debug.message("Composite - "+i+" Ability "+ a.getName());
+						//Debug.message("Composite - "+i+" Ability "+ a.getName());
 						i++;
 					}
 					ability = compositeAbility;
@@ -229,7 +229,7 @@ public class AbilityParser {
 					amount = a[3];
 					target = a[2];
 				}
-				Debug.message(a[3]);
+				//Debug.message(a[3]);
 				abilityo = new healingAbility(name, Integer.valueOf(amount), target);
 				break;
 			case "add":
