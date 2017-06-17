@@ -133,7 +133,7 @@ public class Pokemon implements cardItem{
 	
 	public void evolve(Pokemon basicCard){
 		this.pStage.evolve(basicCard);
-		if(basicCard.getActiveAbilities()!=null){
+		if(basicCard.getActiveAbilities().length != 0){
 			for(ability a:basicCard.getActiveAbilities()){
 				this.addActiveAbility(a);
 			}
@@ -206,11 +206,15 @@ public class Pokemon implements cardItem{
 	
 	public static void getTurnEndAbilities(Player player)
 	{
-		for( ability a: player.getActivePokemon().getActiveAbilities())
+		if(player.getActivePokemon().getActiveAbilities().length != 0)
 		{
-			if(a.getTriggerCondition() == "turnend")
+			for( ability a: player.getActivePokemon().getActiveAbilities())
 			{
-				a.useAbility();	
+				Debug.message("get turnend abiltites");
+				if(a.getTriggerCondition() == "turnend")
+				{
+					a.useAbility();	
+				}
 			}
 		}
 	}
