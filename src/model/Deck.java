@@ -12,10 +12,6 @@ public class Deck extends CardsGroup{
 	private String damage, condition, condAbility, trigger, triggerCond, addAbility, source, filter, filterCat, count;
 	private boolean choice;
 	private DeckFileReader db;
-
-	private ArrayList<Energy> EnergyInfo = new ArrayList<Energy>();
-	private AbilityParser ap = new AbilityParser();
-
 	
 	public Deck(){}
 	
@@ -46,6 +42,7 @@ public class Deck extends CardsGroup{
 						break;
 					case "trainer":
 						ArrayList<ability> abilities = new ArrayList<ability>();
+						AbilityParser ap = new AbilityParser();
 						abilities.clear();
 						abilities.add(ap.parseAbilities(db.getAbilityR(Integer.parseInt(card[4])-1)));
 						if(abilities.isEmpty()){
@@ -66,7 +63,7 @@ public class Deck extends CardsGroup{
 		//this.shufflecards();
 	}
 	private void createPokemon(int x,String[] card) {
-		EnergyInfo.clear();
+		AbilityParser ap = new AbilityParser();
 		ArrayList<ability> abilities = new ArrayList<ability>();
 		String carditem = String.join(" ", card);
 		//String retreat = carditem.substring(carditem.indexOf("retreat cat"), carditem.indexOf("attack"));
@@ -86,16 +83,18 @@ public class Deck extends CardsGroup{
 		//create objects of separate abilities and pass to a new class composite ability
 			case 1:
 				//parseAbilities((substring11[1]+" "+substring11[2]+" "+ abilityR[Integer.parseInt(substring11[3])-1]));
-				abilities.add(ap.parseAbilities(db.abilityR[Integer.parseInt(substring11[3])-1]));
 				ap.getEnergy(substring11[1], substring11[2]);
+				abilities.add(ap.parseAbilities(db.abilityR[Integer.parseInt(substring11[3])-1]));
 				//Debug.message(db.abilityR[Integer.parseInt(substring11[3])-1]);
 				break;
 			case 2:
 				String[] substring12 = abilityone[1].split("\\s+");
 				//parseAbilities((substring11[1]+" "+substring11[2]+" "+substring12[1]+" "+substring12[2]+" "+abilityR[Integer.parseInt(substring12[3])-1]));
-				abilities.add(ap.parseAbilities(db.abilityR[Integer.parseInt(substring12[3])-1]));
-				ap.getEnergy(substring11[1], substring11[2]);
+
 				ap.getEnergy(substring12[1],substring12[2]);
+				ap.getEnergy(substring11[1], substring11[2]);
+				abilities.add(ap.parseAbilities(db.abilityR[Integer.parseInt(substring12[3])-1]));
+				
 				break;
 		}
 		
@@ -112,15 +111,15 @@ public class Deck extends CardsGroup{
 //					Debug.message(substring21[3]);
 //					Debug.message(abilityR[Integer.parseInt(substring21[3])-1]);
 					//parseAbilities((substring21[1]+" "+substring21[2]+" "+ abilityR[Integer.parseInt(substring21[3])-1]));
-					abilities.add(ap.parseAbilities(db.abilityR[Integer.parseInt(substring21[3])-1]));
 					ap.getEnergy(substring21[1], substring21[2]);
+					abilities.add(ap.parseAbilities(db.abilityR[Integer.parseInt(substring21[3])-1]));
 					break;
 				case 2:
 					String[] substring22 = abilitytwo[1].split("\\s+");
 					//parseAbilities((substring21[1]+" "+substring21[2]+" "+substring22[1]+" "+substring22[2]+" "+ abilityR[Integer.parseInt(substring22[3])-1]));
-					abilities.add(ap.parseAbilities(db.abilityR[Integer.parseInt(substring22[3])-1]));
 					ap.getEnergy(substring21[1], substring21[2]);
 					ap.getEnergy(substring22[1],substring22[2]);
+					abilities.add(ap.parseAbilities(db.abilityR[Integer.parseInt(substring22[3])-1]));
 					break;
 			}
 		}
@@ -143,14 +142,15 @@ public class Deck extends CardsGroup{
 		ArrayList<ability> newAbility = new ArrayList<ability>();
 		ArrayList<Energy> EnergyInfo = new ArrayList<Energy>();
 		EnergyInfo.add(new Energy("Fighting"));
-		newAbility.add(new damageAbility("Attack", 10, EnergyInfo,"opponentactive", null));
+		newAbility.add(new damageAbility("Attack", 10, EnergyInfo,"opponentactive", "opponentactive energy"));
 		int j=0;
 		for(;j<18;j++){
 				this.getGroupCards().add(new Pokemon(j, "Pikachu", new basicPokemon(), 80, newAbility));
 
 //				this.getGroupCards().add(new Trainer(j+18, "Heal Trainer", "item", new healingAbility("Heal pokemon",30,"youractive")));
 //				this.getGroupCards().add(new Trainer(j+18, "Deck Ability", "item", new DeckAbility("Deck Ability","opponent", "deck", 0, "opponenthand")));
-				this.getGroupCards().add(new Trainer(j+18, "Wally", "item", new Search("Deck Ability","choiceyour", "deck", null, "evolvesfrom",1)));
+//				this.getGroupCards().add(new Trainer(j+18, "Wally", "item", new Search("Deck Ability","choiceyour", "deck", null, "evolvesfrom",1)));
+				this.getGroupCards().add(new Trainer(j+18,"Deenergize" ,"item", new Deenergize("Deenergize", "youractive", "youractive energy")));
 
 				this.getGroupCards().add(new Energy("Fighting Energy",j+36));
 		}

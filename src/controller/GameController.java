@@ -293,7 +293,7 @@ public class GameController {
             				for(ability b: user.getActivePokemon().getAbilities()){
             					if(b.getName()==result2.get()){
             						b.useAbility();
-            						Debug.message(ai.getActivePokemon().getDamage());
+            						Debug.message("Adding Damage to "+ai.getActivePokemon().getName() +" "+ai.getActivePokemon().getDamage());
             						aiDamage.setText(Integer.toString(ai.getActivePokemon().getDamage()));
             					}
         		    		}

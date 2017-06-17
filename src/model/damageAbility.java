@@ -21,7 +21,6 @@ public class damageAbility extends ability {
 	}
 	
 	public void useAbility(){
-		Debug.message("Hello world");
 		Pokemon pokm = (Pokemon) target.getTargetObject(this.abilitytarget).getTarget();
 		int times = 1;
 		if(count!=null){
