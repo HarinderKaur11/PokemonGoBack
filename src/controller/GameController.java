@@ -521,9 +521,6 @@ public class GameController {
 		else{
 			if(ai.getBench().getCard().length != 0){
 				PokemonCard card = (PokemonCard) aiActivePokemon.getChildren().remove(0);
-				//Exception in thread "JavaFX Application Thread" java.lang.ClassCastException:
-				//javafx.scene.layout.FlowPane cannot be cast to view.PokemonCard
-				//error on knockout
 				ai.getDiscardPile().addCard(card.getCard());
 				ai.activePokemonMove();
 			}
