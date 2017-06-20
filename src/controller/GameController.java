@@ -56,10 +56,11 @@ public class GameController {
 	@FXML private HBox userActivePokemon;
 	@FXML private Button UserEndTurnBtn;
 	@FXML private Label userDamage;
-	@FXML private Label aiDamage;
+	@FXML private Label aiDamage,AIDeck,UserDeck,AIDiscardPile,UserDiscardPile;
 	@FXML private Pane gameStage;
 	@FXML private BorderPane gameBoard;
 	@FXML private VBox btndn_rew,aiDisc_deck,AIReward,UIDisc_deck;
+	
 	private GameController(){
 	}
 	
@@ -443,6 +444,7 @@ public class GameController {
 		if(player=="user"){
 			newcard = user.dealCard();
 			addCardToPanel(newcard, userHand);
+			GameController.getInstance().ulabelUpdate();
 		}
 		else {
 			newcard = ai.dealCard();
@@ -489,7 +491,8 @@ public class GameController {
 		return null;
 	}
 	
-	public void knockout(){
+	public void knockout()
+	{
 		Player player = Turn.getInstance().getOpponent();
 		if(player!=null){
 		if(player instanceof UserPlayer){
@@ -529,6 +532,7 @@ public class GameController {
 			}
 		}
 		}
+		GameController.getInstance().ulabelUpdate();
 	}
 	
 	private void winOrLoss(){
@@ -665,5 +669,13 @@ public class GameController {
 		}
 		return benchC;
 	}
+	 //Label values 
 	
+
+	public void ulabelUpdate() {
+		// TODO Auto-generated method stub
+		AIDeck.setText("AIDeck "+ ai.getDeck().getGroupCards().size());
+		UserDeck.setText("User Deck "+ user.getDeck().getGroupCards().size());
+		UserDiscardPile.setText("DiscardPile "+ user.getDiscardPile().getGroupCards().size());
+	}
 }

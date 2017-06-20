@@ -33,6 +33,7 @@ public class AIplayer extends Player {
 	}
 	
 	private void runAI(){
+		GameController.getInstance().ulabelUpdate();
 		boolean energyCardUsed = false;
 		activePokemonMove();
 		
@@ -97,6 +98,7 @@ public class AIplayer extends Player {
 			this.activePokemon.attachCard(energyCards.get(0));
 			((CardsGroup) this.inhand).removeCard(energyCards.get(0));
 			Debug.message("Energy card added to Active pokemon");
+		
 			return true;
 		}
 		else{
@@ -110,6 +112,7 @@ public class AIplayer extends Player {
 				}
 			}
 		}
+		GameController.getInstance().ulabelUpdate();
 		return false;
 	}
 	
