@@ -25,9 +25,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
 import javafx.stage.StageStyle;
 import test.stubs.*;
-import view.DialogBoxHandler;
-import view.GeneralCard;
-import view.PokemonCard;
 
 public class GameController {
 	@FXML private static GameController controller;
@@ -331,7 +328,7 @@ public class GameController {
 		Pokemon benchC = this.getHandandBenchPokemonsDialog(user);
 		if(benchC!=null){
 			userHand.getChildren().remove(newcard);
-			((CardsGroup) user.getInhand()).removeCard(newcard.getCard());
+			((CardsGroup) user.getInhand()).removeCard((Pokemon) newcard.getCard());
 			benchC.attachCard(newcard.getCard());
 		}
     }

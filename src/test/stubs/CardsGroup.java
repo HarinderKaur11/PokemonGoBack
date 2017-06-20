@@ -7,7 +7,7 @@ import test.stubs.Pokemon;
 import test.stubs.Trainer;
 import test.stubs.cardItem;
 
-public class CardsGroup {
+public class CardsGroup implements cardItem {
 	
 	private ArrayList<cardItem> groupCards = new ArrayList<cardItem>();
 	

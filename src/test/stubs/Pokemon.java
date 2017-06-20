@@ -3,7 +3,7 @@ package test.stubs;
 import java.util.ArrayList;
 
 import test.stubs.*;
-import view.PokemonCard;
+import test.stubs.PokemonCard;
 
 public class Pokemon implements cardItem{
 	private int id;
@@ -78,8 +78,8 @@ public class Pokemon implements cardItem{
 		return this.status;
 	}
 	
-	public void attachCard(cardItem newCard){
-		this.attachedCards.add(newCard);
+	public void attachCard(test.stubs.cardItem cardItem){
+		this.attachedCards.add((test.stubs.cardItem) cardItem);
 	}
 	
 	public void dettachCard(cardItem newCard){

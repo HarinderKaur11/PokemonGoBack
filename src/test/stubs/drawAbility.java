@@ -1,6 +1,6 @@
 package test.stubs;
 
-import controller.GameController;
+import test.stubs.GameController;
 
 public class drawAbility extends ability {
 	private int drawnumber;
