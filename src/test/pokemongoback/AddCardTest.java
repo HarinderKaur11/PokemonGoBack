@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
-import test.stubs.*;
+import model.CardsGroup;
 import model.Pokemon;
 import model.Trainer;
 import model.cardItem;
