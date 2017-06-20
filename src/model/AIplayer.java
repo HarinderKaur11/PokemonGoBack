@@ -34,9 +34,9 @@ public class AIplayer extends Player {
 	
 	private void runAI(){
 		boolean energyCardUsed = false;
-		ArrayList<Pokemon> cards = ((CardsGroup) this.inhand).getAllBasicPokemonCard();
-		
 		activePokemonMove();
+		
+		ArrayList<Pokemon> cards = ((CardsGroup) this.inhand).getAllBasicPokemonCard();
 		
 		if(cards.size()!=0){
 			if(bench.getGroupCards().size()<5){
@@ -76,7 +76,7 @@ public class AIplayer extends Player {
 			ability[] abilits = this.activePokemon.getAbilities();
 			int i = abilits.length;
 			while(attack==null && i>0){
-				if(((damageAbility) abilits[i-1]).getEnergyInfo().length <= this.activePokemon.getAttachedCardsCount()){
+				if(((damageAbility) abilits[i-1]).getEnergyInfo().size() <= this.activePokemon.getAttachedCardsCount()){
 					attack=abilits[i-1];
 					attack.useAbility();
 					Debug.message("attacking");
@@ -91,7 +91,7 @@ public class AIplayer extends Player {
 		}
 	}
 	
-	private boolean checkAndPlayEnergy(ArrayList<Energy> energyCards){
+	public boolean checkAndPlayEnergy(ArrayList<Energy> energyCards){
 		Debug.message(this.activePokemon.getAttachedCards().length);
 		if(this.activePokemon.getAttachedCards().length<this.activePokemon.totalEnergyRequired()){
 			this.activePokemon.attachCard(energyCards.get(0));
@@ -114,19 +114,21 @@ public class AIplayer extends Player {
 	}
 	
 	public void activePokemonMove(){
-		ArrayList<Pokemon> cards = ((CardsGroup) this.inhand).getAllBasicPokemonCard();
 		if(this.activePokemon==null){
 			if(!this.bench.getGroupCards().isEmpty()){
-				this.activePokemon = (Pokemon) this.bench.getGroupCards().get(0);
+				this.activePokemon = (Pokemon) this.bench.getGroupCards().remove(0);
 			}
-			else if(cards.size()!=0){
+			else{
+				ArrayList<Pokemon> cards = ((CardsGroup) this.inhand).getAllBasicPokemonCard();
+				if(cards.size()!=0){
 				this.activePokemon = cards.remove(0);
 				((CardsGroup) this.inhand).removeCard(this.activePokemon);
 				Debug.message("Active pokemon set: "+this.activePokemon.getName());
 				updateGUI();
-			}
-			else{
-				//declare Mulligan
+				}
+				else{
+					//declare Mulligan
+				}
 			}
 		}
 	}

@@ -44,7 +44,7 @@ public class Turn {
 	}
 	
 	public Player getCurrentPlayer(){
-		if(!user.getTurn()){
+		if(ai.getTurn()){
 			return ai;
 		}
 		else{
@@ -57,11 +57,17 @@ public class Turn {
 			user.setTurn(false);
 			GameController.getInstance().dealCard("ai");
 			ai.setTurn(true);
-		}else{
+			if(ai.getActivePokemon() !=null && user.getActivePokemon() !=null)
+				Pokemon.getTurnEndAbilities(ai);
+		}
+		else{
 			user.setTurn(true);
 			GameController.getInstance().dealCard("user");
-			ai.setTurn(false);			
+			ai.setTurn(false);		
+			if(ai.getActivePokemon() !=null && user.getActivePokemon() !=null)
+				Pokemon.getTurnEndAbilities(user);
 		}
+		
 	}
 	
 	public Player getOpponent(){

@@ -5,25 +5,23 @@ import controller.GameController;
 public class drawAbility extends ability {
 	private int drawnumber;
 	
-	public drawAbility(int drawnumber){
-		this.drawnumber = drawnumber;
+	public drawAbility(String newname,int newDrawnumber, String newAbilitytarget){
+		this.drawnumber = newDrawnumber;
+		this.name = newname;
+		this.abilitytarget = newAbilitytarget;
 	}
 
-	@Override
-	public boolean equals(Object o) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public void useAbility() {
-		// TODO Auto-generated method stub
-		Player player = (Player) target.getTargetObject("you").getTarget();
-		//CardsGroup hand = (CardsGroup) player.getInhand();
-		CardsGroup deck = (CardsGroup) player.getDeckCard();
-		//player.dealMultipleCards(drawnumber);
-		//deck.removeCard(newCard);
-		GameController.getInstance().addCardsToPanel(player.dealMultipleCards(drawnumber), GameController.getInstance().getHand(player));
+		if(this.abilitytarget == null){
+			this.abilitytarget="you";
+		}
+		Player player = (Player) target.getTargetObject(this.abilitytarget).getTarget();
+		Debug.message(player.getName());
+		GameController.getInstance().addCardsToPanel(player.dealMultipleCards(this.drawnumber), GameController.getInstance().getHand(player));
+	}
+	
+	public boolean equals(Object o) {
+		return false;
 	}
 
 }
