@@ -2,10 +2,7 @@ package test.stubs;
 
 import java.util.ArrayList;
 
-import controller.GameController;
-import model.ability;
-import model.cardItem;
-import model.target;
+import test.stubs.*;
 import view.DialogBoxHandler;
 
 public class Search extends ability{

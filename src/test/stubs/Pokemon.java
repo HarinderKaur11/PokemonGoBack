@@ -2,11 +2,7 @@ package test.stubs;
 
 import java.util.ArrayList;
 
-import controller.GameController;
-import model.Turn;
-import model.ability;
-import model.pokemonStage;
-import model.stageOnePokemon;
+import test.stubs.*;
 import view.PokemonCard;
 
 public class Pokemon implements cardItem{
