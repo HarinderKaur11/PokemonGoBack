@@ -677,5 +677,6 @@ public class GameController {
 		AIDeck.setText("AIDeck "+ ai.getDeck().getGroupCards().size());
 		UserDeck.setText("User Deck "+ user.getDeck().getGroupCards().size());
 		UserDiscardPile.setText("DiscardPile "+ user.getDiscardPile().getGroupCards().size());
+		AIDiscardPile.setText("DiscardPile " + ai.getDiscardPile().getGroupCards().size());
 	}
 }

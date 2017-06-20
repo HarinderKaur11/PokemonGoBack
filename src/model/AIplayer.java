@@ -36,10 +36,8 @@ public class AIplayer extends Player {
 		GameController.getInstance().ulabelUpdate();
 		boolean energyCardUsed = false;
 		activePokemonMove();
-		
 		ArrayList<Pokemon> cards = ((CardsGroup) this.inhand).getAllBasicPokemonCard();
-		
-		if(cards.size()!=0){
+			if(cards.size()!=0){
 			if(bench.getGroupCards().size()<5){
 				Pokemon card2 = cards.remove(0);
 				bench.addCard(card2);
