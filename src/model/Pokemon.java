@@ -89,6 +89,10 @@ public class Pokemon implements cardItem{
 		return this.status;
 	}
 	
+	public void setStatus(String newstatus){
+		this.status = newstatus;
+	}
+	
 	public void attachCard(cardItem newCard){
 		GameController.getInstance().ulabelUpdate();
 		this.attachedCards.add(newCard);

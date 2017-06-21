@@ -130,4 +130,11 @@ public class Player {
 	public String getName() {
 		return this.name;
 	}
+	
+	public ArrayList<Pokemon> getPokemonFromBenchAndActive(){
+		ArrayList<Pokemon> allPokemons = new ArrayList<Pokemon>();
+		allPokemons.addAll(this.bench.getAllPokemonCard());
+		allPokemons.add(this.activePokemon);
+		return allPokemons;
+	}
 }

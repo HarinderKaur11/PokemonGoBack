@@ -114,16 +114,16 @@ public class CardParser {
 		return EnergyInfo;
 	}
 
-	public static void main(String[] aarg){
-		Deck deck = new Deck(1);
-		deck.readFile();
-		String[] card = ("Pikachu Libre:pokemon:cat:basic:cat:lightning:80:retreat:cat:colorless:1:attacks:cat:colorless:2:3,cat:colorless:2,cat:lightning:1:4").split(":");
-
-		CardParser cpars = new CardParser(deck);
-		Pokemon p = (Pokemon) cpars.createPokemon(1, card);
-		
-		for(ability a: p.getAbilities()){
-			Debug.message("Type "+a.getClass().getSimpleName()+ " Name " + a.getName()+" Energy required "+ a.getEnergyInfo().size());
-		}
-	}
+//	public static void main(String[] aarg){
+//		Deck deck = new Deck(1);
+//		deck.readFile();
+//		String[] card = ("Pikachu Libre:pokemon:cat:basic:cat:lightning:80:retreat:cat:colorless:1:attacks:cat:colorless:2:3,cat:colorless:2,cat:lightning:1:4").split(":");
+//
+//		CardParser cpars = new CardParser(deck);
+//		Pokemon p = (Pokemon) cpars.createPokemon(1, card);
+//		
+//		for(ability a: p.getAbilities()){
+//			Debug.message("Type "+a.getClass().getSimpleName()+ " Name " + a.getName()+" Energy required "+ a.getEnergyInfo().size());
+//		}
+//	}
 }

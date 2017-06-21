@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Random;
 
@@ -62,6 +63,26 @@ public class Turn {
 		if(!this.getCurrentPlayer().getBench().getAllPokemonCard().isEmpty()){
 			for(Pokemon p:this.getCurrentPlayer().getBench().getAllPokemonCard()){
 				p.resetHealStatus();
+			}
+		}
+		ArrayList<Pokemon> pokemons = this.getCurrentPlayer().getPokemonFromBenchAndActive();
+		if(!pokemons.isEmpty()){
+			for(Pokemon p:pokemons){
+				switch(p.getStatus()){
+					case "asleep":
+						Random random = new Random();
+			            int number = random.nextInt(2);
+			            if(number == 0){
+			            	p.setState("normal");
+			            }
+			            break;
+					case "paralyzed": case "stuck":
+						p.setStatus("normal");
+						break;
+					case "poisoned":
+						
+						break;
+				}
 			}
 		}
 		

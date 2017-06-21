@@ -166,7 +166,9 @@ public class GameController {
     	}
     	else if(tempLoc==userActivePokemon){
 			optionsList.add("View card abilities");
-    		optionsList.add("Retreat");
+			if(user.getActivePokemon().getStatus()!="stuck"){
+				optionsList.add("Retreat");
+			}
     	}
     	if(optionsList.isEmpty()){
     		
@@ -265,7 +267,7 @@ public class GameController {
             				RadioButton rb = new RadioButton(a.getName());
             				rb.setUserData(a.getName());
             				
-            				if(!user.getActivePokemon().checkEnergyNeeds(a)){
+            				if(!(user.getActivePokemon().checkEnergyNeeds(a)) || user.getActivePokemon().getStatus()=="paralyzed" || user.getActivePokemon().getStatus()=="asleep"){
             					rb.setDisable(true);
             				}
             				rb.setUserData(a.getName());
