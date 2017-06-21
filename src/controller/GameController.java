@@ -56,7 +56,7 @@ public class GameController {
 	@FXML private HBox userActivePokemon;
 	@FXML private Button UserEndTurnBtn;
 	@FXML private Label userDamage;
-	@FXML private Label aiDamage;
+	@FXML private Label aiDamage,AIDeck,UserDeck,AIDiscardPile,UserDiscardPile,Userhand,AIhand;
 	@FXML private Pane gameStage;
 	@FXML private BorderPane gameBoard;
 	@FXML private VBox btndn_rew,aiDisc_deck,AIReward,UIDisc_deck;
@@ -103,6 +103,7 @@ public class GameController {
     		}
     		panel.getChildren().add(newCard);
     	}
+    	GameController.getInstance().ulabelUpdate();
     }
     
     public void removeCard(String id, HBox panel){
@@ -111,6 +112,7 @@ public class GameController {
     			panel.getChildren().remove(node);
     		}
     	}
+    	GameController.getInstance().ulabelUpdate();
     }
     
     public void addCardToPanel(cardItem card, HBox panel){
@@ -122,6 +124,7 @@ public class GameController {
     		newCard = createCard(card, panel);
     	}
     	panel.getChildren().add(newCard);
+    	GameController.getInstance().ulabelUpdate();
     }
       
     private PokemonCard createPokemonCard(Pokemon pokemon, HBox panel){
@@ -180,6 +183,7 @@ public class GameController {
         		   		pokemonCard.setLocation(userActivePokemon);
         		   		user.setActivePokemon(pokemonCard.getCard());
         		   		((CardsGroup) user.getInhand()).removeCard(user.getActivePokemon());
+        		   		GameController.getInstance().ulabelUpdate();
         				break;
         			case "Put on bench":
         				pokemonCard.setLayoutX(0);
@@ -187,6 +191,7 @@ public class GameController {
         		   		pokemonCard.setLocation(userBench);
         		   		user.getBench().addCard(pokemonCard.getCard());
         		   		((CardsGroup) user.getInhand()).removeCard(pokemonCard.getCard());
+        		   		GameController.getInstance().ulabelUpdate();
         				break;
         			case "Retreat":
             			ArrayList<String> benchCards = new ArrayList<String>();
@@ -418,6 +423,7 @@ public class GameController {
 			activePokemon.getChildren().clear();
 			activePokemon.getChildren().add(createPokemonCard(player.getActivePokemon()));
 		}
+		GameController.getInstance().ulabelUpdate();
 	}
     
 	public void addCardsToAIPanel(cardItem[] cards, HBox panel){
@@ -450,11 +456,13 @@ public class GameController {
 		if(player=="user"){
 			newcard = user.dealCard();
 			addCardToPanel(newcard, userHand);
+			
 		}
 		else {
 			newcard = ai.dealCard();
 			ai.updateGUI();
 		}
+		GameController.getInstance().ulabelUpdate();
 		
 	}
 	
@@ -493,10 +501,12 @@ public class GameController {
 				}
 			}
 		}
+		GameController.getInstance().ulabelUpdate();
 		return null;
 	}
 	
-	public void knockout(){
+	public void knockout()
+	{
 		Player player = Turn.getInstance().getOpponent();
 		if(player!=null){
 		if(player instanceof UserPlayer){
@@ -536,6 +546,7 @@ public class GameController {
 			}
 		}
 		}
+		GameController.getInstance().ulabelUpdate();
 	}
 	
 	private void winOrLoss(){
@@ -671,7 +682,20 @@ public class GameController {
     	}
 		return benchC;
 	}
+	 //Label values 
 	
+
+
+	public void ulabelUpdate() {
+		// TODO Auto-generated method stub
+		AIDeck.setText("AIDeck "+ ai.getDeck().getGroupCards().size());
+		UserDeck.setText("User Deck "+ user.getDeck().getGroupCards().size());
+		UserDiscardPile.setText("DiscardPile "+ user.getDiscardPile().getGroupCards().size());
+		AIDiscardPile.setText("DiscardPile " + ai.getDiscardPile().getGroupCards().size());
+		Userhand.setText("Uhand "+ user.getInhandCards().length);
+		AIhand.setText("AIHand "+ai.getInhandCards().length);
+	}
+
 	public boolean getAbilityChoice(){
 		ButtonType Yes = new ButtonType("Yes", ButtonBar.ButtonData.YES);
         ButtonType No = new ButtonType("No", ButtonBar.ButtonData.NO);
@@ -684,4 +708,5 @@ public class GameController {
         return false;
 	}
 	
+
 }

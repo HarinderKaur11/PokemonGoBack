@@ -15,9 +15,9 @@ public class DeckTest {
 
 		deck.buildDeck();
 		int actual=deck.getGroupCards().size();
-		
+
+		cardItem[] cards = deck.getCard();
 		int expected=60;
-		
 		assertEquals(expected,actual);
 		
 	}

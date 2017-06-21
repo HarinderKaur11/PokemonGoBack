@@ -1,11 +1,7 @@
 package test.pokemongoback;
 
 import static org.junit.Assert.*;
-
-import java.util.ArrayList;
-
 import org.junit.Test;
-
 import model.CardsGroup;
 import model.Energy;
 import model.Pokemon;
@@ -19,8 +15,7 @@ import model.swapAbility;
 
 public class GetPokemonCardsTest {
 
-	Pokemon actual;
-	Pokemon expected;
+	Pokemon actual,expected;
 	CardsGroup cg=new CardsGroup();
 	
 	@Test

@@ -75,10 +75,12 @@ public class Turn {
 		else{
 			user.setTurn(true);
 			GameController.getInstance().dealCard("user");
+			//GameController.getInstance().ulabelUpdate();
 			ai.setTurn(false);		
 			if(ai.getActivePokemon() !=null && user.getActivePokemon() !=null)
 				Pokemon.getTurnEndAbilities(user);
 		}
+		GameController.getInstance().ulabelUpdate();
 		
 	}
 	

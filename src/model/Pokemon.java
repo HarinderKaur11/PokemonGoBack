@@ -90,10 +90,13 @@ public class Pokemon implements cardItem{
 	}
 	
 	public void attachCard(cardItem newCard){
+		GameController.getInstance().ulabelUpdate();
 		this.attachedCards.add(newCard);
+		
 	}
 	
 	public void dettachCard(cardItem newCard){
+		GameController.getInstance().ulabelUpdate();
 		this.attachedCards.remove(newCard);
 	}
 	
@@ -109,6 +112,7 @@ public class Pokemon implements cardItem{
 				i--;
 			}
 		}
+		GameController.getInstance().ulabelUpdate();
 		return cards.toArray(new cardItem[cards.size()]);
 	}
 	
