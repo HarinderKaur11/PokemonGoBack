@@ -5,8 +5,8 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import model.Player;
-import model.Trainer;
-import model.cardItem;
+import test.stubs.Trainer;
+import test.stubs.cardItem;
 
 
 

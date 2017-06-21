@@ -124,7 +124,9 @@ public class AbilityParser {
 				    condition = condition + " " + temp;
 				   //Debug.message(condition);
 				}
+
 				abilityo = new condAbility(name, condition, abilities[2], abilities[0], abilities[1],energyInfo);
+
 				//abilityo = new Search("Search pokemon", "you", "deck","pokemon","basic",2);
 				break;
 			case "swap":
