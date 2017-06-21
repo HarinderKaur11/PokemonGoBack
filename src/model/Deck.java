@@ -8,9 +8,6 @@ public class Deck extends CardsGroup{
 	private String name;
 	private int deckNumber;
 
-	private String abilityName, target, destination, drawCards, status, energyinfo, abilityparse ;
-	private String damage, condition, condAbility, trigger, triggerCond, addAbility, source, filter, filterCat, count;
-	private boolean choice;
 	private DeckFileReader db;
 	
 	public Deck(){}
@@ -29,13 +26,7 @@ public class Deck extends CardsGroup{
 	}
 	
 	public void buildDeck(ArrayList<String[]> cardsList, DeckFileReader db){
-		
-		
-//		ArrayList<ability> newAbility = new ArrayList<ability>();
-//		ArrayList<Energy> EnergyInfo = new ArrayList<Energy>();
-//		EnergyInfo.add(new Energy("Fighting"));
-//		newAbility.add(new damageAbility("Attack", 10, EnergyInfo, "opponentactive", null));
-		
+	
 		int x = 1;
 		for(String[] card : cardsList){
 				CardParser cparser = new CardParser(this);
@@ -54,8 +45,37 @@ public class Deck extends CardsGroup{
 						break;
 				}
 				x++;
-			//}
-			//Debug.message(this.getGroupCards().size());
+		}
+	}
+	
+	/* Method for testing purpose only */
+	public void buildDeckTest(){
+		
+		//cond:ability:deck:target:your:destination:discard:choice:you:1:(search:target:your:source:deck:filter:top:8:1,shuffle:target:your)
+		int j=0;
+		for(;j<18;j++){
+			ArrayList<ability> newAbility = new ArrayList<ability>();
+			ArrayList<Energy> EnergyInfo = new ArrayList<Energy>();
+			EnergyInfo.add(new Energy("Fighting"));
+			String a = "ConditionAbility:cond:choice:shuffle:target:opponent";
+			AbilityParser ap = new AbilityParser();
+			ability abilt = ap.parseAbilities(a, EnergyInfo);
+			newAbility.add(abilt);
+			Debug.message(abilt.getName());
+				this.getGroupCards().add(new Pokemon(j, "Pikachu", new basicPokemon(), 80, newAbility));
+
+//				this.getGroupCards().add(new Trainer(j+18, "Heal Trainer", "item", new healingAbility("Heal pokemon",30,"youractive")));
+//				this.getGroupCards().add(new Trainer(j+18, "Deck Ability", "item", new DeckAbility("Deck Ability","opponent", "deck", 0, "opponenthand")));
+//				this.getGroupCards().add(new Trainer(j+18, "Wally", "item", new Search("Deck Ability","choiceyour", "deck", null, "evolvesfrom",1)));
+				this.getGroupCards().add(new Trainer(j+18,"Deenergize" ,"item", new Deenergize("Deenergize", "youractive", "youractive energy")));
+
+				this.getGroupCards().add(new Energy("Fighting Energy",j+36));
+		}
+		for(;j<60;j++){
+			ArrayList<ability> newAbility = new ArrayList<ability>();
+			ArrayList<Energy> EnergyInfo = new ArrayList<Energy>();
+			EnergyInfo.add(new Energy("Fighting"));
+			this.getGroupCards().add(new Pokemon(j,"Raichu", new stageOnePokemon("Pikachu"), 30, newAbility));
 		}
 		//this.shufflecards();
 	}
@@ -66,7 +86,6 @@ public class Deck extends CardsGroup{
 	
 	public void shufflecards(){
 		Collections.shuffle(this.getGroupCards());
-		//Debug.showCard(this.getGroupCards().toArray(new cardItem[this.getGroupCards().size()]));
 	}
 	
 	@Override

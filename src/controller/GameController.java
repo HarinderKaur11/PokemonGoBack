@@ -298,8 +298,10 @@ public class GameController {
             				for(ability b: user.getActivePokemon().getAbilities()){
             					if(b.getName()==result2.get()){
             						b.useAbility();
-            						Debug.message("Adding Damage to "+ai.getActivePokemon().getName() +" "+ai.getActivePokemon().getDamage());
-            						aiDamage.setText(Integer.toString(ai.getActivePokemon().getDamage()));
+            						if(ai.getActivePokemon()!=null){
+            							Debug.message("Adding Damage to "+ai.getActivePokemon().getName() +" "+ai.getActivePokemon().getDamage());
+            							aiDamage.setText(Integer.toString(ai.getActivePokemon().getDamage()));
+            						}
             					}
         		    		}
             			}
@@ -654,21 +656,31 @@ public class GameController {
 			benchCards.add(String.valueOf(id));
     	}
     	DialogBoxHandler dBox = new DialogBoxHandler();
-		String select = dBox.getDialog(benchCards);
-
-		Pokemon benchC = null;
-		if(select!=null)
-		{
-			//Debug.message(select);
-			for(cardItem pokemon: player.getBench().getCard())
-			{
-				if(pokemon.getID() == Integer.parseInt(select))
-				{
-					benchC = (Pokemon) pokemon;
-				}
+    	Pokemon benchC = null;
+    	if(!benchCards.isEmpty()){
+    		String select = dBox.getDialog(benchCards);
+    		if(select!=null){
+    			//Debug.message(select);
+    			for(cardItem pokemon: player.getBench().getCard()){
+    				if(pokemon.getID() == Integer.parseInt(select)){
+    					benchC = (Pokemon) pokemon;
+    				}
+    			}
 			}
-		}
+    	}
 		return benchC;
+	}
+	
+	public boolean getAbilityChoice(){
+		ButtonType Yes = new ButtonType("Yes", ButtonBar.ButtonData.YES);
+        ButtonType No = new ButtonType("No", ButtonBar.ButtonData.NO);
+        Alert ts = new Alert(Alert.AlertType.INFORMATION,"Are you sure you want to use this ability?",Yes,No);
+        Optional<ButtonType> result1 = ts.showAndWait();
+        if (result1.get().getText().toString() == "Yes")
+        {
+            return true;
+        }
+        return false;
 	}
 	
 }
