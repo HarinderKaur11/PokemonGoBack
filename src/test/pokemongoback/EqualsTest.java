@@ -4,9 +4,9 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import model.CardsGroup;
+import test.stubs.CardsGroup;
 import model.DeckAbility;
-import model.ability;
+import test.stubs.ability;
 
 public class EqualsTest {
 	
