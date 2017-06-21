@@ -265,7 +265,7 @@ public class GameController {
             				RadioButton rb = new RadioButton(a.getName());
             				rb.setUserData(a.getName());
             				
-            				if(user.getActivePokemon().getAttachedCardsCount() <= a.getEnergyInfo().size()){
+            				if(!user.getActivePokemon().checkEnergyNeeds(a)){
             					rb.setDisable(true);
             				}
             				rb.setUserData(a.getName());
@@ -669,6 +669,7 @@ public class GameController {
     	DialogBoxHandler dBox = new DialogBoxHandler();
     	Pokemon benchC = null;
     	if(!benchCards.isEmpty()){
+    		
     		String select = dBox.getDialog(benchCards);
     		if(select!=null){
     			//Debug.message(select);

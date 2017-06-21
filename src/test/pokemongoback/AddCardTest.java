@@ -8,7 +8,6 @@ import org.junit.Test;
 
 import model.CardsGroup;
 
-import test.stubs.*;
 import model.Pokemon;
 import model.Trainer;
 import model.cardItem;

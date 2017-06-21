@@ -17,7 +17,7 @@ public class AbilityParser {
 	    return matcher.find() ? matcher.end() : -1;
 	}
 
-	public ability parseAbilities(String ablty, ArrayList<Energy> energyInfo){
+	public ability parseAbilities(String ablty, ArrayList<EnergyNode> energyInfo){
 		//parse abilities.txt			
 		abilityName = ablty.substring(0, ablty.indexOf(":"));
 		String abilityElement = ablty.replace(":", " ").substring(ablty.indexOf(":")+1);
@@ -25,7 +25,7 @@ public class AbilityParser {
 	}
 			
 			//}
-		public ability parseAbility(String abilityElement, ArrayList<Energy> energyInfo){
+		public ability parseAbility(String abilityElement, ArrayList<EnergyNode> energyInfo){
 			abilityElement = abilityElement.replace("(", " (");
 			ability ability = null;
 			ArrayList<String> sub = new ArrayList<String>();
@@ -38,7 +38,7 @@ public class AbilityParser {
 				//composite ability do here
 					//Debug.message(a);
 				}
-				ability compositeAbility = new CompositeAbility(abilityName);
+				ability compositeAbility = new CompositeAbility(abilityName, energyInfo);
 				for(int i=0; i<sub.size();i++)
 				{
 					String a = sub.get(i);
@@ -77,7 +77,7 @@ public class AbilityParser {
 		}
 
 	
-	public ability getAbility(String name,String[] a, ArrayList<Energy> energyInfo)
+	public ability getAbility(String name,String[] a, ArrayList<EnergyNode> energyInfo)
 	{
 		String a_join = String.join(" ", a);
 
@@ -124,7 +124,9 @@ public class AbilityParser {
 				    condition = condition + " " + temp;
 				   //Debug.message(condition);
 				}
+
 				abilityo = new condAbility(name, condition, abilities[2], abilities[0], abilities[1],energyInfo);
+
 				//abilityo = new Search("Search pokemon", "you", "deck","pokemon","basic",2);
 				break;
 			case "swap":
@@ -240,7 +242,7 @@ public class AbilityParser {
 		return abilityo;
 	}
 
-	private ability[] conditionAbilityParser(String condAbility, String newCondition, ArrayList<Energy> energyInfo) {
+	private ability[] conditionAbilityParser(String condAbility, String newCondition, ArrayList<EnergyNode> energyInfo) {
 		ability[] abilities = new ability[3];
 		if(newCondition.contains("count")){
 			newCondition = "count";
