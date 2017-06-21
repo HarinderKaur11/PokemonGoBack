@@ -55,8 +55,8 @@ public class Deck extends CardsGroup{
 		int j=0;
 		for(;j<18;j++){
 			ArrayList<ability> newAbility = new ArrayList<ability>();
-			ArrayList<Energy> EnergyInfo = new ArrayList<Energy>();
-			EnergyInfo.add(new Energy("Fighting"));
+			ArrayList<EnergyNode> EnergyInfo = new ArrayList<EnergyNode>();
+			EnergyInfo.add(new EnergyNode(new Energy("Fighting"),1));
 			String a = "ConditionAbility:cond:healed:target:your-active:dam:target:opponent-active:80";
 			AbilityParser ap = new AbilityParser();
 			ability abilt = ap.parseAbilities(a, EnergyInfo);

@@ -106,13 +106,10 @@ public class CardParser {
 		
 	}
 	
-	public ArrayList<Energy> getEnergy(String[] energytype, int[] energynumber){
-		ArrayList<Energy> EnergyInfo = new ArrayList<Energy>();
+	public ArrayList<EnergyNode> getEnergy(String[] energytype, int[] energynumber){
+		ArrayList<EnergyNode> EnergyInfo = new ArrayList<EnergyNode>();
 		for(int i=0; i<energytype.length; i++){
-			for(int e =0; e < energynumber[i];e++){
-				//Debug.message(energytype);
-				EnergyInfo.add(new Energy(energytype[i]));
-			}
+				EnergyInfo.add(new EnergyNode(new Energy(energytype[i]),energynumber[i]));
 		}
 		return EnergyInfo;
 	}

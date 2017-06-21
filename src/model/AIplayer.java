@@ -93,16 +93,18 @@ public class AIplayer extends Player {
 	
 	public boolean checkAndPlayEnergy(ArrayList<Energy> energyCards){
 		Debug.message(this.activePokemon.getAttachedCards().length);
-		if(this.activePokemon.getAttachedCards().length<this.activePokemon.totalEnergyRequired()){
-			this.activePokemon.attachCard(energyCards.get(0));
-			((CardsGroup) this.inhand).removeCard(energyCards.get(0));
-			Debug.message("Energy card added to Active pokemon");
-			return true;
+		for(ability a : this.activePokemon.getAbilities()){
+			if(this.activePokemon.checkEnergyNeeds(a)){
+				this.activePokemon.attachCard(energyCards.get(0));
+				((CardsGroup) this.inhand).removeCard(energyCards.get(0));
+				Debug.message("Energy card added to Active pokemon");
+				return true;
+			}
 		}
-		else{
-			for(cardItem card : bench.getGroupCards()){
-				Pokemon pokemon = (Pokemon) card;
-				if(pokemon.getAttachedCards().length<pokemon.totalEnergyRequired()){
+		for(cardItem card : bench.getGroupCards()){
+			Pokemon pokemon = (Pokemon) card;
+			for(ability a: pokemon.getAbilities()){
+				if(!pokemon.checkEnergyNeeds(a)){
 					pokemon.attachCard(energyCards.get(0));
 					((CardsGroup) this.inhand).removeCard(energyCards.get(0));
 					Debug.message("Energy card added to "+pokemon.getName());
