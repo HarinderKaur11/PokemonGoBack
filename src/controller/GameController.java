@@ -254,13 +254,13 @@ public class GameController {
             			grid.setPadding(new Insets(20, 150, 10, 10));
         		   			    	
             			final ToggleGroup group = new ToggleGroup();
-        		   	
+            			int z=0;
             			for(ability a : user.getActivePokemon().getAbilities()){
             				FlowPane temppane = new FlowPane();
             				RadioButton rb = new RadioButton(a.getName());
             				rb.setUserData(a.getName());
             				
-            				if(user.getActivePokemon().getAttachedCardsCount() >= a.getEnergyInfo().size()){
+            				if(user.getActivePokemon().getAttachedCardsCount() <= a.getEnergyInfo().size()){
             					rb.setDisable(true);
             				}
             				rb.setUserData(a.getName());
@@ -268,7 +268,8 @@ public class GameController {
             				temppane.getChildren().add(rb);
             				if(a instanceof damageAbility)
             					temppane.getChildren().add(new Label(Integer.toString(((damageAbility) a).getDamage())));
-            				grid.add(temppane, 0, 0);
+            				grid.add(temppane, 0, z);
+            				z++;
             			}
             			abilitiesDialog.getDialogPane().setContent(grid);
             			abilitiesDialog.getResult();
