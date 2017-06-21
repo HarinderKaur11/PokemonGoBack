@@ -98,7 +98,7 @@ public class AbilityParser {
 			case "cond":
 				condition = a[1];
 				condAbility = a_join.substring(a_join.indexOf(a[1]));
-				Debug.message(condAbility);
+				//Debug.message(condAbility);
 				ability[] abilities = conditionAbilityParser(condAbility,condition, energyInfo);
 				if(condition.contains("count")){
 					//Debug.message(a_join);
@@ -112,6 +112,16 @@ public class AbilityParser {
 				       temp3 = m.group(3);
 				    }
 				    condition = condition + " " + temp + " " + temp2 + " " +temp3;	
+				    //Debug.message(condition);
+				}
+				else if(condition.contains("healed")){
+					//Debug.message(a_join);
+					Matcher m = Pattern.compile("healed\\starget\\s([^\\s]+)\\s").matcher(a_join);
+					String temp = null;
+					while(m.find()) {
+				       temp = m.group(1);
+				    }
+				    condition = condition + " " + temp;
 				    Debug.message(condition);
 				}
 				abilityo = new condAbility(name, condition, abilities[2], abilities[0], abilities[1],energyInfo);

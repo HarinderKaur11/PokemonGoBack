@@ -54,6 +54,27 @@ public class condAbility extends ability{
 				this.ability2.useAbility();
 			}			
 		}
+		else if(condition.contains("healed")){
+			String temptarget = condition.substring(condition.indexOf(" ")+1);
+			Pokemon p = ((Pokemon) target.getTargetObject(temptarget).getTarget());
+			if(p!=null){		
+				if(p.isHealed()){
+					this.ability1.useAbility();
+					//Debug.message(this.ability1.getClass().getName());
+				}
+				else{
+					if(this.ability2!=null){
+						//Debug.message(this.ability2.getClass().getName());
+						this.ability2.useAbility();
+					}
+					Debug.message("checkpoint");
+					
+					
+					
+				}
+			}
+			//Debug.message("Ability name: "+ this.name+" Ability condition: "+this.condition);
+		}
 		else{
 			switch(condition){
 			case "flip":
@@ -80,30 +101,18 @@ public class condAbility extends ability{
 	            }
 				break;
 			case "ability":
-				if(this.conditionAbility!=null){
-	            	//this.ability1.useAbility();
-	            	Debug.message(this.ability1.getClass().getName());
+				if(GameController.getInstance().getAbilityChoice()){
+					this.conditionAbility.useAbility();
+	            	this.ability1.useAbility();
+	            	//Debug.message(this.ability1.getClass().getName());
 	            }
 	            else{
 	            	if(this.ability2!=null){
-	            		Debug.message(this.ability2.getClass().getName());
-	            		//this.ability2.useAbility();
+	            		//Debug.message(this.ability2.getClass().getName());
+	            		this.ability2.useAbility();
 	            	}
 	            }
-				Debug.message("Ability name: "+ this.name+" Ability condition: "+this.condition);
-				break;
-			case "healed":
-				if(this.ability2!=null){
-	            	//this.ability1.useAbility();
-	            	Debug.message(this.ability1.getClass().getName());
-	            }
-	            else{
-	            	if(this.ability2!=null){
-	            		Debug.message(this.ability2.getClass().getName());
-	            		//this.ability2.useAbility();
-	            	}
-	            }
-				Debug.message("Ability name: "+ this.name+" Ability condition: "+this.condition);
+				//Debug.message("Ability name: "+ this.name+" Ability condition: "+this.condition);
 				break;
 			}
 		}
