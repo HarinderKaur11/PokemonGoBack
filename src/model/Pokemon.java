@@ -18,6 +18,7 @@ public class Pokemon implements cardItem{
 	private ArrayList<cardItem> attachedCards;
 	private ArrayList<ability> activeAbilities;
 	private PokemonCard uiCard;
+	private boolean healed = false;
 	
 	public Pokemon(int newId, String name, pokemonStage newPokemonStage, int newHp, ArrayList<ability> newAbilities){
 		this.id = newId;
@@ -45,6 +46,15 @@ public class Pokemon implements cardItem{
 		else{
 			this.damage -= newHealing;
 		}
+		this.healed = true;
+	}
+	
+	public boolean isHealed(){
+		return this.healed;
+	}
+	
+	public void resetHealStatus(){
+		this.healed = false;
 	}
 	
 	public void setState(String newState){
@@ -80,10 +90,13 @@ public class Pokemon implements cardItem{
 	}
 	
 	public void attachCard(cardItem newCard){
+		GameController.getInstance().ulabelUpdate();
 		this.attachedCards.add(newCard);
+		
 	}
 	
 	public void dettachCard(cardItem newCard){
+		GameController.getInstance().ulabelUpdate();
 		this.attachedCards.remove(newCard);
 	}
 	
@@ -99,6 +112,7 @@ public class Pokemon implements cardItem{
 				i--;
 			}
 		}
+		GameController.getInstance().ulabelUpdate();
 		return cards.toArray(new cardItem[cards.size()]);
 	}
 	
@@ -133,8 +147,8 @@ public class Pokemon implements cardItem{
 	
 	public void evolve(Pokemon basicCard){
 		this.pStage.evolve(basicCard);
-		if(basicCard.getActiveAbilities().length != 0){
-			for(ability a:basicCard.getActiveAbilities()){
+		if(basicCard.getActiveAbilities()!=null && !basicCard.getActiveAbilities().isEmpty()){
+			for(ability a : basicCard.getActiveAbilities()){
 				this.addActiveAbility(a);
 			}
 		}
@@ -191,8 +205,8 @@ public class Pokemon implements cardItem{
 		this.activeAbilities.add(newAbility);
 	}
 	
-	public ability[] getActiveAbilities(){
-		return this.activeAbilities.toArray(new ability[this.activeAbilities.size()]);
+	public ArrayList<ability> getActiveAbilities(){
+		return this.activeAbilities;
 	}
 	
 	public String getAbilityIndex(ability newAbility){
@@ -206,7 +220,7 @@ public class Pokemon implements cardItem{
 	
 	public static void getTurnEndAbilities(Player player)
 	{
-		if(player.getActivePokemon().getActiveAbilities().length != 0)
+		if(player.getActivePokemon().getActiveAbilities().size() != 0)
 		{
 			for( ability a: player.getActivePokemon().getActiveAbilities())
 			{

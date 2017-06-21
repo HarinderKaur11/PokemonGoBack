@@ -15,8 +15,12 @@ Deck deck= new Deck(1);
 
 		deck.buildDeck();
 		int actual=deck.getGroupCards().size();
+<<<<<<< HEAD
 		//cardItem[] cards = deck.getCard();
 		//Pokemon pokemon = (Pokemon) cards[0];
+=======
+		cardItem[] cards = deck.getCard();
+>>>>>>> master
 		int expected=60;
 		assertEquals(expected,actual);
 		

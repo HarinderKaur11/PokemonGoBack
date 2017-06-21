@@ -1,4 +1,4 @@
-package view;
+package test.stubs;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -8,8 +8,7 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.FlowPane;
-import model.Pokemon;
-import model.ability;
+import test.stubs.*;
 
 public class PokemonCard extends FlowPane{
 	private Label cardName;
@@ -99,7 +98,6 @@ public class PokemonCard extends FlowPane{
 	public void evolve(Pokemon stageOne){
 		Pokemon tempcard = this.card;
 		this.card = stageOne;
-		this.baseCard = tempcard;
 		this.evolved = true;
 		init();
 	}

@@ -42,7 +42,7 @@ public class CardsGroup implements cardItem
 	}
 	
 	public void removeCard(cardItem newCard){
-	//GameController.getInstance().ulabelUpdate();
+	GameController.getInstance().ulabelUpdate();
 		this.getGroupCards().remove(newCard);
 		
 	}
@@ -51,7 +51,7 @@ public class CardsGroup implements cardItem
 		for(cardItem card : groupCards){
 			if(card instanceof Pokemon && ((Pokemon) card).getStage()=="basic"){
 				groupCards.remove(card);
-				//GameController.getInstance().ulabelUpdate();
+				GameController.getInstance().ulabelUpdate();
 				return (Pokemon) card;
 			}
 		}
@@ -75,6 +75,17 @@ public class CardsGroup implements cardItem
 		//GameController.getInstance().ulabelUpdate();
 		return pokemonCards;
 	}
+	
+	public ArrayList<Pokemon> getAllPokemonCard(){
+		ArrayList<Pokemon> pokemonCards = new ArrayList<Pokemon>();
+		for(cardItem card : groupCards){
+			if(card instanceof Pokemon){
+				pokemonCards.add((Pokemon) card);
+			}
+		}
+		return pokemonCards;
+	}
+	
 	public ArrayList<Energy> getAllEnergyCards(){
 		ArrayList<Energy> energyCards = new ArrayList<Energy>();
 		for(cardItem card : groupCards){
