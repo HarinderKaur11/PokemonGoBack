@@ -61,7 +61,7 @@ public class Deck extends CardsGroup{
 			AbilityParser ap = new AbilityParser();
 			ability abilt = ap.parseAbilities(a, EnergyInfo);
 			newAbility.add(abilt);
-			Debug.message(abilt.getName());
+			//Debug.message(abilt.getName());
 				this.getGroupCards().add(new Pokemon(j, "Pikachu", new basicPokemon(), 80, newAbility));
 
 //				this.getGroupCards().add(new Trainer(j+18, "Heal Trainer", "item", new healingAbility("Heal pokemon",30,"youractive")));

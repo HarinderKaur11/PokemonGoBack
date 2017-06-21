@@ -45,9 +45,9 @@ public class condAbility extends ability{
 			String energyType = countA[3];
 			int digit = Integer.parseInt(countA[5]);
 			int cardsInt = ((Pokemon) target.getTargetObject(countA[1]).getTarget()).getAttachedCardsCount(Energy.class);
-			Debug.message(cardsInt + " comparing with " + digit);
+			//Debug.message(cardsInt + " comparing with " + digit);
 			if(cardsInt>digit){
-				Debug.message("Ability name: "+ this.name+" Ability type: "+ this.ability1.getClass().getSimpleName());
+				//Debug.message("Ability name: "+ this.name+" Ability type: "+ this.ability1.getClass().getSimpleName());
 				this.ability1.useAbility();
 			}
 			else if(this.ability2!=null){
@@ -67,11 +67,8 @@ public class condAbility extends ability{
 						//Debug.message(this.ability2.getClass().getName());
 						this.ability2.useAbility();
 					}
-					Debug.message("checkpoint");
-					
-					
-					
-				}
+					//Debug.message("checkpoint");
+					}
 			}
 			//Debug.message("Ability name: "+ this.name+" Ability condition: "+this.condition);
 		}
