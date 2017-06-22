@@ -6,8 +6,11 @@ import java.util.regex.Pattern;
 
 public class AbilityParser {
 
+
 	private String abilityName, target, destination, drawCards, status, amount ;
+
 	private String damage, condition, condAbility, trigger, triggerCond, source, filter, filterCat, count, choice;
+
 
 	ability addAbility = null;
 
