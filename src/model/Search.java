@@ -79,6 +79,7 @@ public class Search extends ability{
 			source.removeCard(tempcard);
 			cards.remove(tempcard);
 		}
+		GameController.getInstance().ulabelUpdate();
 		
 	}
 	

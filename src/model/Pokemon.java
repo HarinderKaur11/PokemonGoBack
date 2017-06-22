@@ -123,6 +123,7 @@ public class Pokemon implements cardItem{
 	public void useAbility(ability uAbility){
 		uAbility.useAbility();
 		Turn.getInstance().changeTurn();
+		GameController.getInstance().ulabelUpdate();
 	}
 	
 	public int getAttachedCardsCount(){
@@ -198,6 +199,7 @@ public class Pokemon implements cardItem{
 	}
 	
 	public void removeAbility(ability newAbility){
+		GameController.getInstance().ulabelUpdate();
 		this.activeAbilities.remove(newAbility);
 	}
 	
