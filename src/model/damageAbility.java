@@ -2,15 +2,18 @@ package model;
 
 import java.util.ArrayList;
 
+import controller.GameController;
+
+
+
 public class damageAbility extends ability {
 	private int damageValue;
 	private String count;
-	private ArrayList<Energy> energyRequired;
 	
-	public damageAbility(String newName, int newDamage, ArrayList<Energy> newEnergyInfo, String newtarget, String newCount){
+	public damageAbility(String newName, int newDamage, ArrayList<EnergyNode> newEnergyInfo, String newtarget, String newCount){
 		this.name = newName;
 		this.damageValue = newDamage;
-		this.energyRequired = newEnergyInfo;
+		this.energyInfo = newEnergyInfo;
 		this.abilitytarget = newtarget;
 		this.count = newCount; //damageValue = count*damageValue {count = opp active energy}
 		//dam:target:opponent-active:count(target:opponent-active:energy)*10 
@@ -32,15 +35,11 @@ public class damageAbility extends ability {
 			pokm.addDamage(this.damageValue*times);
 		}
 		Turn.getInstance().changeTurn();
-	
+	   // GameController.getInstance().ulabelUpdate();
 	}
 	
 	public int getDamage(){
 		return this.damageValue;
-	}
-	
-	public ArrayList<Energy> getEnergyInfo(){
-		return this.energyRequired;
 	}
 	
 	public boolean equals(Object o){

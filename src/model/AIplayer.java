@@ -33,12 +33,11 @@ public class AIplayer extends Player {
 	}
 	
 	private void runAI(){
+		GameController.getInstance().ulabelUpdate();
 		boolean energyCardUsed = false;
 		activePokemonMove();
-		
 		ArrayList<Pokemon> cards = ((CardsGroup) this.inhand).getAllBasicPokemonCard();
-		
-		if(cards.size()!=0){
+			if(cards.size()!=0){
 			if(bench.getGroupCards().size()<5){
 				Pokemon card2 = cards.remove(0);
 				bench.addCard(card2);
@@ -89,20 +88,23 @@ public class AIplayer extends Player {
 		{
 			Turn.getInstance().changeTurn();
 		}
+		GameController.getInstance().ulabelUpdate();
 	}
 	
 	public boolean checkAndPlayEnergy(ArrayList<Energy> energyCards){
 		Debug.message(this.activePokemon.getAttachedCards().length);
-		if(this.activePokemon.getAttachedCards().length<this.activePokemon.totalEnergyRequired()){
-			this.activePokemon.attachCard(energyCards.get(0));
-			((CardsGroup) this.inhand).removeCard(energyCards.get(0));
-			Debug.message("Energy card added to Active pokemon");
-			return true;
+		for(ability a : this.activePokemon.getAbilities()){
+			if(this.activePokemon.checkEnergyNeeds(a)){
+				this.activePokemon.attachCard(energyCards.get(0));
+				((CardsGroup) this.inhand).removeCard(energyCards.get(0));
+				Debug.message("Energy card added to Active pokemon");
+				return true;
+      }
 		}
-		else{
-			for(cardItem card : bench.getGroupCards()){
-				Pokemon pokemon = (Pokemon) card;
-				if(pokemon.getAttachedCards().length<pokemon.totalEnergyRequired()){
+		for(cardItem card : bench.getGroupCards()){
+			Pokemon pokemon = (Pokemon) card;
+			for(ability a: pokemon.getAbilities()){
+				if(!pokemon.checkEnergyNeeds(a)){
 					pokemon.attachCard(energyCards.get(0));
 					((CardsGroup) this.inhand).removeCard(energyCards.get(0));
 					Debug.message("Energy card added to "+pokemon.getName());
@@ -110,6 +112,7 @@ public class AIplayer extends Player {
 				}
 			}
 		}
+		GameController.getInstance().ulabelUpdate();
 		return false;
 	}
 	
@@ -131,6 +134,7 @@ public class AIplayer extends Player {
 				}
 			}
 		}
+		GameController.getInstance().ulabelUpdate();
 	}
 	
 	public void updateGUI(){

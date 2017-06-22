@@ -1,10 +1,13 @@
 package model;
 
+import java.util.ArrayList;
+
 public abstract class ability {
 	
 	protected String name;
 	protected String abilitytarget;
 	protected String triggerCondition;
+	protected ArrayList<EnergyNode> energyInfo;
 	
 	public String getName(){
 		return this.name;
@@ -30,6 +33,17 @@ public abstract class ability {
 			default:
 				return null;
 		}
+	}
+	public ArrayList<EnergyNode> getEnergyInfo(){
+		return this.energyInfo;
+	}
+	
+	public int getEnergyInfoSize(){
+		int total=0;
+		for(EnergyNode node: this.energyInfo){
+			total+=node.getEnergyCount();
+		}
+		return total;
 	}
 	
 	public abstract boolean equals(Object o);

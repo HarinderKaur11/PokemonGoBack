@@ -1,9 +1,7 @@
 package test.pokemongoback;
 
 import static org.junit.Assert.*;
-
 import org.junit.Test;
-
 import model.CardsGroup;
 import model.cardItem;
 import model.pokemonStage;

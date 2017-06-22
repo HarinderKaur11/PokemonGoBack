@@ -15,6 +15,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
@@ -44,7 +45,7 @@ public class GameController {
 	@FXML private static GameController controller;
 	private UserPlayer user;
 	private AIplayer ai;
-	
+	private boolean[] turn;
 
 	@FXML private ScrollPane userScrollPane;
 	@FXML private HBox userBench;
@@ -54,12 +55,13 @@ public class GameController {
 	@FXML private HBox AIHand;
 	@FXML private HBox aiActivePokemon;
 	@FXML private HBox userActivePokemon;
-	@FXML private Button UserEndTurnBtn;
+	@FXML private Button UserEndTurnBtn,UDscrd,aiDscrd;
 	@FXML private Label userDamage;
-	@FXML private Label aiDamage;
+	@FXML private Label aiDamage,AIDeck,UserDeck,AIDiscardPile,UserDiscardPile,Userhand,AIhand;
 	@FXML private Pane gameStage;
 	@FXML private BorderPane gameBoard;
 	@FXML private VBox btndn_rew,aiDisc_deck,AIReward,UIDisc_deck;
+	
 	private GameController(){
 	}
 	
@@ -70,9 +72,11 @@ public class GameController {
         return controller;
     }
 	
+	public void toss(){
+		turn = Turn.getInstance().toss();
+	}
+	
  	public void init(){
-		
- 		boolean[] turn = Turn.getInstance().toss();
 		user = new UserPlayer("Flash");
 		ai = new AIplayer("Future Flash");
 		UserEndTurnBtn.setOnAction(new EventHandler<ActionEvent>() {
@@ -80,6 +84,25 @@ public class GameController {
 		    	Turn.getInstance().changeTurn();
 		    }
 		});
+		UDscrd.setOnAction(new EventHandler<ActionEvent>(){
+
+			@Override
+			public void handle(ActionEvent event) {
+				// TODO Auto-generated method stub
+				viewDiscard();
+			}
+			
+		});
+		aiDscrd.setOnAction(new EventHandler<ActionEvent>()
+				{
+
+					@Override
+					public void handle(ActionEvent event) {
+						// TODO Auto-generated method stub
+						aiviewDiscard();
+					}
+			
+				});
     	addCardsToPanel(user.dealMultipleCards(7),userHand);
     	addCardsToPanel(ai.dealMultipleCards(7), AIHand);
 		Turn.getInstance().setPlayer(ai,user);
@@ -100,6 +123,7 @@ public class GameController {
     		}
     		panel.getChildren().add(newCard);
     	}
+    	GameController.getInstance().ulabelUpdate();
     }
     
     public void removeCard(String id, HBox panel){
@@ -108,6 +132,7 @@ public class GameController {
     			panel.getChildren().remove(node);
     		}
     	}
+    	GameController.getInstance().ulabelUpdate();
     }
     
     public void addCardToPanel(cardItem card, HBox panel){
@@ -119,6 +144,7 @@ public class GameController {
     		newCard = createCard(card, panel);
     	}
     	panel.getChildren().add(newCard);
+    	GameController.getInstance().ulabelUpdate();
     }
       
     private PokemonCard createPokemonCard(Pokemon pokemon, HBox panel){
@@ -160,7 +186,9 @@ public class GameController {
     	}
     	else if(tempLoc==userActivePokemon){
 			optionsList.add("View card abilities");
-    		optionsList.add("Retreat");
+			if(user.getActivePokemon().getStatus()!="stuck"){
+				optionsList.add("Retreat");
+			}
     	}
     	if(optionsList.isEmpty()){
     		
@@ -177,6 +205,7 @@ public class GameController {
         		   		pokemonCard.setLocation(userActivePokemon);
         		   		user.setActivePokemon(pokemonCard.getCard());
         		   		((CardsGroup) user.getInhand()).removeCard(user.getActivePokemon());
+        		   		GameController.getInstance().ulabelUpdate();
         				break;
         			case "Put on bench":
         				pokemonCard.setLayoutX(0);
@@ -184,6 +213,7 @@ public class GameController {
         		   		pokemonCard.setLocation(userBench);
         		   		user.getBench().addCard(pokemonCard.getCard());
         		   		((CardsGroup) user.getInhand()).removeCard(pokemonCard.getCard());
+        		   		GameController.getInstance().ulabelUpdate();
         				break;
         			case "Retreat":
             			ArrayList<String> benchCards = new ArrayList<String>();
@@ -232,7 +262,8 @@ public class GameController {
         				if(card!=null){
         					card.evolve(pokemonCard.getCard());
         					userHand.getChildren().remove(pokemonCard);
-        					user.evolve(pokemonCard.getCard(), pokemonCard.getBasicCard());
+        					user.evolve(card.getCard(), card.getBasicCard());
+        					GameController.getInstance().ulabelUpdate();
         				}
         				else{
         					Debug.message("No pokemon found");
@@ -251,12 +282,13 @@ public class GameController {
             			grid.setPadding(new Insets(20, 150, 10, 10));
         		   			    	
             			final ToggleGroup group = new ToggleGroup();
-        		   	
+            			int z=0;
             			for(ability a : user.getActivePokemon().getAbilities()){
             				FlowPane temppane = new FlowPane();
             				RadioButton rb = new RadioButton(a.getName());
+            				rb.setUserData(a.getName());
             				
-            				if(a instanceof damageAbility && !(user.getActivePokemon().getAttachedCardsCount()>=((damageAbility) a).getEnergyInfo().size())){
+            				if(!(user.getActivePokemon().checkEnergyNeeds(a)) || user.getActivePokemon().getStatus()=="paralyzed" || user.getActivePokemon().getStatus()=="asleep"){
             					rb.setDisable(true);
             				}
             				rb.setUserData(a.getName());
@@ -264,12 +296,13 @@ public class GameController {
             				temppane.getChildren().add(rb);
             				if(a instanceof damageAbility)
             					temppane.getChildren().add(new Label(Integer.toString(((damageAbility) a).getDamage())));
-            				grid.add(temppane, 0, 0);
+            				grid.add(temppane, 0, z);
+            				z++;
             			}
             			abilitiesDialog.getDialogPane().setContent(grid);
             			abilitiesDialog.getResult();
             			abilitiesDialog.setResultConverter(dialogButton -> {
-            				if (dialogButton == attackButton) {
+            				if (dialogButton == attackButton){
             					return group.getSelectedToggle().getUserData().toString();
             				}
             				return null;
@@ -293,8 +326,10 @@ public class GameController {
             				for(ability b: user.getActivePokemon().getAbilities()){
             					if(b.getName()==result2.get()){
             						b.useAbility();
-            						Debug.message("Adding Damage to "+ai.getActivePokemon().getName() +" "+ai.getActivePokemon().getDamage());
-            						aiDamage.setText(Integer.toString(ai.getActivePokemon().getDamage()));
+            						if(ai.getActivePokemon()!=null){
+            							Debug.message("Adding Damage to "+ai.getActivePokemon().getName() +" "+ai.getActivePokemon().getDamage());
+            							aiDamage.setText(Integer.toString(ai.getActivePokemon().getDamage()));
+            						}
             					}
         		    		}
             			}
@@ -302,7 +337,7 @@ public class GameController {
         		}
         	}
     	}
-	}
+    	GameController.getInstance().ulabelUpdate();	}
 
 	private GeneralCard createCard(cardItem card, HBox panel){
     	GeneralCard newCard = new GeneralCard(card);
@@ -411,6 +446,7 @@ public class GameController {
 			activePokemon.getChildren().clear();
 			activePokemon.getChildren().add(createPokemonCard(player.getActivePokemon()));
 		}
+		GameController.getInstance().ulabelUpdate();
 	}
     
 	public void addCardsToAIPanel(cardItem[] cards, HBox panel){
@@ -443,11 +479,13 @@ public class GameController {
 		if(player=="user"){
 			newcard = user.dealCard();
 			addCardToPanel(newcard, userHand);
+			
 		}
 		else {
 			newcard = ai.dealCard();
 			ai.updateGUI();
 		}
+		GameController.getInstance().ulabelUpdate();
 		
 	}
 	
@@ -486,15 +524,18 @@ public class GameController {
 				}
 			}
 		}
+		GameController.getInstance().ulabelUpdate();
 		return null;
 	}
 	
-	public void knockout(){
+	public void knockout()
+	{
 		Player player = Turn.getInstance().getOpponent();
 		if(player!=null){
 		if(player instanceof UserPlayer){
 			PokemonCard card = (PokemonCard) userActivePokemon.getChildren().remove(0);
 			user.getDiscardPile().addCard(card.getCard());
+			
 			if(user.getBench().getCard().length != 0){
 				ArrayList<String> optionsList = new ArrayList<String>();
 				for(cardItem pCard: user.getBench().getCard()){
@@ -529,6 +570,7 @@ public class GameController {
 			}
 		}
 		}
+		GameController.getInstance().ulabelUpdate();
 	}
 	
 	private void winOrLoss(){
@@ -649,21 +691,105 @@ public class GameController {
 			benchCards.add(String.valueOf(id));
     	}
     	DialogBoxHandler dBox = new DialogBoxHandler();
-		String select = dBox.getDialog(benchCards);
-
-		Pokemon benchC = null;
-		if(select!=null)
-		{
-			//Debug.message(select);
-			for(cardItem pokemon: player.getBench().getCard())
-			{
-				if(pokemon.getID() == Integer.parseInt(select))
-				{
-					benchC = (Pokemon) pokemon;
-				}
+    	Pokemon benchC = null;
+    	if(!benchCards.isEmpty()){
+    		
+    		String select = dBox.getDialog(benchCards);
+    		if(select!=null){
+    			//Debug.message(select);
+    			for(cardItem pokemon: player.getBench().getCard()){
+    				if(pokemon.getID() == Integer.parseInt(select)){
+    					benchC = (Pokemon) pokemon;
+    				}
+    			}
 			}
-		}
+    	}
 		return benchC;
 	}
+	 //Label values 
 	
+
+
+	public void ulabelUpdate() {
+		// TODO Auto-generated method stub
+		AIDeck.setText("AIDeck "+ ai.getDeck().getGroupCards().size());
+		UserDeck.setText("User Deck "+ user.getDeck().getGroupCards().size());
+		UserDiscardPile.setText("DiscardPile "+ user.getDiscardPile().getGroupCards().size());
+		//UserDiscardPile.setText("DiscardPile "+ user.getDiscardPile().getGroupCards().size());
+		AIDiscardPile.setText("DiscardPile " + ai.getDiscardPile().getGroupCards().size());
+		Userhand.setText("Uhand "+ user.getInhandCards().length);
+		AIhand.setText("AIHand "+ai.getInhandCards().length);
+	}
+
+	public boolean getAbilityChoice(){
+		ButtonType Yes = new ButtonType("Yes", ButtonBar.ButtonData.YES);
+        ButtonType No = new ButtonType("No", ButtonBar.ButtonData.NO);
+        Alert ts = new Alert(Alert.AlertType.INFORMATION,"Are you sure you want to use this ability?",Yes,No);
+        Optional<ButtonType> result1 = ts.showAndWait();
+        if (result1.get().getText().toString() == "Yes")
+        {
+            return true;
+        }
+        return false;
+	}
+	
+	
+	
+	
+    public void viewDiscard()  //user dicardpile view
+    {
+    	
+    	
+    	//String[] allcards = new String[user.getDiscardPile().getGroupCards().size()];
+    	//allcards = user.getDiscardPile().getGroupCards().toArray(allcards);
+    	ArrayList<String> crds = new ArrayList<>();
+    	crds.add("ok");
+    	crds.add("okkk");
+    //	crds = allcards;
+    	//crds = (ArrayList<String>) Arrays.asList(allcards); 
+    	//DialogBoxHandler dialog = new DialogBoxHandler();
+    	ChoiceDialog<String> dialog = new ChoiceDialog<>("b", crds);
+    	dialog.setTitle("See Details Of Dicsard Card");
+    	//dialog.setHeaderText("Look, a Choice Dialog");
+    	dialog.setContentText("Select ID to see more details.");
+    	Optional<String> result= dialog.showAndWait();
+    	//result.ifPresent(chosen -> System.out.println(chosen));
+    	if(result.isPresent())
+    	{
+    		Alert details = new Alert(AlertType.INFORMATION);
+    		details.setTitle("Card Deatils.");
+    		details.setContentText("here are the detais of card");
+    		details.showAndWait();
+    	}
+        
+    }
+      
+    public void aiviewDiscard()
+    {
+    	
+    	
+    	//String[] allcards = new String[user.getDiscardPile().getGroupCards().size()];
+    	//allcards = user.getDiscardPile().getGroupCards().toArray(allcards);
+    	ArrayList<String> crds = new ArrayList<>();
+    	crds.add("ok");
+    	crds.add("okkk");
+    //	crds = allcards;
+    	//crds = (ArrayList<String>) Arrays.asList(allcards); 
+    	//DialogBoxHandler dialog = new DialogBoxHandler();
+    	ChoiceDialog<String> dialog = new ChoiceDialog<>("b", crds);
+    	dialog.setTitle("See Details Of Dicsard Card");
+    	//dialog.setHeaderText("Look, a Choice Dialog");
+    	dialog.setContentText("Select ID to see more details.");
+    	Optional<String> result= dialog.showAndWait();
+    	//result.ifPresent(chosen -> System.out.println(chosen));
+    	if(result.isPresent())
+    	{
+    		Alert details = new Alert(AlertType.INFORMATION);
+    		details.setTitle("Card Deatils.");
+    		details.setContentText("here are the detais of card");
+    		details.showAndWait();
+    	}
+        
+    }
+    
 }

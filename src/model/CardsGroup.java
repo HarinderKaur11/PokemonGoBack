@@ -2,17 +2,24 @@ package model;
 
 import java.util.ArrayList;
 
-public class CardsGroup implements cardItem {
-	
+import controller.GameController;
+
+public class CardsGroup implements cardItem
+{
+	int uDeck,aiDeck;
 	private ArrayList<cardItem> groupCards = new ArrayList<cardItem>();
 	
-	public void addCard(cardItem newCard){
+	public void addCard(cardItem newCard)
+	{
 		this.getGroupCards().add(newCard);
+		
 	}
 	
 	public void addCards(cardItem[] newCards){
-		for(cardItem card: newCards){
+		for(cardItem card: newCards)
+		{
 			this.addCard(card);
+			
 		}
 	}
 	
@@ -26,6 +33,7 @@ public class CardsGroup implements cardItem {
 	}
 	
 	public cardItem removeFirstCard(){
+		GameController.getInstance().ulabelUpdate();
 		return this.getGroupCards().remove(0);
 	}
 	
@@ -34,13 +42,16 @@ public class CardsGroup implements cardItem {
 	}
 	
 	public void removeCard(cardItem newCard){
+	 GameController.getInstance().ulabelUpdate();
 		this.getGroupCards().remove(newCard);
+		
 	}
 	
 	public Pokemon getBasicPokemonCard(){
 		for(cardItem card : groupCards){
 			if(card instanceof Pokemon && ((Pokemon) card).getStage()=="basic"){
 				groupCards.remove(card);
+				GameController.getInstance().ulabelUpdate();
 				return (Pokemon) card;
 			}
 		}
@@ -61,8 +72,20 @@ public class CardsGroup implements cardItem {
 				pokemonCards.add((Pokemon) card);
 			}
 		}
+		//GameController.getInstance().ulabelUpdate();
 		return pokemonCards;
 	}
+	
+	public ArrayList<Pokemon> getAllPokemonCard(){
+		ArrayList<Pokemon> pokemonCards = new ArrayList<Pokemon>();
+		for(cardItem card : groupCards){
+			if(card instanceof Pokemon){
+				pokemonCards.add((Pokemon) card);
+			}
+		}
+		return pokemonCards;
+	}
+	
 	public ArrayList<Energy> getAllEnergyCards(){
 		ArrayList<Energy> energyCards = new ArrayList<Energy>();
 		for(cardItem card : groupCards){
@@ -114,14 +137,15 @@ public class CardsGroup implements cardItem {
 	}
 
 	public ArrayList<cardItem> getGroupCards() {
-		return this.groupCards;
+				return this.groupCards;
 	}
 
 	public void setGroupCards(ArrayList<cardItem> groupCards) {
 		this.groupCards = groupCards;
 	}
 
-	public ArrayList<cardItem> getCardsOfType(Class<?> newClassType) {
+	public ArrayList<cardItem> getCardsOfType(Class<?> newClassType) 
+	{
 		return null;
 	}
 
