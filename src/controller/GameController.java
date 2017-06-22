@@ -46,6 +46,7 @@ public class GameController {
 	private UserPlayer user;
 	private AIplayer ai;
 	private boolean[] turn;
+	boolean energyused =false;
 
 	@FXML private ScrollPane userScrollPane;
 	@FXML private HBox userBench;
@@ -81,6 +82,7 @@ public class GameController {
 		ai = new AIplayer("Future Flash");
 		UserEndTurnBtn.setOnAction(new EventHandler<ActionEvent>() {
 		    @Override public void handle(ActionEvent e) {
+		    	energyused = false;
 		    	Turn.getInstance().changeTurn();
 		    }
 		});
@@ -348,7 +350,9 @@ public class GameController {
     			@Override 
     			public void handle(ActionEvent e) {
     				if(card instanceof Energy){
-    					EnergyOptions(newCard);
+    					if(energyused==false){
+    						EnergyOptions(newCard);
+    					}
     				}
     				else if(card instanceof Trainer){
     					trainerOptions(newCard);
@@ -381,6 +385,7 @@ public class GameController {
 			userHand.getChildren().remove(newcard);
 			((CardsGroup) user.getInhand()).removeCard(newcard.getCard());
 			benchC.attachCard(newcard.getCard());
+			energyused = true;
 		}
     }
         
