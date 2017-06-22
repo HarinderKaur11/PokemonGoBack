@@ -56,13 +56,14 @@ public class Deck extends CardsGroup{
 		for(;j<18;j++){
 			ArrayList<ability> newAbility = new ArrayList<ability>();
 			ArrayList<EnergyNode> EnergyInfo = new ArrayList<EnergyNode>();
-			EnergyInfo.add(new EnergyNode(new Energy("Fighting"),1));
-			String a = "ConditionAbility:cond:healed:target:your-active:dam:target:opponent-active:80";
+			EnergyInfo.add(new EnergyNode(new Energy("Fighting Energy"),1));
+			String a = "Scratch:dam:target:opponent-active:20";
 			AbilityParser ap = new AbilityParser();
 			ability abilt = ap.parseAbilities(a, EnergyInfo);
 			newAbility.add(abilt);
+			Retreat retreat = null;
 			//Debug.message(abilt.getName());
-				this.getGroupCards().add(new Pokemon(j, "Pikachu", new basicPokemon(), 80, newAbility));
+				this.getGroupCards().add(new Pokemon(j, "Pikachu", new basicPokemon(), 80, newAbility,retreat));
 
 //				this.getGroupCards().add(new Trainer(j+18, "Heal Trainer", "item", new healingAbility("Heal pokemon",30,"youractive")));
 //				this.getGroupCards().add(new Trainer(j+18, "Deck Ability", "item", new DeckAbility("Deck Ability","opponent", "deck", 0, "opponenthand")));
@@ -73,9 +74,9 @@ public class Deck extends CardsGroup{
 		}
 		for(;j<60;j++){
 			ArrayList<ability> newAbility = new ArrayList<ability>();
-			ArrayList<Energy> EnergyInfo = new ArrayList<Energy>();
-			EnergyInfo.add(new Energy("Fighting"));
-			this.getGroupCards().add(new Pokemon(j,"Raichu", new stageOnePokemon("Pikachu"), 30, newAbility));
+			ArrayList<EnergyNode> EnergyInfo = new ArrayList<EnergyNode>();
+			EnergyInfo.add(new EnergyNode(new Energy("Fighting Energy"),1));
+			this.getGroupCards().add(new Pokemon(j,"Raichu", new stageOnePokemon("Pikachu"), 30, newAbility,null));
 		}
 		//this.shufflecards();
 	}
