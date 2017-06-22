@@ -89,11 +89,18 @@ public class Pokemon implements cardItem{
 		return this.status;
 	}
 	
+	public void setStatus(String newstatus){
+		this.status = newstatus;
+	}
+	
 	public void attachCard(cardItem newCard){
+		GameController.getInstance().ulabelUpdate();
 		this.attachedCards.add(newCard);
+		
 	}
 	
 	public void dettachCard(cardItem newCard){
+		GameController.getInstance().ulabelUpdate();
 		this.attachedCards.remove(newCard);
 	}
 	
@@ -109,6 +116,7 @@ public class Pokemon implements cardItem{
 				i--;
 			}
 		}
+		GameController.getInstance().ulabelUpdate();
 		return cards.toArray(new cardItem[cards.size()]);
 	}
 	
@@ -124,21 +132,33 @@ public class Pokemon implements cardItem{
 	public cardItem[] getAttachedCards(){
 		return this.attachedCards.toArray(new cardItem[this.attachedCards.size()]);
 	}
-	public int totalEnergyRequired(){
-		int totalEnergy = 0;
-		for(ability ablt : this.getAbilities()){
-			int temp = 0;
-			if(ablt instanceof damageAbility){
-				temp = ((damageAbility) ablt).getEnergyInfo().size();
-			}
-			else if(ablt instanceof CompositeAbility){
-				temp = ((CompositeAbility) ablt).getEnergyInfo().size();
-			}
-			if(temp>totalEnergy){
-				totalEnergy = temp;
+	public boolean checkEnergyNeeds(ability a){
+				
+		int tempEnergyCount = 0;
+		ArrayList<Energy> energyCard = new ArrayList<Energy>();
+		for(cardItem card : this.getAttachedCards()){
+			if(card.getClass() == Energy.class){
+				energyCard.add((Energy) card);
 			}
 		}
-		return totalEnergy;
+		
+		if(!(a.getEnergyInfoSize() <= energyCard.size())){
+			return false;
+		}
+		
+		for(EnergyNode e: a.getEnergyInfo()){
+			if(!e.getEnergyType().equals("colorless")){
+				for(Energy eCard : energyCard){
+					if(eCard.getName().equals(e.getEnergyType())){
+						tempEnergyCount++;
+					}
+				}
+				if(tempEnergyCount!=e.getEnergyCount()){
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 	
 	public void evolve(Pokemon basicCard){
@@ -159,22 +179,6 @@ public class Pokemon implements cardItem{
 		}
 		return false;
 	}
-	
-//	public static void main(String[] arg){
-//		pokemonStage newPokemonStage = new stageOnePokemon("Pikachu");
-//		pokemonStage newPokemon2Stage = new basicPokemon();
-//		ArrayList<ability> newAbilities = new ArrayList<ability>();
-//		Energy[] energyRequired = {new Energy("Lighting",6)};
-//		newAbilities.add(new damageAbility("Thunder Bolt", 20, energyRequired, "Pokemon"));
-//		Pokemon pikachu = new Pokemon(2, "Raichu", newPokemonStage, 80, newAbilities);
-//		ability[] ability = pikachu.getAbilities();
-//		
-//		System.out.println(pikachu.getStage() +" "+ pikachu.getName() + " " + pikachu.getDamage() +" "+ ability[0].getClass().getName());
-//		
-//		Pokemon meow = new Pokemon(1, "Meow", newPokemon2Stage, 80, newAbilities); 
-//		System.out.print(meow.getStage());
-//	}
-
 	public int getHP() {
 		return this.hitpoints;
 	}
@@ -238,4 +242,29 @@ public class Pokemon implements cardItem{
 		}
 		return i;
 	}
+
+	
+	public static void main(String[] arg){
+//		pokemonStage newPokemonStage = new stageOnePokemon("Pikachu");
+//		pokemonStage newPokemon2Stage = new basicPokemon();
+//		ArrayList<ability> newAbilities = new ArrayList<ability>();
+//		ArrayList<EnergyNode> energyRequired = new ArrayList<EnergyNode>();
+//		energyRequired.add(new EnergyNode(new Energy("colorless"),6));
+//		newAbilities.add(new damageAbility("Thunder Bolt", 20, energyRequired, "opponentactive", null));
+//		Pokemon pikachu = new Pokemon(2, "Pikachu", newPokemon2Stage, 80, newAbilities);
+		
+		Deck deck = new Deck(2);
+		deck.readFile();
+		CardParser cparser = new CardParser(deck);
+		String[] card = ("Pikachu:pokemon:cat:basic:cat:lightning:60:retreat:cat:colorless:1:attacks:cat:colorless:1:5,cat:colorless:2:6").split(":"); 
+		
+		Pokemon pikachu = (Pokemon) cparser.createPokemon(1, card);
+		for(ability a:pikachu.getAbilities()){
+			System.out.print(pikachu.getStage() +" "+ pikachu.getName() + " " + pikachu.getDamage() +" "+ a.getName()+" ");
+			for(EnergyNode node:a.getEnergyInfo()){
+				Debug.message(node.getEnergyType() + " " + node.getEnergyCount());
+			}			
+		}
+	}
+	
 }
