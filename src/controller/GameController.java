@@ -339,6 +339,9 @@ public class GameController {
             							Debug.message("Adding Damage to "+ai.getActivePokemon().getName() +" "+ai.getActivePokemon().getDamage());
             							aiDamage.setText(Integer.toString(ai.getActivePokemon().getDamage()));
             						}
+            						if(Turn.getInstance().getCurrentPlayer()==user){
+            							Turn.getInstance().changeTurn();
+            						}
             					}
         		    		}
             			}
@@ -346,7 +349,8 @@ public class GameController {
         		}
         	}
     	}
-    	GameController.getInstance().ulabelUpdate();	}
+    	GameController.getInstance().ulabelUpdate();	
+    }
 
 	private GeneralCard createCard(cardItem card, HBox panel){
     	GeneralCard newCard = new GeneralCard(card);

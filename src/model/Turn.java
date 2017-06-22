@@ -66,22 +66,24 @@ public class Turn {
 			}
 		}
 		ArrayList<Pokemon> pokemons = this.getCurrentPlayer().getPokemonFromBenchAndActive();
-		if(!pokemons.isEmpty()){
-			for(Pokemon p:pokemons){
-				switch(p.getStatus()){
-					case "asleep":
-						Random random = new Random();
-			            int number = random.nextInt(2);
-			            if(number == 0){
-			            	p.setState("normal");
-			            }
-			            break;
-					case "paralyzed": case "stuck":
-						p.setStatus("normal");
-						break;
-					case "poisoned":
-						p.addDamage(10);
-						break;
+		if(pokemons!=null){
+			if(!pokemons.isEmpty()){
+				for(Pokemon p:pokemons){
+					switch(p.getStatus()){
+						case "asleep":
+							Random random = new Random();
+							int number = random.nextInt(2);
+							if(number == 0){
+								p.setState("normal");
+							}
+							break;
+						case "paralyzed": case "stuck":
+							p.setStatus("normal");
+							break;
+						case "poisoned":
+							p.addDamage(10);
+							break;
+					}
 				}
 			}
 		}
