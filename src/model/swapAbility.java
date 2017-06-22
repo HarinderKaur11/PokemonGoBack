@@ -40,6 +40,7 @@ public class swapAbility extends ability{
 		GameController.getInstance().addCardToPanel(active, GameController.getInstance().getBench(player));
 		GameController.getInstance().removeCard(String.valueOf(bench.getID()), GameController.getInstance().getBench(player));
 		GameController.getInstance().addCardToPanel(bench,GameController.getInstance().getactivepokemon(player));
+		GameController.getInstance().ulabelUpdate();
 	}
 		
 		

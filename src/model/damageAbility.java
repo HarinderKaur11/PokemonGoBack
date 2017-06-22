@@ -2,6 +2,10 @@ package model;
 
 import java.util.ArrayList;
 
+import controller.GameController;
+
+
+
 public class damageAbility extends ability {
 	private int damageValue;
 	private String count;
@@ -31,7 +35,7 @@ public class damageAbility extends ability {
 			pokm.addDamage(this.damageValue*times);
 		}
 		Turn.getInstance().changeTurn();
-	
+	   // GameController.getInstance().ulabelUpdate();
 	}
 	
 	public int getDamage(){

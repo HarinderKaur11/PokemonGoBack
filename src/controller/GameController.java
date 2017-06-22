@@ -15,6 +15,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
@@ -54,14 +55,14 @@ public class GameController {
 	@FXML private HBox AIHand;
 	@FXML private HBox aiActivePokemon;
 	@FXML private HBox userActivePokemon;
-	@FXML private Button UserEndTurnBtn;
+	@FXML private Button UserEndTurnBtn,UDscrd,aiDscrd;
 	@FXML private Label userDamage;
 	@FXML private Label aiDamage,AIDeck,UserDeck,AIDiscardPile,UserDiscardPile,Userhand,AIhand;
 	@FXML private Pane gameStage;
 	@FXML private BorderPane gameBoard;
 	@FXML private VBox btndn_rew,aiDisc_deck,AIReward,UIDisc_deck;
 	
-	private HBox userDiscardPile;
+	private HBox aiDiscardPile;
 	
 	private GameController(){
 	}
@@ -81,13 +82,32 @@ public class GameController {
 		user = new UserPlayer("Flash");
 		ai = new AIplayer("Future Flash");
 		
-		userDiscardPile = new HBox();
+		aiDiscardPile = new HBox();
 		
 		UserEndTurnBtn.setOnAction(new EventHandler<ActionEvent>() {
 		    @Override public void handle(ActionEvent e) {
 		    	Turn.getInstance().changeTurn();
 		    }
 		});
+		UDscrd.setOnAction(new EventHandler<ActionEvent>(){
+
+			@Override
+			public void handle(ActionEvent event) {
+				// TODO Auto-generated method stub
+				viewDiscard();
+			}
+			
+		});
+		aiDscrd.setOnAction(new EventHandler<ActionEvent>()
+				{
+
+					@Override
+					public void handle(ActionEvent event) {
+						// TODO Auto-generated method stub
+						aiviewDiscard();
+					}
+			
+				});
     	addCardsToPanel(user.dealMultipleCards(7),userHand);
     	addCardsToPanel(ai.dealMultipleCards(7), AIHand);
 		Turn.getInstance().setPlayer(ai,user);
@@ -252,6 +272,7 @@ public class GameController {
         					card.evolve(pokemonCard.getCard());
         					userHand.getChildren().remove(pokemonCard);
         					user.evolve(card.getCard(), card.getBasicCard());
+        					GameController.getInstance().ulabelUpdate();
         				}
         				else{
         					Debug.message("No pokemon found");
@@ -325,7 +346,7 @@ public class GameController {
         		}
         	}
     	}
-	}
+    	GameController.getInstance().ulabelUpdate();	}
 
 	private GeneralCard createCard(cardItem card, HBox panel){
     	GeneralCard newCard = new GeneralCard(card);
@@ -523,6 +544,7 @@ public class GameController {
 		if(player instanceof UserPlayer){
 			PokemonCard card = (PokemonCard) userActivePokemon.getChildren().remove(0);
 			user.getDiscardPile().addCard(user.getActivePokemon());
+
 			if(user.getBench().getCard().length != 0){
 				ArrayList<String> optionsList = new ArrayList<String>();
 				for(cardItem pCard: user.getBench().getCard()){
@@ -703,6 +725,7 @@ public class GameController {
 		AIDeck.setText("AIDeck "+ ai.getDeck().getGroupCards().size());
 		UserDeck.setText("User Deck "+ user.getDeck().getGroupCards().size());
 		UserDiscardPile.setText("DiscardPile "+ user.getDiscardPile().getGroupCards().size());
+		//UserDiscardPile.setText("DiscardPile "+ user.getDiscardPile().getGroupCards().size());
 		AIDiscardPile.setText("DiscardPile " + ai.getDiscardPile().getGroupCards().size());
 		Userhand.setText("Uhand "+ user.getInhandCards().length);
 		AIhand.setText("AIHand "+ai.getInhandCards().length);
@@ -720,5 +743,63 @@ public class GameController {
         return false;
 	}
 	
-
+	
+	
+	
+    public void viewDiscard()  //user dicardpile view
+    {
+    	
+    	
+    	//String[] allcards = new String[user.getDiscardPile().getGroupCards().size()];
+    	//allcards = user.getDiscardPile().getGroupCards().toArray(allcards);
+    	ArrayList<String> crds = new ArrayList<>();
+    	crds.add("ok");
+    	crds.add("okkk");
+    //	crds = allcards;
+    	//crds = (ArrayList<String>) Arrays.asList(allcards); 
+    	//DialogBoxHandler dialog = new DialogBoxHandler();
+    	ChoiceDialog<String> dialog = new ChoiceDialog<>("b", crds);
+    	dialog.setTitle("See Details Of Dicsard Card");
+    	//dialog.setHeaderText("Look, a Choice Dialog");
+    	dialog.setContentText("Select ID to see more details.");
+    	Optional<String> result= dialog.showAndWait();
+    	//result.ifPresent(chosen -> System.out.println(chosen));
+    	if(result.isPresent())
+    	{
+    		Alert details = new Alert(AlertType.INFORMATION);
+    		details.setTitle("Card Deatils.");
+    		details.setContentText("here are the detais of card");
+    		details.showAndWait();
+    	}
+        
+    }
+      
+    public void aiviewDiscard()
+    {
+    	
+    	
+    	//String[] allcards = new String[user.getDiscardPile().getGroupCards().size()];
+    	//allcards = user.getDiscardPile().getGroupCards().toArray(allcards);
+    	ArrayList<String> crds = new ArrayList<>();
+    	crds.add("ok");
+    	crds.add("okkk");
+    //	crds = allcards;
+    	//crds = (ArrayList<String>) Arrays.asList(allcards); 
+    	//DialogBoxHandler dialog = new DialogBoxHandler();
+    	ChoiceDialog<String> dialog = new ChoiceDialog<>("b", crds);
+    	dialog.setTitle("See Details Of Dicsard Card");
+    	//dialog.setHeaderText("Look, a Choice Dialog");
+    	dialog.setContentText("Select ID to see more details.");
+    	Optional<String> result= dialog.showAndWait();
+    	//result.ifPresent(chosen -> System.out.println(chosen));
+    	if(result.isPresent())
+    	{
+    		Alert details = new Alert(AlertType.INFORMATION);
+    		details.setTitle("Card Deatils.");
+    		details.setContentText("here are the detais of card");
+    		details.showAndWait();
+    	}
+        
+    }
+    
 }

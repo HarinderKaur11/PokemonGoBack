@@ -95,7 +95,7 @@ public class Player {
 				return card;
 			}
 		}
-		GameController.getInstance().ulabelUpdate();
+		//GameController.getInstance().ulabelUpdate();
 		return null;
 	}
 	
@@ -108,6 +108,7 @@ public class Player {
 		else{
 			this.getBench().addCard(stageOnePokemon);
 		}
+		GameController.getInstance().ulabelUpdate();
 	}
 	
 	public static void main(String arg[]){
