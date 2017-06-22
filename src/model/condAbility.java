@@ -114,6 +114,7 @@ public class condAbility extends ability{
 				break;
 			}
 		}
+		GameController.getInstance().ulabelUpdate();
 	}
 	
 	public boolean equals(Object o) {

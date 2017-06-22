@@ -42,7 +42,7 @@ public class CardsGroup implements cardItem
 	}
 	
 	public void removeCard(cardItem newCard){
-	GameController.getInstance().ulabelUpdate();
+	 GameController.getInstance().ulabelUpdate();
 		this.getGroupCards().remove(newCard);
 		
 	}

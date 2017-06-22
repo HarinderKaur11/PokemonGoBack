@@ -2,6 +2,8 @@ package model;
 
 import java.util.ArrayList;
 
+import controller.GameController;
+
 public class DeckAbility extends ability {
 
 	private String targetDestination;
@@ -25,6 +27,7 @@ public class DeckAbility extends ability {
 			cardItem nCard = ((CardsGroup) target.getTargetObject(this.choice).getTarget()).removeFirstCard();
 			((CardsGroup) this.getTargetLocation(this.targetDestination,this.abilitytarget)).addCard(nCard);
 		}
+		GameController.getInstance().ulabelUpdate();
 	}
 	
 	public boolean equals(Object o) {

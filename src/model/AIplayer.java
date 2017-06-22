@@ -88,6 +88,7 @@ public class AIplayer extends Player {
 		{
 			Turn.getInstance().changeTurn();
 		}
+		GameController.getInstance().ulabelUpdate();
 	}
 	
 	public boolean checkAndPlayEnergy(ArrayList<Energy> energyCards){
@@ -133,6 +134,7 @@ public class AIplayer extends Player {
 				}
 			}
 		}
+		GameController.getInstance().ulabelUpdate();
 	}
 	
 	public void updateGUI(){
