@@ -27,7 +27,7 @@ public class Deenergize extends ability{
 		}
 		if(discardedEnergy!=null){
 			target.getTargetObject(abilitytarget).getPlayer().getDiscardPile().addCards(discardedEnergy);
-             
+			
 		}
 		GameController.getInstance().ulabelUpdate();
 	}
