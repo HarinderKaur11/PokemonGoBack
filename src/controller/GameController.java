@@ -61,6 +61,8 @@ public class GameController {
 	@FXML private BorderPane gameBoard;
 	@FXML private VBox btndn_rew,aiDisc_deck,AIReward,UIDisc_deck;
 	
+	private HBox userDiscardPile;
+	
 	private GameController(){
 	}
 	
@@ -78,6 +80,9 @@ public class GameController {
  	public void init(){
 		user = new UserPlayer("Flash");
 		ai = new AIplayer("Future Flash");
+		
+		userDiscardPile = new HBox();
+		
 		UserEndTurnBtn.setOnAction(new EventHandler<ActionEvent>() {
 		    @Override public void handle(ActionEvent e) {
 		    	Turn.getInstance().changeTurn();
@@ -224,17 +229,21 @@ public class GameController {
     							if(tempCard.getCard().getID() == Integer.parseInt(select))
     							{
     								benchC = tempCard;
-    								System.out.println(benchC.getCard().getName());
+    								//System.out.println(benchC.getCard().getName());
     							}
     						}
-//    						user.setActivePokemon(null);
-    						user.setActivePokemon(benchC.getCard());
-    			    		user.getBench().addCard(pokemonCard.getCard());
+//    						
+    						if(user.getActivePokemon().getRetreat().useAbility()){
+    						
+    							user.setActivePokemon(null);
+    							user.setActivePokemon(benchC.getCard());
+    							user.getBench().addCard(pokemonCard.getCard());
     			    		
-    			    		//userActivePokemon.getChildren().add(benchC);
-    			    		benchC.setLocation(userActivePokemon);
-    			    		//userBench.getChildren().add(pokemonCard);
-    			    		pokemonCard.setLocation(userBench);
+    							//userActivePokemon.getChildren().add(benchC);
+    							benchC.setLocation(userActivePokemon);
+    							//userBench.getChildren().add(pokemonCard);
+    							pokemonCard.setLocation(userBench);
+    						}
     					}
             			break;
         			case "Evolve":
@@ -513,7 +522,7 @@ public class GameController {
 		if(player!=null){
 		if(player instanceof UserPlayer){
 			PokemonCard card = (PokemonCard) userActivePokemon.getChildren().remove(0);
-			user.getDiscardPile().addCard(card.getCard());
+			user.getDiscardPile().addCard(user.getActivePokemon());
 			if(user.getBench().getCard().length != 0){
 				ArrayList<String> optionsList = new ArrayList<String>();
 				for(cardItem pCard: user.getBench().getCard()){
@@ -539,9 +548,10 @@ public class GameController {
 		}
 		else{
 			if(ai.getBench().getCard().length != 0){
-				PokemonCard card = (PokemonCard) aiActivePokemon.getChildren().remove(0);
-				ai.getDiscardPile().addCard(card.getCard());
+				ai.getDiscardPile().addCard(ai.getActivePokemon());
+				ai.setActivePokemon(null);
 				ai.activePokemonMove();
+				refreshCards(ai);
 			}
 			else{
 				winOrLoss();

@@ -19,8 +19,9 @@ public class Pokemon implements cardItem{
 	private ArrayList<ability> activeAbilities;
 	private PokemonCard uiCard;
 	private boolean healed = false;
+	private Retreat retreat;
 	
-	public Pokemon(int newId, String name, pokemonStage newPokemonStage, int newHp, ArrayList<ability> newAbilities){
+	public Pokemon(int newId, String name, pokemonStage newPokemonStage, int newHp, ArrayList<ability> newAbilities, Retreat newRetreat){
 		this.id = newId;
 		this.cardName = name;
 		this.pStage = newPokemonStage;
@@ -29,6 +30,7 @@ public class Pokemon implements cardItem{
 		this.activeAbilities = new ArrayList<ability>();
 		this.abilities = new ArrayList<ability>();
 		this.abilities.addAll(newAbilities);
+		this.retreat = newRetreat;
 	}
 	
 	public void addDamage(int newDamage){
@@ -91,6 +93,10 @@ public class Pokemon implements cardItem{
 	
 	public void setStatus(String newstatus){
 		this.status = newstatus;
+	}
+	
+	public Retreat getRetreat(){
+		return this.retreat;
 	}
 	
 	public void attachCard(cardItem newCard){
@@ -265,6 +271,18 @@ public class Pokemon implements cardItem{
 				Debug.message(node.getEnergyType() + " " + node.getEnergyCount());
 			}			
 		}
+	}
+
+	public boolean dettachCardType(String cname, int count) {
+		for(int i=0; i<count; i++){
+			for(cardItem card : this.attachedCards){
+				if(card.getName().equals(cname)){
+					this.attachedCards.remove(card);
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 	
 }

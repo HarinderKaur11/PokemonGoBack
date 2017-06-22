@@ -1,6 +1,8 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class CardParser {
 	
@@ -79,13 +81,26 @@ public class CardParser {
 			}
 		}
 		
+		String cardLine = String.join(" ", newCard);
+		Retreat retreat = null;
+		Matcher m = Pattern.compile("retreat\\scat\\s([^\\s]+)\\s([^\\s]+)\\s").matcher(cardLine);
+		String retreatEnergy = null;
+		String retreatNumber = null;
+		while(m.find()) {
+			retreatEnergy = m.group(1);
+			retreatNumber= m.group(2);
+	    }
+		if(retreatEnergy!=null && retreatNumber!=null){
+			retreat = new Retreat(retreatEnergy,Integer.parseInt(retreatNumber));
+		}
+		
 		if(newCard[3].equals("basic")){
 			//Debug.message(cards[15] + cards[0]);
-			return new Pokemon(newId, newCard[0], new basicPokemon(), Integer.parseInt(newCard[6]), abilities);
+			return new Pokemon(newId, newCard[0], new basicPokemon(), Integer.parseInt(newCard[6]), abilities,retreat);
 		}
 		else if(newCard[3].equals("stage-one")){
 			//Debug.message(cards[0] + " evolves from " + cards[4]);
-			return new Pokemon(newId, newCard[0], new stageOnePokemon(newCard[4]), Integer.parseInt(newCard[7]), abilities);
+			return new Pokemon(newId, newCard[0], new stageOnePokemon(newCard[4]), Integer.parseInt(newCard[7]), abilities, retreat);
 		}
 		else{
 			Debug.message("Not Running " + newCard[3]);
