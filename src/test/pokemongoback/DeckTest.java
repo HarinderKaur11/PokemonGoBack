@@ -3,8 +3,8 @@ package test.pokemongoback;
 import static org.junit.Assert.*;
 import org.junit.Test;
 import model.Deck;
-import test.stubs.Pokemon;
-import test.stubs.cardItem;
+import model.Pokemon;
+import model.cardItem;
 
 public class DeckTest {
 

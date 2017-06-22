@@ -2,7 +2,7 @@ package test.pokemongoback;
 
 import static org.junit.Assert.*;
 import org.junit.Test;
-import model.CardsGroup;
+import test.stubs.CardsGroup;
 import model.healingAbility;
 
 public class HealingAbilityEqualsTest {
