@@ -254,7 +254,6 @@ public class GameController {
     								//System.out.println(benchC.getCard().getName());
     							}
     						}
-//    						
     						if(user.getActivePokemon().getRetreat().useAbility()){
     						
     							user.setActivePokemon(null);
@@ -352,7 +351,11 @@ public class GameController {
         	}
     	}
     	GameController.getInstance().ulabelUpdate();	
-    }
+
+    	}
+
+    
+
 
 	private GeneralCard createCard(cardItem card, HBox panel){
     	GeneralCard newCard = new GeneralCard(card);
@@ -390,6 +393,7 @@ public class GameController {
         	((Trainer) newCard.getCard()).getAbility().useAbility();
         	
         }
+        
 	}
 	
 	private void EnergyOptions(GeneralCard newcard){
@@ -398,7 +402,10 @@ public class GameController {
 			userHand.getChildren().remove(newcard);
 			((CardsGroup) user.getInhand()).removeCard(newcard.getCard());
 			benchC.attachCard(newcard.getCard());
+			GameController.getInstance().ulabelUpdate();
+
 			energyused = true;
+
 		}
     }
         
@@ -549,20 +556,29 @@ public class GameController {
 	public void knockout()
 	{
 		Player player = Turn.getInstance().getOpponent();
-		if(player!=null){
+		if(player!=null)
+		{
 		if(player instanceof UserPlayer){
 			PokemonCard card = (PokemonCard) userActivePokemon.getChildren().remove(0);
+
+			user.getDiscardPile().addCard(card.getCard());
+			
+			
+			if(user.getBench().getCard().length != 0)
+			{
+
 			user.getDiscardPile().addCard(user.getActivePokemon());
 
 			if(user.getBench().getCard().length != 0){
+
 				ArrayList<String> optionsList = new ArrayList<String>();
 				for(cardItem pCard: user.getBench().getCard()){
 					optionsList.add(Integer.toString(pCard.getID()));
 				}
 				DialogBoxHandler dialog = new DialogBoxHandler();
 				String selected = dialog.getDialog(optionsList);
-			
-				if (selected!=null) {
+							if (selected!=null)
+							{
 					for(Node nodeCard : userBench.getChildren()){
 						if(((PokemonCard) nodeCard).getCard().getID() == Integer.parseInt(selected)){
 							((PokemonCard) nodeCard).setLocation(userActivePokemon);
@@ -579,8 +595,15 @@ public class GameController {
 		}
 		else{
 			if(ai.getBench().getCard().length != 0){
+
+				PokemonCard card = (PokemonCard) aiActivePokemon.getChildren().remove(0);
+				ai.getDiscardPile().addCard(card.getCard());
+				System.out.println("discard size is " + ai.getDiscardPile().getAllPokemonCard().size());
+	//GameController.getInstance().ulabelUpdssssate();
+
 				ai.getDiscardPile().addCard(ai.getActivePokemon());
 				ai.setActivePokemon(null);
+
 				ai.activePokemonMove();
 				refreshCards(ai);
 			}
@@ -591,6 +614,8 @@ public class GameController {
 		}
 		GameController.getInstance().ulabelUpdate();
 	}
+	}
+	
 	
 	private void winOrLoss(){
 		ButtonType NewGame = new ButtonType("New Game", ButtonBar.ButtonData.YES);
@@ -783,7 +808,7 @@ public class GameController {
         
     }
       
-    public void aiviewDiscard()
+    public void aiviewDiscard()   //AIDiscards
     {
     	
     	
