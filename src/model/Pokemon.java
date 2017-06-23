@@ -233,6 +233,7 @@ public class Pokemon implements cardItem{
 				}
 			}
 		}
+		GameController.getInstance().ulabelUpdate();
 	}
 
 	public int getAttachedCardsCount(Class<?> classtype) {
