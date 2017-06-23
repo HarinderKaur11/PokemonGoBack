@@ -254,7 +254,6 @@ public class GameController {
     								//System.out.println(benchC.getCard().getName());
     							}
     						}
-//    						
     						if(user.getActivePokemon().getRetreat().useAbility()){
     						
     							user.setActivePokemon(null);
@@ -352,11 +351,11 @@ public class GameController {
         	}
     	}
     	GameController.getInstance().ulabelUpdate();	
-<<<<<<< HEAD
+
     	}
-=======
-    }
->>>>>>> master
+
+    
+
 
 	private GeneralCard createCard(cardItem card, HBox panel){
     	GeneralCard newCard = new GeneralCard(card);
@@ -403,11 +402,10 @@ public class GameController {
 			userHand.getChildren().remove(newcard);
 			((CardsGroup) user.getInhand()).removeCard(newcard.getCard());
 			benchC.attachCard(newcard.getCard());
-<<<<<<< HEAD
 			GameController.getInstance().ulabelUpdate();
-=======
+
 			energyused = true;
->>>>>>> master
+
 		}
     }
         
@@ -562,17 +560,17 @@ public class GameController {
 		{
 		if(player instanceof UserPlayer){
 			PokemonCard card = (PokemonCard) userActivePokemon.getChildren().remove(0);
-<<<<<<< HEAD
+
 			user.getDiscardPile().addCard(card.getCard());
 			
 			
 			if(user.getBench().getCard().length != 0)
 			{
-=======
+
 			user.getDiscardPile().addCard(user.getActivePokemon());
 
 			if(user.getBench().getCard().length != 0){
->>>>>>> master
+
 				ArrayList<String> optionsList = new ArrayList<String>();
 				for(cardItem pCard: user.getBench().getCard()){
 					optionsList.add(Integer.toString(pCard.getID()));
@@ -597,15 +595,15 @@ public class GameController {
 		}
 		else{
 			if(ai.getBench().getCard().length != 0){
-<<<<<<< HEAD
+
 				PokemonCard card = (PokemonCard) aiActivePokemon.getChildren().remove(0);
 				ai.getDiscardPile().addCard(card.getCard());
 				System.out.println("discard size is " + ai.getDiscardPile().getAllPokemonCard().size());
-				//GameController.getInstance().ulabelUpdate();
-=======
+	//GameController.getInstance().ulabelUpdssssate();
+
 				ai.getDiscardPile().addCard(ai.getActivePokemon());
 				ai.setActivePokemon(null);
->>>>>>> master
+
 				ai.activePokemonMove();
 				refreshCards(ai);
 			}
@@ -616,6 +614,8 @@ public class GameController {
 		}
 		GameController.getInstance().ulabelUpdate();
 	}
+	}
+	
 	
 	private void winOrLoss(){
 		ButtonType NewGame = new ButtonType("New Game", ButtonBar.ButtonData.YES);
