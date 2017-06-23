@@ -51,6 +51,7 @@ public class AIplayer extends Player {
 		ArrayList<Energy> energyCards = ((CardsGroup) this.inhand).getAllEnergyCards();
 		if(!energyCards.isEmpty() && !energyCardUsed && this.activePokemon!=null){
 			energyCardUsed = checkAndPlayEnergy(energyCards);
+			GameController.getInstance().ulabelUpdate();
 			updateGUI();
 		}
 		
@@ -112,7 +113,7 @@ public class AIplayer extends Player {
 				}
 			}
 		}
-		GameController.getInstance().ulabelUpdate();
+		//GameController.getInstance().ulabelUpdate();
 		return false;
 	}
 	

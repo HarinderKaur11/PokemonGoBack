@@ -46,6 +46,7 @@ public class GameController {
 	private UserPlayer user;
 	private AIplayer ai;
 	private boolean[] turn;
+	boolean energyused =false;
 
 	@FXML private ScrollPane userScrollPane;
 	@FXML private HBox userBench;
@@ -61,6 +62,8 @@ public class GameController {
 	@FXML private Pane gameStage;
 	@FXML private BorderPane gameBoard;
 	@FXML private VBox btndn_rew,aiDisc_deck,AIReward,UIDisc_deck;
+	
+	private HBox aiDiscardPile;
 	
 	private GameController(){
 	}
@@ -79,8 +82,12 @@ public class GameController {
  	public void init(){
 		user = new UserPlayer("Flash");
 		ai = new AIplayer("Future Flash");
+		
+		aiDiscardPile = new HBox();
+		
 		UserEndTurnBtn.setOnAction(new EventHandler<ActionEvent>() {
 		    @Override public void handle(ActionEvent e) {
+		    	energyused = false;
 		    	Turn.getInstance().changeTurn();
 		    }
 		});
@@ -244,17 +251,21 @@ public class GameController {
     							if(tempCard.getCard().getID() == Integer.parseInt(select))
     							{
     								benchC = tempCard;
-    								System.out.println(benchC.getCard().getName());
+    								//System.out.println(benchC.getCard().getName());
     							}
     						}
-//    						user.setActivePokemon(null);
-    						user.setActivePokemon(benchC.getCard());
-    			    		user.getBench().addCard(pokemonCard.getCard());
+//    						
+    						if(user.getActivePokemon().getRetreat().useAbility()){
+    						
+    							user.setActivePokemon(null);
+    							user.setActivePokemon(benchC.getCard());
+    							user.getBench().addCard(pokemonCard.getCard());
     			    		
-    			    		//userActivePokemon.getChildren().add(benchC);
-    			    		benchC.setLocation(userActivePokemon);
-    			    		//userBench.getChildren().add(pokemonCard);
-    			    		pokemonCard.setLocation(userBench);
+    							//userActivePokemon.getChildren().add(benchC);
+    							benchC.setLocation(userActivePokemon);
+    							//userBench.getChildren().add(pokemonCard);
+    							pokemonCard.setLocation(userBench);
+    						}
     					}
             			break;
         			case "Evolve":
@@ -330,6 +341,9 @@ public class GameController {
             							Debug.message("Adding Damage to "+ai.getActivePokemon().getName() +" "+ai.getActivePokemon().getDamage());
             							aiDamage.setText(Integer.toString(ai.getActivePokemon().getDamage()));
             						}
+            						if(Turn.getInstance().getCurrentPlayer()==user){
+            							Turn.getInstance().changeTurn();
+            						}
             					}
         		    		}
             			}
@@ -338,7 +352,11 @@ public class GameController {
         	}
     	}
     	GameController.getInstance().ulabelUpdate();	
+<<<<<<< HEAD
     	}
+=======
+    }
+>>>>>>> master
 
 	private GeneralCard createCard(cardItem card, HBox panel){
     	GeneralCard newCard = new GeneralCard(card);
@@ -349,7 +367,9 @@ public class GameController {
     			@Override 
     			public void handle(ActionEvent e) {
     				if(card instanceof Energy){
-    					EnergyOptions(newCard);
+    					if(energyused==false){
+    						EnergyOptions(newCard);
+    					}
     				}
     				else if(card instanceof Trainer){
     					trainerOptions(newCard);
@@ -383,7 +403,11 @@ public class GameController {
 			userHand.getChildren().remove(newcard);
 			((CardsGroup) user.getInhand()).removeCard(newcard.getCard());
 			benchC.attachCard(newcard.getCard());
+<<<<<<< HEAD
 			GameController.getInstance().ulabelUpdate();
+=======
+			energyused = true;
+>>>>>>> master
 		}
     }
         
@@ -538,11 +562,17 @@ public class GameController {
 		{
 		if(player instanceof UserPlayer){
 			PokemonCard card = (PokemonCard) userActivePokemon.getChildren().remove(0);
+<<<<<<< HEAD
 			user.getDiscardPile().addCard(card.getCard());
 			
 			
 			if(user.getBench().getCard().length != 0)
 			{
+=======
+			user.getDiscardPile().addCard(user.getActivePokemon());
+
+			if(user.getBench().getCard().length != 0){
+>>>>>>> master
 				ArrayList<String> optionsList = new ArrayList<String>();
 				for(cardItem pCard: user.getBench().getCard()){
 					optionsList.add(Integer.toString(pCard.getID()));
@@ -567,11 +597,17 @@ public class GameController {
 		}
 		else{
 			if(ai.getBench().getCard().length != 0){
+<<<<<<< HEAD
 				PokemonCard card = (PokemonCard) aiActivePokemon.getChildren().remove(0);
 				ai.getDiscardPile().addCard(card.getCard());
 				System.out.println("discard size is " + ai.getDiscardPile().getAllPokemonCard().size());
 				//GameController.getInstance().ulabelUpdate();
+=======
+				ai.getDiscardPile().addCard(ai.getActivePokemon());
+				ai.setActivePokemon(null);
+>>>>>>> master
 				ai.activePokemonMove();
+				refreshCards(ai);
 			}
 			else{
 				winOrLoss();
