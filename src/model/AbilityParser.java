@@ -164,11 +164,12 @@ public class AbilityParser {
 				drawCards = String.valueOf(indexOf("\\d", a_join));
 				// drawCards empty in 1st 2 cases
 				//choice = a_join.contains("count") ? a_join.substring(a_join.indexOf("count ("), a_join.indexOf(" ", a_join.indexOf("count ("))).replace(" ", "").replace("-",  "") : "null";
-				
-				m = Pattern.compile("count\\s+\\(([^)]+)\\)").matcher(a_join);
-				while(m.find()) {
-			       choice = m.group(1);
-			    }
+				if(a_join.contains("count")){
+					m = Pattern.compile("count\\s+\\(([^)]+)\\)").matcher(a_join);
+					while(m.find()) {
+						choice = m.group(1);
+					}
+				}
 			    			
 				abilityo = new DeckAbility(name, target, destination,Integer.valueOf(drawCards), choice, energyInfo);
 				break;

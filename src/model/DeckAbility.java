@@ -28,7 +28,13 @@ public class DeckAbility extends ability {
 			}
 		}
 		for(int i=0;i<amount;i++){
-			cardItem nCard = ((CardsGroup) target.getTargetObject(this.choice).getTarget()).removeFirstCard();
+			cardItem nCard = null;
+			if(this.choice!=null){
+				nCard = ((CardsGroup) target.getTargetObject(this.choice).getTarget()).removeFirstCard();
+			}
+			else{
+				nCard = GameController.getInstance().getHandandBenchPokemonsDialog(target.getTargetObject(this.abilitytarget).getPlayer());
+			}
 			((CardsGroup) this.getTargetLocation(this.targetDestination,this.abilitytarget)).addCard(nCard);
 		}
 		GameController.getInstance().ulabelUpdate();
