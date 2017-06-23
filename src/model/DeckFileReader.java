@@ -4,11 +4,19 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.regex.*;
+
+import controller.GameController;
 
 public class DeckFileReader {
-	private String deck1file = "resources/deck1.ptcgo.txt";
-	private String deck2file = "resources/deck2.ptcgo.txt";
-	ArrayList<String[]> deck = new ArrayList<String[]>();
+	private static int decksize ;
+	private String deck1file = "resources/deck1.txt";
+	private String deck2file = "resources/deck2.txt";
+	private String cardsfile = "resources/cards.txt";
+	private String abilityfile = "resources/abilities.txt";
+	protected String abilityR[] = new String[74];
+	private ArrayList<String[]> deck = new ArrayList<String[]>();
 	
 	public DeckFileReader (int i){
 		switch(i){
@@ -21,38 +29,51 @@ public class DeckFileReader {
 		}
 	}
 	
-	public void readDeck(String filename){
-		
+	public void readDeck(String filename)
+	{	
 		BufferedReader br = null;
+		BufferedReader cr = null;
+		BufferedReader ar = null;
 		FileReader fr = null;
 
 		try {
 
 			String sCurrentLine;
-
+			String cardLine, abilityLine;
 			br = new BufferedReader(new FileReader(filename));
-			br.readLine();
-			String type = new String();
+			cr = new BufferedReader(new FileReader(cardsfile));
+			ar = new BufferedReader(new FileReader(abilityfile));
 			
+			String cards[] = new String[100];   //change size
+//			br.readLine();
+			String Deck1[] = new String[60];
+			//String type = new String();
+			int i=0,j = 0, k=0;
+			
+			while ((cardLine = cr.readLine()) != null) {
+				
+				cards[i] = cardLine;
+				i++;
+			}
+			
+			while ((abilityLine = ar.readLine()) != null) {
+				
+				abilityR[k] = abilityLine;
+				k++;
+			}
+
 			while ((sCurrentLine = br.readLine()) != null) {
 				
-				if(sCurrentLine.startsWith("##")){
-					type = sCurrentLine.substring(2, 3);
-					//Debug.message(type);
-				}
-				if(!sCurrentLine.startsWith("* ")){
-					continue;
-				}
-				sCurrentLine = sCurrentLine.replace("* ","");
-				String[] cline = sCurrentLine.split(" ", 2);
-				String[] card = new String[cline.length+1];
-				for(int x=0;x<cline.length;x++){
-					card[x] = cline[x];
-				}
-				card[card.length-1] = type;
-				deck.add(card);
-				//Debug.message(card[0]+" "+card[1]+" "+card[2]);
+				Deck1[j] = cards[Integer.parseInt(sCurrentLine)-1];
+			
+				String[] deckcard = Deck1[j].split(":");
+				
+				deck.add(deckcard);
+						
+				j++;
 			}
+
+			
 
 		} catch (IOException e) {
 
@@ -78,7 +99,16 @@ public class DeckFileReader {
 	}
 	
 	public ArrayList<String[]> getDeck(){
+		
+		//decksize = deck.size();
+		//GameController.getInstance().ulabelUpdate();
 		return this.deck;
+		
+	}
+	
+	public String getAbilityR(int index)
+	{
+		return abilityR[index];
 	}
 	
 	public static void main(String[] arg){

@@ -6,58 +6,96 @@ import java.util.Collections;
 public class Deck extends CardsGroup{
 	
 	private String name;
+	private int deckNumber;
+
+	private DeckFileReader db;
 	
-	public void buildDeck(int deckNumber){
-		DeckFileReader filereader = new DeckFileReader(deckNumber);
-		ArrayList<String[]> cardsList = filereader.getDeck();
-		pokemonStage stage = new basicPokemon();
-		ArrayList<ability> newAbility = new ArrayList<ability>();
-		Energy[] EnergyInfo = {new Energy("Fighting")};
-		newAbility.add(new damageAbility("Attack", 10, EnergyInfo,"Pokemon"));
+	public Deck(){}
+	
+	public Deck(int n){
+		this.deckNumber = n;
+	}
+	
+	public void buildDeck(){
+		db = new DeckFileReader(this.deckNumber);
+		this.buildDeck(db.getDeck(), db);
+	}
+	
+	public void readFile(){
+		db = new DeckFileReader(this.deckNumber);
+	}
+	
+	public void buildDeck(ArrayList<String[]> cardsList, DeckFileReader db){
+	
 		int x = 1;
-		for(String[] cards : cardsList){
-			int n = Integer.parseInt(cards[0]);
-			//Debug.message(n+" "+cards[1]);
-			for(int i=1;i<=n;i++){
-				switch(cards[2]){
-					case "P":
-						this.getGroupCards().add(new Pokemon(x, cards[1], stage, 80, newAbility));
+		for(String[] card : cardsList){
+				CardParser cparser = new CardParser(this);
+				//Debug.message("Card no. "+ x + " Name: "+card[0]);
+				switch(card[1]){
+					
+					case "pokemon":
+						this.getGroupCards().add(cparser.createPokemon(x, card));
 						break;
-					case "T":
-						this.getGroupCards().add(new Trainer(cards[1],x, new healingAbility("Heal pokemon",30)));
+					case "trainer":
+						this.getGroupCards().add(cparser.createTrainer(x, card));
 						break;
-					case "E":
-						this.getGroupCards().add(new Energy(cards[1],x));
+					case "energy":
+						this.getGroupCards().add(new Energy(card[3],x));
+						//this.getGroupCards().
 						break;
 				}
 				x++;
-			}
-			//Debug.message(this.getGroupCards().size());
 		}
-		this.shufflecards();
 	}
 	
+	/* Method for testing purpose only */
+	public void buildDeckTest(){
+		
+		//cond:ability:deck:target:your:destination:discard:choice:you:1:(search:target:your:source:deck:filter:top:8:1,shuffle:target:your)
+		int j=0;
+		for(;j<18;j++){
+			ArrayList<ability> newAbility = new ArrayList<ability>();
+			ArrayList<EnergyNode> EnergyInfo = new ArrayList<EnergyNode>();
+			EnergyInfo.add(new EnergyNode(new Energy("Fighting Energy"),0));
+			String a = "Act Cute:deck:target:opponent:destination:deck:bottom:choice:them:target:1";
+			AbilityParser ap = new AbilityParser();
+			ability abilt = ap.parseAbilities(a, EnergyInfo);
+			newAbility.add(abilt);
+			Retreat retreat = null;
+			//Debug.message(abilt.getName());
+				this.getGroupCards().add(new Pokemon(j, "Pikachu", new basicPokemon(), 80, newAbility,retreat));
+
+//				this.getGroupCards().add(new Trainer(j+18, "Heal Trainer", "item", new healingAbility("Heal pokemon",30,"youractive")));
+//				this.getGroupCards().add(new Trainer(j+18, "Deck Ability", "item", new DeckAbility("Deck Ability","opponent", "deck", 0, "opponenthand")));
+//				this.getGroupCards().add(new Trainer(j+18, "Wally", "item", new Search("Deck Ability","choiceyour", "deck", null, "evolvesfrom",1)));
+				this.getGroupCards().add(new Trainer(j+18,"Deenergize" ,"item", new Deenergize("Deenergize", "youractive", "youractive energy")));
+
+				this.getGroupCards().add(new Energy("Fighting Energy",j+36));
+		}
+		for(;j<60;j++){
+			ArrayList<ability> newAbility = new ArrayList<ability>();
+			ArrayList<EnergyNode> EnergyInfo = new ArrayList<EnergyNode>();
+			EnergyInfo.add(new EnergyNode(new Energy("Fighting Energy"),1));
+			this.getGroupCards().add(new Pokemon(j,"Raichu", new stageOnePokemon("Pikachu"), 30, newAbility,null));
+		}
+		//this.shufflecards();
+	}
+
 	public void display(){
 		Debug.showCard(this.getGroupCards().toArray(new cardItem[this.getGroupCards().size()]));
-		
 	}
 	
 	public void shufflecards(){
 		Collections.shuffle(this.getGroupCards());
-		//Debug.showCard(this.getGroupCards().toArray(new cardItem[this.getGroupCards().size()]));
 	}
 	
 	@Override
 	public String getName() {
 		return this.name;
 	}
-
-	public static void main(String[] arg){
-		Deck deck= new Deck();
-		deck.buildDeck(1);
-		ArrayList<cardItem> actual=deck.getGroupCards();
-		deck.display();
-		deck.shufflecards();
+	
+	public String getAbilityString(int line){
+		return db.abilityR[line];
 	}
 	
 }

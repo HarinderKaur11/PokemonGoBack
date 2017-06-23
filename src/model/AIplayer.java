@@ -9,14 +9,12 @@ public class AIplayer extends Player {
 	private String name;
 	private int score;
 	private cardItem deck;
-	private GameController controller;
 	
-	public AIplayer(String newName,GameController newController) {
+	public AIplayer(String newName){
 		super(newName);
 		this.name = newName;
-		deck = new Deck();
-		((Deck) deck).buildDeck(1);
-		this.controller = newController;
+		deck = new Deck(1);
+		((Deck) deck).buildDeck();
 	}
 	
 	public String getName() {
@@ -35,25 +33,16 @@ public class AIplayer extends Player {
 	}
 	
 	private void runAI(){
+		GameController.getInstance().ulabelUpdate();
 		boolean energyCardUsed = false;
+		
+		activePokemonMove();
+		
 		ArrayList<Pokemon> cards = ((CardsGroup) this.inhand).getAllBasicPokemonCard();
-		if(this.activePokemon==null){
-			boolean noPokemon = true;
-			if(cards.size()!=0){
-				this.activePokemon = cards.remove(0);
-				((CardsGroup) this.inhand).removeCard(this.activePokemon);
-				noPokemon = false;
-				Debug.message("Active pokemon set: "+this.activePokemon.getName());
-				updateGUI();
-			}
-			if(noPokemon){
-				//declare Mulligan
-			}
-		}
 		if(cards.size()!=0){
-			if(bench.size()<5){
+			if(bench.getGroupCards().size()<5){
 				Pokemon card2 = cards.remove(0);
-				bench.add(card2);
+				bench.addCard(card2);
 				Debug.message("Card added to bench: "+ card2.getName());
 				((CardsGroup) this.inhand).removeCard(card2);
 				updateGUI();
@@ -62,19 +51,30 @@ public class AIplayer extends Player {
 		
 
 		ArrayList<Energy> energyCards = ((CardsGroup) this.inhand).getAllEnergyCards();
-		if(!energyCards.isEmpty() && !energyCardUsed){
+		if(!energyCards.isEmpty() && !energyCardUsed && this.activePokemon!=null){
+			Debug.message("AI Energy move");
 			energyCardUsed = checkAndPlayEnergy(energyCards);
+			GameController.getInstance().ulabelUpdate();
 			updateGUI();
 		}
 		
-		ArrayList<Trainer> trainerCard = ((CardsGroup) this.inhand).getAllTranerCards();
+		ArrayList<Trainer> trainerCard = ((CardsGroup) this.inhand).getAllTrainerCards();
 		if(!trainerCard.isEmpty() && this.activePokemon!=null){
 			if(trainerCard.get(0).getAbility().getClass().getSimpleName()=="healingAbility" && this.activePokemon.getDamage()>20){
 				((CardsGroup) this.inhand).removeCard(trainerCard.get(0));
-				trainerCard.get(0).getAbility().useAbility();
-				Debug.message("Trainer card used "+ trainerCard.get(0).getName());
-				updateGUI();
+				Trainer tcard = trainerCard.remove(0);
+				tcard.getAbility().useAbility();
+				Debug.message("Trainer card used "+ tcard.getName() + " RunAI");
+				userDiscardPile.addCard(tcard);
 			}
+			else{
+				((CardsGroup) this.inhand).removeCard(trainerCard.get(0));
+				Trainer tcard = trainerCard.remove(0);
+				(tcard).getAbility().useAbility();
+				Debug.message("Trainer card used "+ tcard.getName() + " RunAI");
+				userDiscardPile.addCard(tcard);
+			}
+			updateGUI();
 		}
 		
 		energyCards = ((CardsGroup) this.inhand).getAllEnergyCards();
@@ -88,29 +88,38 @@ public class AIplayer extends Player {
 			ability[] abilits = this.activePokemon.getAbilities();
 			int i = abilits.length;
 			while(attack==null && i>0){
-				if(((damageAbility) abilits[i-1]).getEnergyInfo().length <= this.activePokemon.getAttachedCardsCount()){
+				if(this.activePokemon.checkEnergyNeeds(abilits[i-1])){
 					attack=abilits[i-1];
 					attack.useAbility();
-					Debug.message("attacking");
+					Debug.message("AI attacking : RunAI");
 					updateGUI();
 				}
 				i--;
 			}
 		}
-		Turn.getInstance().changeTurn();
+		if(Turn.getInstance().getCurrentPlayer()==this)
+		{
+			Turn.getInstance().changeTurn();
+		}
+		GameController.getInstance().ulabelUpdate();
 	}
 	
-	private boolean checkAndPlayEnergy(ArrayList<Energy> energyCards){
-		Debug.message(this.activePokemon.getAttachedCards().length);
-		if(this.activePokemon.getAttachedCards().length<this.activePokemon.totalEnergyRequired()){
-			this.activePokemon.attachCard(energyCards.get(0));
-			((CardsGroup) this.inhand).removeCard(energyCards.get(0));
-			Debug.message("Energy card added to Active pokemon");
-			return true;
+	public boolean checkAndPlayEnergy(ArrayList<Energy> energyCards){
+		Debug.message("No. of attached cards at active pokemon "+this.activePokemon.getAttachedCards().length);
+		for(ability a : this.activePokemon.getAbilities()){
+			if(!this.activePokemon.checkEnergyNeeds(a)){
+				Debug.message("Checkpoint 1");
+				this.activePokemon.attachCard(energyCards.get(0));
+				((CardsGroup) this.inhand).removeCard(energyCards.get(0));
+				Debug.message("Energy card added to Active pokemon");
+				return true;
+			}
 		}
-		else{
-			for(Pokemon pokemon : bench){
-				if(pokemon.getAttachedCards().length<pokemon.totalEnergyRequired()){
+		for(cardItem card : bench.getGroupCards()){
+			Pokemon pokemon = (Pokemon) card;
+			for(ability a: pokemon.getAbilities()){
+				if(!pokemon.checkEnergyNeeds(a)){
+					Debug.message("Checkpoint 2");
 					pokemon.attachCard(energyCards.get(0));
 					((CardsGroup) this.inhand).removeCard(energyCards.get(0));
 					Debug.message("Energy card added to "+pokemon.getName());
@@ -118,11 +127,33 @@ public class AIplayer extends Player {
 				}
 			}
 		}
+		//GameController.getInstance().ulabelUpdate();
 		return false;
 	}
 	
+	public void activePokemonMove(){
+		if(this.activePokemon==null){
+			if(!this.bench.getGroupCards().isEmpty()){
+				this.activePokemon = (Pokemon) this.bench.getGroupCards().remove(0);
+			}
+			else{
+				ArrayList<Pokemon> cards = ((CardsGroup) this.inhand).getAllBasicPokemonCard();
+				if(cards.size()!=0){
+				this.activePokemon = cards.remove(0);
+				((CardsGroup) this.inhand).removeCard(this.activePokemon);
+				Debug.message("Active pokemon set: "+this.activePokemon.getName());
+				updateGUI();
+				}
+				else{
+					//declare Mulligan
+				}
+			}
+		}
+		GameController.getInstance().ulabelUpdate();
+	}
+	
 	public void updateGUI(){
-		controller.refreshCards(this);
+		GameController.getInstance().refreshCards(this);
 	}
 	
 }

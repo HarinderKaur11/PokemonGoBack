@@ -15,11 +15,11 @@ public class PlayerTest {
 	@Test
 	public void integrationTest(){
 		UserPlayer uip=new UserPlayer(string);
-		AIplayer aip=new AIplayer(string, null);
+		AIplayer aip=new AIplayer(string);
 		
 		String expected="Flash";
 		String actual1=uip.getName();
-		String actual2=uip.getName();
+		String actual2=aip.getName();
 		
 		Assert.assertEquals(expected, actual1);
 		Assert.assertEquals(expected, actual2);
